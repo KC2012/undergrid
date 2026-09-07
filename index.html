@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>UNDERGRID // 1.39.6 Fighters Become People Integration Seal</title>
+<title>UNDERGRID // 1.39.8a Advancement Queue Polish</title>
 <style>
 :root{--bg:#010402;--panel:#031006;--panelGlass:#031006ee;--toolbar:#020b05ed;--bottom:#020805;--halo:#07160b;--g:#9dff7a;--dim:#5a8a5f;--enemy:#ffb060;--warn:#ffe37a;--cyan:#78e3dc;--red:#ff6d5c;--title:#c9ffaf;--border:#1e4825;--border2:#3c8245;--button:#061409;--buttonOn:#14361a;--scan:#8fff8710;--glow:#071;--glowInner:#0b3515;--glowOuter:#051709}
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--g);font:13px Consolas,Monaco,monospace}
@@ -463,7 +463,7 @@
 </style>
 
 </head><body><div id="app"><div id="stage"><canvas id="c"></canvas><div class="scan"></div>
-<div class="top"><div class="box"><span class="title">UNDERGRID // 1.39.6 // FIGHTERS BECOME PEOPLE INTEGRATION SEAL</span><br><span id="mission"></span></div><div class="box" id="phase"></div></div>
+<div class="top"><div class="box"><span class="title">UNDERGRID // 1.39.8a // ADVANCEMENT QUEUE POLISH</span><br><span id="mission"></span></div><div class="box" id="phase"></div></div>
 <div id="controlrail"><div id="status"></div><div id="toolbar"><button class="action on" id="move">MOVE¹</button><button class="action climb" id="climb">CLIMB¹</button><button class="action jump" id="jump">JUMP¹</button><span class="railsep"></span><button class="action" id="shoot">SHOOT</button><button class="action ammoAction" id="reload">RELOAD¹</button><button class="action" id="melee">MELEE¹</button><button class="action" id="gren">GRENADE¹</button><button class="action" id="gear">GEAR</button><button class="action" id="extinguish" style="display:none">EXTINGUISH¹</button><button class="action" id="salvage">SALVAGE²</button><button class="action" id="ow">OW¹</button><span class="railsep"></span><button class="action" id="end">END</button></div><div id="gamebar"><button class="mini" id="auto">AUTO OFF</button><button class="mini" id="speedBtn">SLOW</button><button class="mini" id="viewBtn">100%</button><button class="mini" id="optionsBtn">OPTIONS</button></div></div><div id="toast"></div><div id="shotMath" class="shotMath"></div><div id="deployPhase"><div class="deployHead"><div><div class="title" style="font-size:14px">TACTICAL DEPLOYMENT</div><div class="deployHint">Click one CREW miniature, then another to swap their starting positions. Click the same fighter again to cancel.</div></div><button id="deployReady" class="deployReady">READY // BEGIN</button></div></div><div id="optionsPop"><div class="title">DISPLAY / OPTIONS</div><button class="mini" id="themeBtn">THEME // PHOSPHOR</button><button class="mini" id="focusBtn">TURN CAM // OFF</button><button class="mini" id="manualBtn">FIELD MANUAL</button><div class="hint">Wheel zoom • middle/right drag • HOME reset<br>Ctrl+Shift+D developer tools</div></div><div id="debugbar">DEV MODE // BLACK BOX <span id="vcount">0 ERR</span><button class="mini" id="export">EXPORT DEBUG</button><button class="mini" id="runTests">RUN LOS TEST</button><span class="zoomHint">Ctrl+Shift+D hides/shows developer tools</span></div>
 <div id="setupOverlay"><div class="setupCard"><div class="title" style="font-size:18px">UNDERGRID // CREW LOADOUT</div><div class="muted">Choose exactly 4 fighters. SELECT changes the squad; DOSSIER opens the definitive character sheet. Your previous squad remains selected.</div><div id="crewColorBar" class="crewColorBar"><span>CREW COLOR //</span><button type="button" data-crew-color="#68d7ff" title="Cyan" style="--crew-swatch:#68d7ff"></button><button type="button" data-crew-color="#ff5f55" title="Red" style="--crew-swatch:#ff5f55"></button><button type="button" data-crew-color="#ff9b4a" title="Orange" style="--crew-swatch:#ff9b4a"></button><button type="button" data-crew-color="#ffe45e" title="Yellow" style="--crew-swatch:#ffe45e"></button><button type="button" data-crew-color="#ff66c7" title="Magenta" style="--crew-swatch:#ff66c7"></button><button type="button" data-crew-color="#b98cff" title="Violet" style="--crew-swatch:#b98cff"></button><button type="button" data-crew-color="#e8f2e8" title="White" style="--crew-swatch:#e8f2e8"></button><button type="button" data-crew-color="#9cff57" title="Acid Green" style="--crew-swatch:#9cff57"></button></div><div id="setupGrid" class="setupGrid"></div><div class="setupFooter"><div><span id="pickCount">0 / 4 selected</span><div class="weaponLegend"></div></div><button id="deployBtn" disabled>DEPLOY CREW</button></div><div class="campaignTools"><span class="label">CAMPAIGN DATA // BANK <span id="campaignBank">0</span> SCRIP // <span id="campaignBattles">0</span> BATTLES</span><button id="exportSave">EXPORT SAVE</button><button id="importSave">IMPORT SAVE</button><button id="resetCampaign" class="danger">RESET CAMPAIGN</button><input id="importSaveFile" type="file" accept="application/json,.json" hidden></div></div></div>
 <div id="overlay"><div class="modal"><h2 id="resultTitle"></h2><div id="resultBody"></div><button id="restart">NEW SEED</button><button id="same">REPLAY SEED</button></div></div></div>
@@ -3096,6 +3096,13 @@ const COMMON_WEAP=[];
 const COMMON_ARM=[];
 function economyInit(){campaign.economy=campaign.economy||{};if(!campaign.economy.foundationGrant){campaign.scrip=(campaign.scrip||0)+60;campaign.economy.foundationGrant=true;campaign.economy.ledger=campaign.economy.ledger||[];saveCampaign()}campaign.economy.ledger=campaign.economy.ledger||[]}
 window.undergridEconomyInit=economyInit;
+let supplyReturnArmory=false;
+function refreshArmoryAfterSupply(reason='transaction'){
+ if(!supplyReturnArmory&&!$('armoryOverlay')?.classList.contains('show'))return;
+ const run=()=>{try{if(typeof window.renderArmory==='function')window.renderArmory();else if(typeof renderArmory==='function')renderArmory()}catch(e){console.error('[SUPPLY ARMORY LIVE SYNC]',reason,e)}};
+ queueMicrotask(run);
+ requestAnimationFrame(()=>requestAnimationFrame(run));
+}
 
 function nextItemId(prefix){let a=campaign.armory;a.nextId=a.nextId||1;return prefix+String(a.nextId++).padStart(4,'0')}
 function makeMarketItem(kind,key){
@@ -3105,9 +3112,9 @@ function makeMarketItem(kind,key){
  return{id:nextItemId(kind==='WEAPON'?'W':kind==='ARMOR'?'A':'G'),kind,key,label,condition:100,mods:[],value,
   rarity:kind==='GEAR'?(g?.rarity||'COMMON'):(window.UNDERGRID_ARSENAL?.rarity?.(kind,key)||'COMMON'),acquired:'SUPPLY TERMINAL',kills:0,assignedTo:null,slot:null,traits}
 }
-function buy(kind,key){economyInit();let price=kind==='GEAR'?(GEAR_TYPES[key]?.value||20):(window.UNDERGRID_ARSENAL?.value?.(kind,key)||(BUY[key]||20));if((campaign.scrip||0)<price){feedback('SUPPLY','Insufficient scrip.','warn',1000);return}campaign.scrip-=price;campaign.armory.items.push(makeMarketItem(kind,key));campaign.economy.ledger.push({battle:campaign.battles||0,type:'PURCHASE',amount:-price,item:key});saveCampaign();renderSupply();if($('armoryOverlay')?.classList.contains('show'))renderArmory();renderSetup();refreshCampaignMeta();feedback('SUPPLY',`${kind==='WEAPON'?WEAP[key].label:kind==='ARMOR'?ARMOR[key].label+' ARMOR':GEAR_TYPES[key]?.label||key} added to stash.`,'good',1200)}
-function buyGrenade(key){economyInit();ensureGrenadeCampaign();let g=GRENADE_TYPES[key],price=g.value;if(!g)return;if((campaign.scrip||0)<price){feedback('SUPPLY','Insufficient scrip.','warn',1000);return}campaign.scrip-=price;campaign.grenadeStock[key]=(campaign.grenadeStock[key]||0)+1;campaign.economy.ledger.push({battle:campaign.battles||0,type:'PURCHASE',amount:-price,item:key,kind:'GRENADE'});saveCampaign();renderSupply();if($('armoryOverlay')?.classList.contains('show'))renderArmory();renderSetup();refreshCampaignMeta();feedback('SUPPLY',`${g.label} added to grenade stock.`,'good',1200)}
-function sell(id){economyInit();let it=campaign.armory.items.find(x=>x.id===id);if(!it||it.assignedTo)return;let amount=Math.max(1,Math.floor((it.value||20)*.55));campaign.armory.items=campaign.armory.items.filter(x=>x.id!==id);campaign.scrip=(campaign.scrip||0)+amount;campaign.economy.ledger.push({battle:campaign.battles||0,type:'SALE',amount,item:it.key});saveCampaign();renderSupply();if($('armoryOverlay')?.classList.contains('show'))renderArmory();renderSetup();refreshCampaignMeta();feedback('SUPPLY',`${it.label} sold // +${amount} scrip.`,'good',1100)}
+function buy(kind,key){economyInit();let price=kind==='GEAR'?(GEAR_TYPES[key]?.value||20):(window.UNDERGRID_ARSENAL?.value?.(kind,key)||(BUY[key]||20));if((campaign.scrip||0)<price){feedback('SUPPLY','Insufficient scrip.','warn',1000);return}campaign.scrip-=price;campaign.armory.items.push(makeMarketItem(kind,key));campaign.economy.ledger.push({battle:campaign.battles||0,type:'PURCHASE',amount:-price,item:key});saveCampaign();renderSupply();renderSetup();refreshCampaignMeta();refreshArmoryAfterSupply('buy '+kind+' '+key);feedback('SUPPLY',`${kind==='WEAPON'?WEAP[key].label:kind==='ARMOR'?ARMOR[key].label+' ARMOR':GEAR_TYPES[key]?.label||key} added to stash.`,'good',1200)}
+function buyGrenade(key){economyInit();ensureGrenadeCampaign();let g=GRENADE_TYPES[key],price=g.value;if(!g)return;if((campaign.scrip||0)<price){feedback('SUPPLY','Insufficient scrip.','warn',1000);return}campaign.scrip-=price;campaign.grenadeStock[key]=(campaign.grenadeStock[key]||0)+1;campaign.economy.ledger.push({battle:campaign.battles||0,type:'PURCHASE',amount:-price,item:key,kind:'GRENADE'});saveCampaign();renderSupply();renderSetup();refreshCampaignMeta();refreshArmoryAfterSupply('buy grenade '+key);feedback('SUPPLY',`${g.label} added to grenade stock.`,'good',1200)}
+function sell(id){economyInit();let it=campaign.armory.items.find(x=>x.id===id);if(!it||it.assignedTo)return;let amount=Math.max(1,Math.floor((it.value||20)*.55));campaign.armory.items=campaign.armory.items.filter(x=>x.id!==id);campaign.scrip=(campaign.scrip||0)+amount;campaign.economy.ledger.push({battle:campaign.battles||0,type:'SALE',amount,item:it.key});saveCampaign();renderSupply();renderSetup();refreshCampaignMeta();refreshArmoryAfterSupply('sell '+it.id);feedback('SUPPLY',`${it.label} sold // +${amount} scrip.`,'good',1100)}
 function supplyInfo(kind,key){
  let box=$('supplyInspect');if(!box)return;
  let title=key,body='',traits=[],rar='COMMON',value=0;
@@ -3163,9 +3170,9 @@ function renderSupply(){
  }).join('')||'<div class="muted" style="margin-top:10px">NO UNASSIGNED EQUIPMENT</div>';
  $('supplySell').querySelectorAll('[data-sell]').forEach(b=>b.onclick=()=>sell(b.dataset.sell))
 }
-function openSupply(){economyInit();$('supplyOverlay').classList.add('show');renderSupply()}
+function openSupply(){economyInit();supplyReturnArmory=!!$('armoryOverlay')?.classList.contains('show');$('supplyOverlay').classList.add('show');renderSupply()}
 window.undergridOpenSupply=openSupply;
-function closeSupply(){$('supplyOverlay').classList.remove('show');renderSetup()}
+function closeSupply(){$('supplyOverlay').classList.remove('show');renderSetup();if(supplyReturnArmory)refreshArmoryAfterSupply('close supply');supplyReturnArmory=false}
 $('supplyClose').onclick=closeSupply;
 // 1.37.1 canonical setup: economy initialization is owned by the canonical setup entrypoint.
 // Replace only campaign aftermath accounting. Tactical resolution and presentation FX are untouched.
@@ -3399,6 +3406,7 @@ function resolveWorldCycle(playerWon){
    campaign.economy.ledger.push({battle:campaign.battles||0,type:'CREW_UPKEEP',cycle:t.cycle,amount:-upkeep});
  }
  let r={cycle:t.cycle,playerWon,results,incomes,playerIncome,upkeep,netIncome:playerIncome-upkeep};
+ try{window.UNDERGRID_PEOPLE?.resolveWorldCycleCareers?.(r,{playerTarget:t.playerPlan?.to||null,playerOpponentCrewId:game?.oppositionCrewId||null})}catch(e){console.error('[WORLD CAREER RESOLUTION]',e)}
  t.lastResolution=r;t.history.push({type:'CYCLE_RESOLUTION',...JSON.parse(JSON.stringify(r))});
  t.cycle++;t.phase='PLANNING';t.playerPlan=null;t.rivalPlans=[];t.claims={};
  let next=ownedBy('PLAYER').flatMap(s=>connections(s.id)).find(n=>n.owner!=='PLAYER');
@@ -3415,7 +3423,11 @@ function resolutionHtml(r){
  return `<div class="aftermathLedger"><span class="total">CYCLE ${r.cycle} // WORLD RESOLUTION</span><span class="amt total">COMPLETE</span><span>YOUR TERRITORY INCOME</span><span class="amt">+${r.playerIncome}¤</span><span>CREW UPKEEP</span><span class="amt">−${r.upkeep||0}¤</span><span>NET TERRITORY FLOW</span><span class="amt">${(r.netIncome||0)>=0?'+':''}${r.netIncome||0}¤</span><span class="total">UPDATED BANK</span><span class="amt total">${campaign.scrip}¤</span></div><div class="territoryWorldLog">${events}</div>`
 }
 function renderTerritory(){
- let t=ensureStrategy(),svg=$('territoryMap'),sel=tnode(t.selected)||t.nodes[0];
+ let t=ensureStrategy(),svg=$('territoryMap');
+ if(t.phase==='COMMITTED'&&t.playerPlan?.to&&t.selected!==t.playerPlan.to){
+   t.selected=t.playerPlan.to;saveCampaign();
+ }
+ let sel=tnode(t.selected)||t.nodes[0];
  $('territorySummary').innerHTML=`CYCLE ${t.cycle} // ${t.phase==='PLANNING'?'PLANNING // CHOOSE ATTACK':'ORDERS COMMITTED // DEPLOY'} // CONTROL ${ownedBy('PLAYER').length}/${t.nodes.length} // INCOME <span class="cycleFlash">+${incomeFor('PLAYER')}¤</span> // UPKEEP −${crewCycleUpkeep()}¤ / CYCLE`;
  $('territoryRivals').innerHTML=t.crews.filter(c=>c.id!=='PLAYER').map(c=>`<span class="rivalChip territoryCrewIntelLink" data-rival-crew="${c.id}" role="button" tabindex="0" title="Open Rival Intel // ${esc(c.name)}" style="color:${ownerColor(c.id)};border-color:${ownerColor(c.id)}">${esc(c.name)} // ${ownedBy(c.id).length} TURF // STR ${c.strength}</span>`).join('');
  let lines=t.edges.map(([a,b])=>{let A=t.nodes[a],B=t.nodes[b];return `<line class="territoryEdge" x1="${A.x}" y1="${A.y}" x2="${B.x}" y2="${B.y}"/>`}).join('');
@@ -3428,7 +3440,13 @@ function renderTerritory(){
    return `<g class="territoryNode ${cls}" data-tid="${n.id}" transform="translate(${n.x} ${n.y})"><circle class="ring" style="stroke:${col}" r="${n.home?24:19}"/><circle class="core" style="stroke:${col}" r="7"/><text style="fill:${col}" text-anchor="middle" y="${n.home?-31:-27}">${esc(short)}</text><text style="fill:${col}" text-anchor="middle" y="${n.home?38:33}">${n.income}¤${n.home?' // HOME':''}</text></g>`
  }).join('');
  svg.innerHTML=lines+ns;
- svg.querySelectorAll('.territoryNode').forEach(g=>g.onclick=()=>{t.selected=g.dataset.tid;saveCampaign();renderTerritory()});
+ svg.querySelectorAll('.territoryNode').forEach(g=>g.onclick=()=>{
+   if(t.phase==='COMMITTED'&&t.playerPlan?.to){
+     t.selected=t.playerPlan.to;
+     feedback('TERRITORY',`Orders already committed to ${tnode(t.playerPlan.to)?.name||'current target'} // cancel attack to change target.`,'warn',1100);
+   }else t.selected=g.dataset.tid;
+   saveCampaign();renderTerritory()
+ });
  let con=connections(sel.id).map(n=>n.name).join(' // '),source=viablePlayerSource(sel);
  let owner=sel.owner?tcrew(sel.owner):null;
  let plan=t.phase==='COMMITTED'
@@ -6195,6 +6213,39 @@ RESULT // ${rep.counts.PASS} PASS // ${rep.counts.WARN} WARN // ${rep.counts.FAI
  if($('exportSave'))$('exportSave').onclick=exportCampaignSave;if($('adminExportSave'))$('adminExportSave').onclick=exportCampaignSave;
  try{let baseDebug=Game.prototype.debugExport;Game.prototype.debugExport=function(){let d=baseDebug.call(this);d.people={careerMode:this.careerMode||'DISPOSABLE',crew:this.fighters.map(f=>({name:f.name,id:f.fighterId||null,crewId:f.crewId||null,rank:f.rank||null,battleStats:f._careerBattle||null})),oppositionCrewId:this.oppositionCrewId||null};return d}}catch(e){}
 
+ function worldCycleCareerSelection(crewId,cycle,targetId){
+  let ids=(campaign.rosters?.[crewId]||[]).slice(),r=rngFor(`WORLD|${cycle}|${targetId}|${crewId}`);
+  for(let i=ids.length-1;i>0;i--){let j=Math.floor(r()*(i+1));[ids[i],ids[j]]=[ids[j],ids[i]]}
+  return ids.slice(0,Math.min(4,ids.length));
+ }
+ function resolveWorldCycleCareers(resolution,context={}){
+  ensurePeople();if(!resolution?.results?.length)return{cycle:resolution?.cycle||0,battles:[]};
+  let report={cycle:resolution.cycle,battles:[]},seenDirect=false;
+  for(const result of resolution.results){
+    let crews=[...new Set((result.participants||[]).map(x=>x.crew).filter(id=>/^R[1-5]$/.test(id||'')))];
+    for(const crewId of crews){
+      if(!seenDirect&&result.target===context.playerTarget&&crewId===context.playerOpponentCrewId){seenDirect=true;continue}
+      let ids=worldCycleCareerSelection(crewId,resolution.cycle,result.target),won=result.after===crewId,rows=[];
+      for(const id of ids){
+        let p=personById(id);if(!p)continue;
+        let oldRank=p.rank||1,gain=1+(won?1:0),bs=EMPTY_STATS();bs.battles=1;if(won)bs.wins=1;
+        p.careerStats=mergeCareerStats(p.careerStats,bs);
+        p.xp=(p.xp||0)+gain;p.battles=(p.battles||0)+1;p.lastBattle=campaign.battles||0;p.lastResult=won?'WIN':'LOSS';p.lastLocation=result.name||result.target;
+        syncProgression(p);
+        if(p.rank>oldRank)addHistory(p,'RANK',`Reached RANK ${p.rank} // ${rankTitle(p.rank)} during a rival-world conflict.`,{oldRank,newRank:p.rank,worldCycle:resolution.cycle,target:result.target});
+        addHistory(p,'WORLD BATTLE',`${won?'Victory':'Defeat'} at ${result.name||result.target} // +${gain} XP.`,{result:won?'WIN':'LOSS',xp:gain,worldCycle:resolution.cycle,target:result.target,abstract:true});
+        let learned=autoAdvance(p);
+        rows.push({id:p.id,name:p.name,xpGain:gain,battles:p.battles,xp:p.xp,rank:p.rank,learned});
+      }
+      report.battles.push({crewId,target:result.target,name:result.name,won,fighters:rows});
+    }
+  }
+  if(report.battles.length){
+    campaign.worldCareerHistory=Array.isArray(campaign.worldCareerHistory)?campaign.worldCareerHistory:[];
+    campaign.worldCareerHistory.push(report);if(campaign.worldCareerHistory.length>18)campaign.worldCareerHistory.splice(0,campaign.worldCareerHistory.length-18);
+  }
+  return report;
+ }
  function peopleAudit(){
   ensurePeople();let people=Object.values(campaign.people||{}),ids=new Set(people.map(p=>p.id)),rosterErrors=[],personErrors=[];
   for(const [crewId,roster] of Object.entries(campaign.rosters||{})){for(const id of roster||[])if(!ids.has(id))rosterErrors.push(`${crewId} -> missing ${id}`)}
@@ -6202,9 +6253,9 @@ RESULT // ${rep.counts.PASS} PASS // ${rep.counts.WARN} WARN // ${rep.counts.FAI
   let rivalRosterSizes=Object.fromEntries(Object.keys(RIVAL_NAMES).map(k=>[k,(campaign.rosters?.[k]||[]).length]));
   return{schema:SCHEMA,build:BUILD,people:people.length,playerRoster:(campaign.rosters?.PLAYER||[]).length,rivalRosterSizes,localRosters:Object.keys(campaign.rosters||{}).filter(k=>k.startsWith('LOCAL_')).length,skillFamilies:Object.fromEntries(FAMILIES.map(f=>[f,Object.values(SKILL_FAMILY).filter(x=>x===f).length])),thresholds:XP_THRESHOLDS.slice(),pendingPlayers:(campaign.rosters?.PLAYER||[]).map(personById).filter(p=>p?.pending>0).map(p=>({id:p.id,name:p.name,pending:p.pending})),rosterErrors,personErrors,pass:!rosterErrors.length&&!personErrors.length&&(campaign.rosters?.PLAYER||[]).length===6&&Object.values(rivalRosterSizes).every(n=>n===8)}
  }
- window.UNDERGRID_PEOPLE={build:BUILD,schema:SCHEMA,thresholds:XP_THRESHOLDS.slice(),families:FAMILIES.slice(),skills:{...SKILL_RULES},skillFamily:{...SKILL_FAMILY},injuries:copy(INJURY_CATALOG),scars:{...SCAR_CATALOG},ensure:ensurePeople,personById,personByName,derived:personDerivedStats,offers:id=>{let p=personById(id);return p?advanceOffersForPerson(p):[]},apply:(id,adv)=>{let p=personById(id);return p?applyAdvanceToPerson(p,adv):false},show:showPersonDossier,careerBattle:g=>g?.careerMode==='CAMPAIGN',audit:peopleAudit};
+ window.UNDERGRID_PEOPLE={build:BUILD,schema:SCHEMA,thresholds:XP_THRESHOLDS.slice(),families:FAMILIES.slice(),skills:{...SKILL_RULES},skillFamily:{...SKILL_FAMILY},injuries:copy(INJURY_CATALOG),scars:{...SCAR_CATALOG},ensure:ensurePeople,personById,personByName,derived:personDerivedStats,offers:id=>{let p=personById(id);return p?advanceOffersForPerson(p):[]},apply:(id,adv)=>{let p=personById(id);return p?applyAdvanceToPerson(p,adv):false},show:showPersonDossier,careerBattle:g=>g?.careerMode==='CAMPAIGN',resolveWorldCycleCareers,audit:peopleAudit};
  let campaignLab=[...document.querySelectorAll('#undergridLab .uglCard')].find(c=>c.querySelector('.uglCardTitle')?.textContent.trim()==='CAMPAIGN LAB');if(campaignLab&&!campaignLab.querySelector('#uglPeopleAudit')){let a=document.createElement('div');a.className='uglActions';a.innerHTML='<button id="uglPeopleAudit">RUN PEOPLE AUDIT</button>';campaignLab.appendChild(a);a.querySelector('button').onclick=()=>{let report=peopleAudit(),out=$('uglReport');if(out)out.textContent=`FIGHTERS BECOME PEOPLE // ${report.pass?'PASS':'CHECK'}\n`+JSON.stringify(report,null,2)}};
- let lab=document.querySelector('#undergridLab .uglVersion');if(lab)lab.innerHTML='<b>WORKING // 1.39.5 CAMPAIGN SYSTEMS INTEGRITY + QUICK BATTLE</b><br>STABLE COMBAT REFERENCE // 1.38.4 WEAPON + GRENADE + MELEE INTEGRITY<br>CAREER // SHARED PLAYER + RIVAL FIGHTER SCHEMA<br>EXEMPT // HOTSEAT + FUTURE QUICK BATTLE ARE DISPOSABLE';
+ let lab=document.querySelector('#undergridLab .uglVersion');if(lab)lab.innerHTML='<b>WORKING // 1.39.7 WORLD CAREER + SUPPLY LIVE SYNC</b><br>STABLE COMBAT REFERENCE // 1.38.4 WEAPON + GRENADE + MELEE INTEGRITY<br>CAREER // SHARED PLAYER + RIVAL FIGHTER SCHEMA<br>EXEMPT // HOTSEAT + FUTURE QUICK BATTLE ARE DISPOSABLE';
  if($('manual'))$('manual').insertAdjacentHTML('beforeend',`<p><b>FIGHTERS BECOME PEOPLE 1.39.0</b> // Campaign fighters are persistent entities first and tactical units second. Player fighters, five rival crews and unclaimed-site defenders share one fighter schema: stable ID, base stats, XP/rank, advancement state, skills, injuries/scars, behavior statistics, history and persistent loadout snapshot. Rival teams keep 8-person rosters and deploy 4 persistent fighters per battle; enemy kills, injuries, XP and skills survive into later encounters. HOTSEAT remains disposable and does not enter the career system. A future QUICK BATTLE should use the same disposable boundary.</p><p><b>ADVANCEMENT</b> // Advancement thresholds are 5 / 12 / 22 / 35 / 52 / 72 XP and continue with widening gaps. Offers are weighted by how that fighter actually behaves: shooting, melee, movement, survival, gear/grenade use and objective play. Six families are active: GUNNER, BRAWLER, AGILITY, SURVIVAL, TECH, LEADERSHIP. Rivals use the same offers and rules but choose automatically with light faction-doctrine weighting.</p><p><b>INJURIES + HISTORY</b> // Downed fighters can suffer source-aware minor, lasting or critical injuries, or scars. Falls/blasts, fire, shock, toxin, melee and ballistic trauma use different injury pools. Critical injuries already carry future cybernetic body hooks. Minor injuries recover as campaign battles pass. Dossiers record battles, kills, advancements, injuries, recoveries and scars.</p>`);
  ensurePeople(true);renderSetup();
 })();
@@ -6999,7 +7050,7 @@ RESULT // ${rep.counts.PASS} PASS // ${rep.counts.WARN} WARN // ${rep.counts.FAI
            known=fighters.filter(x=>x.p).length;
 
      body.innerHTML=`<div class="rivalIntelSummary"><b>${esc(crewName(selectedCrew))}</b> // ${known}/${ids.length} KNOWN FIGHTERS // ${turfCount(selectedCrew)} TURF // STR ${esc(crewStrength(selectedCrew))}<br>
-       Persistent career state is shown below. XP, rank, skills, injuries, scars and kills advance across campaign encounters. Current equipment is persistent roster loadout data; autonomous rival weapon-shopping/upgrading is not implemented yet.</div>
+       Persistent career state is shown below. Named rivals advance from battles against you and from their own resolved Territory conflicts. Off-screen world battles currently award participation/victory XP and can trigger legal advancements; detailed abstract kills/injuries are reserved for the later population simulation. Current equipment is persistent roster loadout data; autonomous rival weapon-shopping/upgrading is not implemented yet.</div>
        <div class="rivalIntelGrid">${fighters.length?fighters.map(x=>fighterCard(x.p,x.id)).join(''):'<div class="warn">NO ROSTER FOUND FOR THIS CREW.</div>'}</div>
        <div class="rivalIntelFoot">CLICK A FIGHTER // open their persistent dossier. Rival fighters use the same campaign-person progression rules as your crew.</div>`;
 
@@ -7457,8 +7508,10 @@ RESULT // ${rep.counts.PASS} PASS // ${rep.counts.WARN} WARN // ${rep.counts.FAI
          total:rivalIds.length,
          withBattles:rivalIds.filter(id=>(campaign.people?.[id]?.battles||0)>0).length,
          withXP:rivalIds.filter(id=>(campaign.people?.[id]?.xp||0)>0).length,
-         advanced:rivalIds.filter(id=>(campaign.people?.[id]?.advTaken||0)>0).length
+         advanced:rivalIds.filter(id=>(campaign.people?.[id]?.advTaken||0)>0).length,
+         worldCareerCycles:(campaign.worldCareerHistory||[]).length
        },
+       supplyLiveSync:{armoryOpen:!!document.getElementById('armoryOverlay')?.classList.contains('show'),supplyOpen:!!document.getElementById('supplyOverlay')?.classList.contains('show')},
        currentBattle:game?.careerMode==='CAMPAIGN'?{
          oppositionCrewId:game.oppositionCrewId||null,
          oppositionPersonIds:(game.oppositionPersonIds||[]).slice(),
@@ -7479,18 +7532,18 @@ RESULT // ${rep.counts.PASS} PASS // ${rep.counts.WARN} WARN // ${rep.counts.FAI
 
 
 <script>
-/* UNDERGRID 1.39.6 // FIGHTERS BECOME PEOPLE INTEGRATION SEAL
-   Final integration layer after full post-1.37.3 review. This layer does not replace
-   sealed lifecycle compositions; it exposes diagnostics and enforces current build metadata. */
+/* UNDERGRID 1.39.8 // ADVANCEMENT FLOW SEAL
+   Clean post-1.39.6 integration checkpoint. Sealed lifecycle compositions remain intact;
+   advancement routing is handled as a stable Crew Loadout gate outside fighter-card rendering. */
 (()=>{
  'use strict';
- const BUILD='1.39.6';
+ const BUILD='1.39.8';
  function setBuildLabels(){
-   document.title='UNDERGRID // 1.39.6 Fighters Become People Integration Seal';
+   document.title='UNDERGRID // 1.39.8a Advancement Queue Polish';
    const top=document.querySelector('.top .title');
-   if(top)top.textContent='UNDERGRID // 1.39.6 // FIGHTERS BECOME PEOPLE INTEGRATION SEAL';
+   if(top)top.textContent='UNDERGRID // 1.39.8a // ADVANCEMENT QUEUE POLISH';
    const lab=document.querySelector('#undergridLab .uglVersion');
-   if(lab)lab.innerHTML='<b>WORKING // 1.39.6 FIGHTERS BECOME PEOPLE INTEGRATION SEAL</b><br>PROTECTED ARCHITECTURE // 1.37.3 STABILITY SEAL<br>COMBAT CHECKPOINT // 1.38.4 WEAPON + GRENADE + MELEE INTEGRITY<br>CAMPAIGN // SHARED PLAYER + RIVAL PERSISTENT PEOPLE<br>EXEMPT // HOTSEAT + QUICK BATTLE ARE DISPOSABLE';
+   if(lab)lab.innerHTML='<b>WORKING // 1.39.8 ADVANCEMENT FLOW SEAL</b><br>PROTECTED ARCHITECTURE // 1.37.3 STABILITY SEAL<br>COMBAT CHECKPOINT // 1.38.4 WEAPON + GRENADE + MELEE INTEGRITY<br>CAMPAIGN // SHARED PLAYER + RIVAL PERSISTENT PEOPLE + WORLD CAREERS<br>EXEMPT // HOTSEAT + QUICK BATTLE ARE DISPOSABLE';
  }
  // Registered after historical lifecycle listeners, so the current build label wins.
  setBuildLabels();
@@ -7524,12 +7577,473 @@ RESULT // ${rep.counts.PASS} PASS // ${rep.counts.WARN} WARN // ${rep.counts.FAI
    add('CAMPAIGN_AFTERMATH',typeof window.UNDERGRID_CANONICAL_AFTERMATH==='function','persistent aftermath installed');
    add('AI_GRENADE_POLICY',!!window.UNDERGRID_AI_GRENADES?.candidate,'cluster-aware + self-safe');
    add('OVERWATCH_POLICY',typeof overwatchAction==='function','weapon AP legality + full remaining activation');
-   add('BUILD_LABELS',document.title.includes('1.39.6')&&(document.querySelector('.top .title')?.textContent||'').includes('1.39.6'),'title/header current');
+   add('BUILD_LABELS',document.title.includes('1.39.8')&&(document.querySelector('.top .title')?.textContent||'').includes('1.39.8'),'title/header current');
    const fail=rows.filter(r=>!r.pass);
    return {schema:'UNDERGRID_INTEGRATION_AUDIT_V1',build:BUILD,pass:fail.length===0,passes:rows.length-fail.length,failures:fail.length,rows,peopleAudit:pa||null,campaignIntegrity:window.UNDERGRID_CAMPAIGN_INTEGRITY?.audit?.()||null};
  }
  window.UNDERGRID_INTEGRATION_AUDIT={build:BUILD,run};
  if(document.getElementById('manual'))document.getElementById('manual').insertAdjacentHTML('beforeend',`<p><b>INTEGRATION SEAL 1.39.6</b> // Full post-Stability-Seal review repaired the Fighters Become People load-time integration, verified shared persistent player/rival careers, removed duplicate advancement presentation, made AI grenade cluster logic self-safe, aligned Overwatch UI with weapon AP legality, and added a non-mutating whole-game diagnostic at <code>UNDERGRID_INTEGRATION_AUDIT.run()</code>.</p>`);
+})();
+</script>
+
+<script>
+(()=>{
+ if(document.getElementById('manual'))document.getElementById('manual').insertAdjacentHTML('beforeend',`<p><b>WORLD CAREERS + SUPPLY LIVE SYNC 1.39.7</b> // Rival Territory orders now resolve as persistent career battles for the named fighters who represent each off-screen crew conflict. Four roster fighters are selected per participating crew/conflict, gain +1 participation XP and +1 victory XP when their crew wins, increment BATTLES, write history, rank normally and choose legal AI advancements. The specific rival crew already fought in the player's tactical battle is not double-counted for that same conflict. Supply transactions now use a canonical delayed Armory refresh and also refresh when Supply closes, so purchases appear in the Crew Stash without a browser reload.</p>`);
+})();
+</script>
+
+
+<style>
+/* 1.39.8 // ADVANCEMENT FLOW SEAL
+   Fighter cards are dense status/loadout surfaces. Advancement routing now lives
+   in a stable Crew Loadout gate outside #setupGrid. */
+#setupGrid .advDossierLink{display:none!important}
+
+#advancementFlowBar{
+  display:none;
+  flex:0 0 auto;
+  margin-top:6px;
+  border:1px solid var(--warn);
+  background:color-mix(in srgb,var(--warn) 6%,var(--button));
+  padding:6px 8px;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  min-width:0;
+}
+#advancementFlowBar.show{display:flex}
+#advancementFlowBar .afbMain{min-width:0}
+#advancementFlowBar .afbHead{
+  color:var(--warn);
+  font:bold 11px Consolas,monospace;
+  letter-spacing:.06em;
+}
+#advancementFlowBar .afbNames{
+  color:var(--title);
+  font:10px/1.35 Consolas,monospace;
+  margin-top:2px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+#advancementFlowBar .afbHint{
+  color:var(--dim);
+  font:9px/1.3 Consolas,monospace;
+  margin-top:2px;
+}
+#deployBtn.advancementMode{
+  border-color:var(--warn)!important;
+  color:var(--warn)!important;
+  background:color-mix(in srgb,var(--warn) 8%,var(--buttonOn))!important;
+  opacity:1!important;
+  box-shadow:0 0 12px color-mix(in srgb,var(--warn) 30%,transparent)!important;
+}
+@media(max-height:760px){
+  #advancementFlowBar{padding:4px 6px;margin-top:3px}
+  #advancementFlowBar .afbHint{display:none}
+}
+</style>
+
+<script>
+/* UNDERGRID 1.39.8 // ADVANCEMENT FLOW SEAL
+   Design rule:
+   - Dossier owns advancement choices.
+   - Crew Loadout owns one clear blocking notice.
+   - DEPLOY is never a dead grey mystery when an advancement is the blocker.
+   - No gameplay or progression rule depends on fighter-card advancement text. */
+(()=>{
+ 'use strict';
+ const BUILD='1.39.8';
+ let queueActive=false;
+ let queueCurrent=null;
+
+ function ensurePeople(){
+   try{window.UNDERGRID_PEOPLE?.ensure?.()}catch(e){
+     console.error('[UNDERGRID ADV FLOW PEOPLE ENSURE]',e);
+   }
+ }
+
+ function fighterNameFromPick(pick){
+   const card=pick?.closest?.('.recruit');
+   if(!card)return null;
+   const i=Number(card.dataset.i);
+   if(Number.isFinite(i)&&typeof CREW_POOL!=='undefined'&&CREW_POOL[i]?.name)return CREW_POOL[i].name;
+   return card.querySelector('h3')?.textContent?.trim()||null;
+ }
+
+ function selectedNames(){
+   return [...document.querySelectorAll('#setupGrid .pick:checked')]
+     .map(fighterNameFromPick).filter(Boolean);
+ }
+
+ function personFor(name){
+   ensurePeople();
+   try{
+     return window.UNDERGRID_PEOPLE?.personByName?.(name,'PLAYER')
+       || (typeof cstate==='function'?cstate(name):null);
+   }catch(e){
+     console.error('[UNDERGRID ADV FLOW PERSON]',name,e);
+     return null;
+   }
+ }
+
+ function selectedPending(){
+   return selectedNames().map(name=>personFor(name)).filter(p=>(Number(p?.pending)||0)>0);
+ }
+
+ function totalPending(rows=selectedPending()){
+   return rows.reduce((n,p)=>n+Math.max(0,Number(p.pending)||0),0);
+ }
+
+ function strategy(){
+   try{return window.undergridEnsureStrategy?.()||campaign?.territory||null}
+   catch(e){return campaign?.territory||null}
+ }
+
+ function ensureBar(){
+   let bar=document.getElementById('advancementFlowBar');
+   if(bar)return bar;
+   const card=document.querySelector('#setupOverlay .setupCard');
+   const foot=card?.querySelector('.setupFooter');
+   if(!card||!foot)return null;
+   bar=document.createElement('div');
+   bar.id='advancementFlowBar';
+   bar.innerHTML=`<div class="afbMain">
+     <div class="afbHead">ADVANCEMENTS PENDING</div>
+     <div class="afbNames"></div>
+     <div class="afbHint">Selected fighters must resolve development before deployment. DEPLOY will take you through them in sequence.</div>
+   </div>`;
+   foot.insertAdjacentElement('beforebegin',bar);
+   return bar;
+ }
+
+ function sync(reason='sync'){
+   ensurePeople();
+   const dep=document.getElementById('deployBtn');
+   const bar=ensureBar();
+   if(!dep)return null;
+
+   // The old per-card text is deliberately retired. Dossier buttons may still glow
+   // as a useful secondary cue, but the card text is not part of deployment legality.
+   document.querySelectorAll('#setupGrid .advDossierLink').forEach(x=>x.setAttribute('aria-hidden','true'));
+
+   const names=selectedNames();
+   const pending=selectedPending();
+   const count=totalPending(pending);
+   const t=strategy();
+   const committed=!!(t&&t.phase==='COMMITTED'&&t.playerPlan?.to);
+   const target=committed?(typeof tnode==='function'?tnode(t.playerPlan.to):null):null;
+
+   if(bar){
+     bar.classList.toggle('show',count>0);
+     const head=bar.querySelector('.afbHead');
+     const rows=bar.querySelector('.afbNames');
+     if(head)head.textContent=`ADVANCEMENTS PENDING // ${count}`;
+     if(rows)rows.textContent=pending.map(p=>`${p.name} ×${Number(p.pending)||0}`).join(' · ');
+   }
+
+   dep.classList.toggle('advancementMode',count>0);
+
+   if(count>0){
+     // Advancement is a solvable gate, not a disabled mystery.
+     dep.disabled=false;
+     dep.textContent=`REVIEW ADVANCEMENTS // ${count}`;
+     dep.title=`Resolve ${pending.map(p=>`${p.name} ×${p.pending}`).join(' · ')} before deployment`;
+   }else{
+     dep.textContent='DEPLOY CREW';
+     if(names.length!==4){
+       dep.disabled=true;
+       dep.title=`Choose exactly 4 fighters // ${names.length} selected`;
+     }else if(!committed){
+       dep.disabled=true;
+       dep.title='Open TERRITORY and commit an attack first';
+     }else{
+       dep.disabled=false;
+       dep.title=`Attack ${target?.name||'committed territory'}`;
+     }
+   }
+
+   window.UNDERGRID_ADVANCEMENT_FLOW_STATE={
+     build:BUILD,reason,selected:names.slice(),
+     pending:pending.map(p=>({id:p.id,name:p.name,pending:Number(p.pending)||0})),
+     totalPending:count,
+     territory:{phase:t?.phase||null,target:t?.playerPlan?.to||null},
+     deploy:{disabled:dep.disabled,text:dep.textContent,title:dep.title},
+     queueActive,queueCurrent
+   };
+   return window.UNDERGRID_ADVANCEMENT_FLOW_STATE;
+ }
+
+ function openDossier(name){
+   if(!name)return false;
+   try{
+     if(window.UNDERGRID_DOSSIER?.open){window.UNDERGRID_DOSSIER.open(name);return true}
+     if(window.UNDERGRID_PEOPLE?.show){window.UNDERGRID_PEOPLE.show(name);return true}
+     if(window.showPersonDossier){window.showPersonDossier(name);return true}
+     if(window.showDossier){window.showDossier(name);return true}
+   }catch(e){console.error('[UNDERGRID ADV FLOW OPEN]',name,e)}
+   return false;
+ }
+
+ function openNext(){
+   const pending=selectedPending();
+   if(!pending.length){
+     queueActive=false;queueCurrent=null;
+     document.getElementById('dossier')?.classList.remove('show');
+     try{renderSetup()}catch(e){console.error('[UNDERGRID ADV FLOW FINAL SETUP]',e)}
+     sync('queue complete');
+     try{feedback('ADVANCEMENT','All selected-fighter advancements resolved // deployment gate cleared.','good',1800)}catch(e){}
+     return false;
+   }
+   const current=queueCurrent&&pending.find(p=>p.name===queueCurrent);
+   const next=current||pending[0];
+   queueCurrent=next.name;
+   sync('queue open');
+   return openDossier(next.name);
+ }
+
+ function startQueue(){
+   const pending=selectedPending();
+   if(!pending.length){sync('queue empty');return false}
+   queueActive=true;queueCurrent=pending[0].name;
+   return openNext();
+ }
+
+ // Preserve the proven campaign deploy action. When advancements exist, this same
+ // button becomes the explicit route to resolve them instead of remaining disabled.
+ const dep=document.getElementById('deployBtn');
+ const originalDeploy=dep?.onclick;
+ if(dep){
+   dep.onclick=function(e){
+     const pending=selectedPending();
+     if(totalPending(pending)>0){
+       e?.preventDefault?.();e?.stopPropagation?.();
+       startQueue();
+       return false;
+     }
+     return originalDeploy?.call(this,e);
+   };
+ }
+
+ // Existing Dossier advancement buttons are canonical. We only sequence the user
+ // to the next selected fighter after a choice has actually been committed.
+ document.addEventListener('click',e=>{
+   const choice=e.target.closest?.('[data-person-advance],[data-cda]');
+   if(!choice||!queueActive)return;
+   setTimeout(()=>{
+     const cur=queueCurrent?personFor(queueCurrent):null;
+     sync('choice committed');
+     if((Number(cur?.pending)||0)>0){
+       // Multiple advances on the same fighter: native dossier already shows the next set.
+       return;
+     }
+     queueCurrent=null;
+     openNext();
+   },0);
+ },false);
+
+ document.getElementById('dossierClose')?.addEventListener('click',()=>{
+   if(queueActive){queueActive=false;queueCurrent=null;setTimeout(()=>sync('queue cancelled'),0)}
+ });
+
+ // Player squad changes can alter which pending fighters block deployment.
+ document.addEventListener('change',e=>{
+   if(e.target?.closest?.('#setupGrid'))queueMicrotask(()=>sync('crew selection changed'));
+ },false);
+
+ // Production/local timing must not matter. Any structural setup-grid repaint is
+ // followed by a footer-gate sync. The callback modifies only the footer/button,
+ // never #setupGrid, so it cannot feed an observer loop.
+ const grid=document.getElementById('setupGrid');
+ if(grid&&typeof MutationObserver!=='undefined'){
+   const observer=new MutationObserver(records=>{
+     if(records.some(r=>r.type==='childList'))queueMicrotask(()=>sync('setup grid repainted'));
+   });
+   observer.observe(grid,{childList:true,subtree:true,attributes:false,characterData:false});
+   window.__UNDERGRID_ADVANCEMENT_FLOW_OBSERVER=observer;
+ }
+
+ // Territory commit/cancel paths repaint setup, but these explicit hooks make the
+ // gate legible immediately even before the next frame.
+ document.addEventListener('click',e=>{
+   if(e.target?.closest?.('#territoryCommitPlan,#territoryCancelPlan,#territoryClose')){
+     setTimeout(()=>sync('territory state changed'),0);
+   }
+ },false);
+
+ window.addEventListener('pageshow',()=>sync('pageshow'));
+ document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')sync('visibility')});
+
+ window.UNDERGRID_ADVANCEMENT_FLOW={
+   build:BUILD,
+   sync,
+   start:startQueue,
+   pending:selectedPending,
+   audit(){
+     const s=sync('audit');
+     const expected=s.totalPending>0
+       ? (!s.deploy.disabled&&s.deploy.text.startsWith('REVIEW ADVANCEMENTS'))
+       : true;
+     return{
+       schema:'UNDERGRID_ADVANCEMENT_FLOW_V1',
+       build:BUILD,
+       selected:s.selected,
+       pending:s.pending,
+       totalPending:s.totalPending,
+       barVisible:document.getElementById('advancementFlowBar')?.classList.contains('show')||false,
+       deploy:s.deploy,
+       territory:s.territory,
+       queueActive,
+       queueCurrent,
+       pass:expected
+     };
+   }
+ };
+
+ // Initial and late-paint synchronization.
+ sync('startup');
+ queueMicrotask(()=>sync('startup microtask'));
+ requestAnimationFrame(()=>requestAnimationFrame(()=>sync('startup double frame')));
+ setTimeout(()=>sync('startup 150ms'),150);
+
+ const manual=document.getElementById('manual');
+ if(manual)manual.insertAdjacentHTML('beforeend',
+   `<p><b>ADVANCEMENT FLOW SEAL 1.39.8</b> // Crew Loadout no longer depends on advancement text inside fighter cards. Pending advancements appear in one stable bar above the footer. When selected fighters have unresolved advancements, DEPLOY becomes REVIEW ADVANCEMENTS and opens the canonical Dossier choices in sequence. After the final choice, the game returns to Crew Loadout and normal deployment legality resumes. The Dossier remains the sole authority for advancement choices; card-level alerts are presentation-only and intentionally retired.</p>`);
+})();
+</script>
+
+
+<style>
+/* 1.39.8a // ADVANCEMENT QUEUE POLISH */
+#dossierClose.advQueueNext{
+  border-color:var(--warn)!important;
+  color:var(--warn)!important;
+  background:color-mix(in srgb,var(--warn) 8%,var(--buttonOn))!important;
+  box-shadow:0 0 12px color-mix(in srgb,var(--warn) 30%,transparent)!important;
+}
+#dossierClose.advQueueDone{
+  border-color:var(--g)!important;
+  color:var(--g)!important;
+}
+</style>
+
+<script>
+/* UNDERGRID 1.39.8a // ADVANCEMENT QUEUE POLISH
+   Streamlines the 1.39.8 review flow:
+   choose an advancement -> NEXT ADVANCEMENT for the next selected fighter ->
+   final choice -> DONE / RETURN TO CREW. */
+(()=>{
+ 'use strict';
+ const BUILD='1.39.8a';
+ const close=document.getElementById('dossierClose');
+ if(!close||!window.UNDERGRID_ADVANCEMENT_FLOW)return;
+
+ const flow=window.UNDERGRID_ADVANCEMENT_FLOW;
+ const originalCloseText='CLOSE';
+ const originalCloseHandler=close.onclick;
+ let mode='normal';
+ let nextName=null;
+
+ function selectedPending(){
+   try{return flow.pending?.()||[]}catch(e){return[]}
+ }
+
+ function resetClose(){
+   mode='normal';nextName=null;
+   close.textContent=originalCloseText;
+   close.classList.remove('advQueueNext','advQueueDone');
+   close.title='';
+ }
+
+ function configureAfterChoice(){
+   const state=window.UNDERGRID_ADVANCEMENT_FLOW_STATE||{};
+   const current=state.queueCurrent||null;
+   const pending=selectedPending();
+
+   // If the current fighter still has another pending advance, keep them current.
+   const currentStill=current&&pending.find(p=>p.name===current);
+   if(currentStill){
+     mode='next';nextName=currentStill.name;
+     close.textContent=`NEXT ADVANCEMENT // ${currentStill.name}`;
+     close.classList.add('advQueueNext');
+     close.classList.remove('advQueueDone');
+     close.title=`Review ${currentStill.name}'s next pending advancement`;
+     return;
+   }
+
+   const next=pending[0]||null;
+   if(next){
+     mode='next';nextName=next.name;
+     close.textContent=`NEXT ADVANCEMENT // ${next.name}`;
+     close.classList.add('advQueueNext');
+     close.classList.remove('advQueueDone');
+     close.title=`Continue directly to ${next.name}'s pending advancement`;
+   }else{
+     mode='done';nextName=null;
+     close.textContent='DONE // RETURN TO CREW';
+     close.classList.remove('advQueueNext');
+     close.classList.add('advQueueDone');
+     close.title='All selected-fighter advancements are resolved';
+   }
+ }
+
+ // Capture before the legacy CLOSE listener can hide the dossier.
+ close.addEventListener('click',e=>{
+   if(mode==='next'){
+     e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+     const name=nextName;
+     resetClose();
+     if(name){
+       try{
+         if(window.UNDERGRID_DOSSIER?.open)window.UNDERGRID_DOSSIER.open(name);
+         else if(window.UNDERGRID_PEOPLE?.show)window.UNDERGRID_PEOPLE.show(name);
+         else if(window.showPersonDossier)window.showPersonDossier(name);
+       }catch(err){console.error('[UNDERGRID ADV QUEUE NEXT]',name,err)}
+     }
+     return;
+   }
+   if(mode==='done'){
+     e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+     resetClose();
+     document.getElementById('dossier')?.classList.remove('show');
+     try{renderSetup()}catch(err){console.error('[UNDERGRID ADV QUEUE DONE]',err)}
+     try{flow.sync?.('queue done return')}catch(err){}
+     try{feedback('ADVANCEMENT','Advancement review complete // crew ready.','good',1500)}catch(err){}
+   }
+ },true);
+
+ // After a canonical advancement choice is applied and dossier rerenders,
+ // replace CLOSE with NEXT/DONE instead of forcing the user back through Crew Loadout.
+ document.addEventListener('click',e=>{
+   const choice=e.target.closest?.('[data-person-advance],[data-cda]');
+   if(!choice)return;
+   const state=window.UNDERGRID_ADVANCEMENT_FLOW_STATE||{};
+   if(!state.queueActive)return;
+   setTimeout(()=>{
+     try{flow.sync?.('queue polish after choice')}catch(err){}
+     configureAfterChoice();
+   },0);
+ },true);
+
+ // Starting a new review queue should always begin with a normal close state.
+ const originalStart=flow.start?.bind(flow);
+ if(originalStart){
+   flow.start=function(){
+     resetClose();
+     return originalStart();
+   };
+ }
+
+ window.UNDERGRID_ADVANCEMENT_QUEUE_POLISH={
+   build:BUILD,
+   state:()=>({mode,nextName,button:close.textContent}),
+   reset:resetClose,
+   refresh:configureAfterChoice
+ };
+
+ const manual=document.getElementById('manual');
+ if(manual)manual.insertAdjacentHTML('beforeend',
+   `<p><b>ADVANCEMENT QUEUE POLISH 1.39.8a</b> // During REVIEW ADVANCEMENTS, choosing an advancement no longer sends the player back through Crew Loadout between fighters. If another selected fighter still needs development, the dossier CLOSE control becomes NEXT ADVANCEMENT and moves directly to that fighter. Multiple pending advances on one fighter stay together. After the final choice, the control becomes DONE // RETURN TO CREW and restores normal deployment flow.</p>`);
 })();
 </script>
 

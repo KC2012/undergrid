@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>UNDERGRID // 1.39.7b Campaign State Integrity</title>
+<title>UNDERGRID // 1.39.7d Advancement UI Postcondition</title>
 <style>
 :root{--bg:#010402;--panel:#031006;--panelGlass:#031006ee;--toolbar:#020b05ed;--bottom:#020805;--halo:#07160b;--g:#9dff7a;--dim:#5a8a5f;--enemy:#ffb060;--warn:#ffe37a;--cyan:#78e3dc;--red:#ff6d5c;--title:#c9ffaf;--border:#1e4825;--border2:#3c8245;--button:#061409;--buttonOn:#14361a;--scan:#8fff8710;--glow:#071;--glowInner:#0b3515;--glowOuter:#051709}
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--g);font:13px Consolas,Monaco,monospace}
@@ -463,7 +463,7 @@
 </style>
 
 </head><body><div id="app"><div id="stage"><canvas id="c"></canvas><div class="scan"></div>
-<div class="top"><div class="box"><span class="title">UNDERGRID // 1.39.7b // CAMPAIGN STATE INTEGRITY</span><br><span id="mission"></span></div><div class="box" id="phase"></div></div>
+<div class="top"><div class="box"><span class="title">UNDERGRID // 1.39.7d // ADVANCEMENT UI POSTCONDITION</span><br><span id="mission"></span></div><div class="box" id="phase"></div></div>
 <div id="controlrail"><div id="status"></div><div id="toolbar"><button class="action on" id="move">MOVE¹</button><button class="action climb" id="climb">CLIMB¹</button><button class="action jump" id="jump">JUMP¹</button><span class="railsep"></span><button class="action" id="shoot">SHOOT</button><button class="action ammoAction" id="reload">RELOAD¹</button><button class="action" id="melee">MELEE¹</button><button class="action" id="gren">GRENADE¹</button><button class="action" id="gear">GEAR</button><button class="action" id="extinguish" style="display:none">EXTINGUISH¹</button><button class="action" id="salvage">SALVAGE²</button><button class="action" id="ow">OW¹</button><span class="railsep"></span><button class="action" id="end">END</button></div><div id="gamebar"><button class="mini" id="auto">AUTO OFF</button><button class="mini" id="speedBtn">SLOW</button><button class="mini" id="viewBtn">100%</button><button class="mini" id="optionsBtn">OPTIONS</button></div></div><div id="toast"></div><div id="shotMath" class="shotMath"></div><div id="deployPhase"><div class="deployHead"><div><div class="title" style="font-size:14px">TACTICAL DEPLOYMENT</div><div class="deployHint">Click one CREW miniature, then another to swap their starting positions. Click the same fighter again to cancel.</div></div><button id="deployReady" class="deployReady">READY // BEGIN</button></div></div><div id="optionsPop"><div class="title">DISPLAY / OPTIONS</div><button class="mini" id="themeBtn">THEME // PHOSPHOR</button><button class="mini" id="focusBtn">TURN CAM // OFF</button><button class="mini" id="manualBtn">FIELD MANUAL</button><div class="hint">Wheel zoom • middle/right drag • HOME reset<br>Ctrl+Shift+D developer tools</div></div><div id="debugbar">DEV MODE // BLACK BOX <span id="vcount">0 ERR</span><button class="mini" id="export">EXPORT DEBUG</button><button class="mini" id="runTests">RUN LOS TEST</button><span class="zoomHint">Ctrl+Shift+D hides/shows developer tools</span></div>
 <div id="setupOverlay"><div class="setupCard"><div class="title" style="font-size:18px">UNDERGRID // CREW LOADOUT</div><div class="muted">Choose exactly 4 fighters. SELECT changes the squad; DOSSIER opens the definitive character sheet. Your previous squad remains selected.</div><div id="crewColorBar" class="crewColorBar"><span>CREW COLOR //</span><button type="button" data-crew-color="#68d7ff" title="Cyan" style="--crew-swatch:#68d7ff"></button><button type="button" data-crew-color="#ff5f55" title="Red" style="--crew-swatch:#ff5f55"></button><button type="button" data-crew-color="#ff9b4a" title="Orange" style="--crew-swatch:#ff9b4a"></button><button type="button" data-crew-color="#ffe45e" title="Yellow" style="--crew-swatch:#ffe45e"></button><button type="button" data-crew-color="#ff66c7" title="Magenta" style="--crew-swatch:#ff66c7"></button><button type="button" data-crew-color="#b98cff" title="Violet" style="--crew-swatch:#b98cff"></button><button type="button" data-crew-color="#e8f2e8" title="White" style="--crew-swatch:#e8f2e8"></button><button type="button" data-crew-color="#9cff57" title="Acid Green" style="--crew-swatch:#9cff57"></button></div><div id="setupGrid" class="setupGrid"></div><div class="setupFooter"><div><span id="pickCount">0 / 4 selected</span><div class="weaponLegend"></div></div><button id="deployBtn" disabled>DEPLOY CREW</button></div><div class="campaignTools"><span class="label">CAMPAIGN DATA // BANK <span id="campaignBank">0</span> SCRIP // <span id="campaignBattles">0</span> BATTLES</span><button id="exportSave">EXPORT SAVE</button><button id="importSave">IMPORT SAVE</button><button id="resetCampaign" class="danger">RESET CAMPAIGN</button><input id="importSaveFile" type="file" accept="application/json,.json" hidden></div></div></div>
 <div id="overlay"><div class="modal"><h2 id="resultTitle"></h2><div id="resultBody"></div><button id="restart">NEW SEED</button><button id="same">REPLAY SEED</button></div></div></div>
@@ -6266,7 +6266,7 @@ RESULT // ${rep.counts.PASS} PASS // ${rep.counts.WARN} WARN // ${rep.counts.FAI
  }
  window.UNDERGRID_PEOPLE={build:BUILD,schema:SCHEMA,thresholds:XP_THRESHOLDS.slice(),families:FAMILIES.slice(),skills:{...SKILL_RULES},skillFamily:{...SKILL_FAMILY},injuries:copy(INJURY_CATALOG),scars:{...SCAR_CATALOG},ensure:ensurePeople,personById,personByName,derived:personDerivedStats,offers:id=>{let p=personById(id);return p?advanceOffersForPerson(p):[]},apply:(id,adv)=>{let p=personById(id);return p?applyAdvanceToPerson(p,adv):false},show:showPersonDossier,careerBattle:g=>g?.careerMode==='CAMPAIGN',resolveWorldCycleCareers,audit:peopleAudit};
  let campaignLab=[...document.querySelectorAll('#undergridLab .uglCard')].find(c=>c.querySelector('.uglCardTitle')?.textContent.trim()==='CAMPAIGN LAB');if(campaignLab&&!campaignLab.querySelector('#uglPeopleAudit')){let a=document.createElement('div');a.className='uglActions';a.innerHTML='<button id="uglPeopleAudit">RUN PEOPLE AUDIT</button>';campaignLab.appendChild(a);a.querySelector('button').onclick=()=>{let report=peopleAudit(),out=$('uglReport');if(out)out.textContent=`FIGHTERS BECOME PEOPLE // ${report.pass?'PASS':'CHECK'}\n`+JSON.stringify(report,null,2)}};
- let lab=document.querySelector('#undergridLab .uglVersion');if(lab)lab.innerHTML='<b>WORKING // 1.39.7b CAMPAIGN STATE INTEGRITY</b><br>STABLE COMBAT REFERENCE // 1.38.4 WEAPON + GRENADE + MELEE INTEGRITY<br>CAREER // SHARED PLAYER + RIVAL FIGHTER SCHEMA<br>EXEMPT // HOTSEAT + FUTURE QUICK BATTLE ARE DISPOSABLE';
+ let lab=document.querySelector('#undergridLab .uglVersion');if(lab)lab.innerHTML='<b>WORKING // 1.39.7d ADVANCEMENT UI POSTCONDITION</b><br>STABLE COMBAT REFERENCE // 1.38.4 WEAPON + GRENADE + MELEE INTEGRITY<br>CAREER // SHARED PLAYER + RIVAL FIGHTER SCHEMA<br>EXEMPT // HOTSEAT + FUTURE QUICK BATTLE ARE DISPOSABLE';
  if($('manual'))$('manual').insertAdjacentHTML('beforeend',`<p><b>FIGHTERS BECOME PEOPLE 1.39.0</b> // Campaign fighters are persistent entities first and tactical units second. Player fighters, five rival crews and unclaimed-site defenders share one fighter schema: stable ID, base stats, XP/rank, advancement state, skills, injuries/scars, behavior statistics, history and persistent loadout snapshot. Rival teams keep 8-person rosters and deploy 4 persistent fighters per battle; enemy kills, injuries, XP and skills survive into later encounters. HOTSEAT remains disposable and does not enter the career system. A future QUICK BATTLE should use the same disposable boundary.</p><p><b>ADVANCEMENT</b> // Advancement thresholds are 5 / 12 / 22 / 35 / 52 / 72 XP and continue with widening gaps. Offers are weighted by how that fighter actually behaves: shooting, melee, movement, survival, gear/grenade use and objective play. Six families are active: GUNNER, BRAWLER, AGILITY, SURVIVAL, TECH, LEADERSHIP. Rivals use the same offers and rules but choose automatically with light faction-doctrine weighting.</p><p><b>INJURIES + HISTORY</b> // Downed fighters can suffer source-aware minor, lasting or critical injuries, or scars. Falls/blasts, fire, shock, toxin, melee and ballistic trauma use different injury pools. Critical injuries already carry future cybernetic body hooks. Minor injuries recover as campaign battles pass. Dossiers record battles, kills, advancements, injuries, recoveries and scars.</p>`);
  ensurePeople(true);renderSetup();
 })();
@@ -7554,7 +7554,7 @@ RESULT // ${rep.counts.PASS} PASS // ${rep.counts.WARN} WARN // ${rep.counts.FAI
    const top=document.querySelector('.top .title');
    if(top)top.textContent='UNDERGRID // 1.39.7b // CAMPAIGN STATE INTEGRITY';
    const lab=document.querySelector('#undergridLab .uglVersion');
-   if(lab)lab.innerHTML='<b>WORKING // 1.39.7b CAMPAIGN STATE INTEGRITY</b><br>PROTECTED ARCHITECTURE // 1.37.3 STABILITY SEAL<br>COMBAT CHECKPOINT // 1.38.4 WEAPON + GRENADE + MELEE INTEGRITY<br>CAMPAIGN // SHARED PLAYER + RIVAL PERSISTENT PEOPLE<br>EXEMPT // HOTSEAT + QUICK BATTLE ARE DISPOSABLE';
+   if(lab)lab.innerHTML='<b>WORKING // 1.39.7d ADVANCEMENT UI POSTCONDITION</b><br>PROTECTED ARCHITECTURE // 1.37.3 STABILITY SEAL<br>COMBAT CHECKPOINT // 1.38.4 WEAPON + GRENADE + MELEE INTEGRITY<br>CAMPAIGN // SHARED PLAYER + RIVAL PERSISTENT PEOPLE<br>EXEMPT // HOTSEAT + QUICK BATTLE ARE DISPOSABLE';
  }
  // Registered after historical lifecycle listeners, so the current build label wins.
  setBuildLabels();
@@ -7660,6 +7660,214 @@ RESULT // ${rep.counts.PASS} PASS // ${rep.counts.WARN} WARN // ${rep.counts.FAI
  setTimeout(()=>{reconcile('post-startup');try{renderSetup()}catch(e){}},0);
  if(document.getElementById('manual'))document.getElementById('manual').insertAdjacentHTML('beforeend',
    `<p><b>CAMPAIGN STATE INTEGRITY 1.39.7b</b> // Persistent campaign.people fighter records are the sole career authority. Crew Loadout, deployment legality, dossier advancement, reset/import migration and the legacy campaign.crew compatibility mirror are reconciled to the same person objects. Once Territory orders are committed, the map selection is locked to the committed attack target so a second node cannot visually masquerade as another active target.</p>`);
+})();
+</script>
+
+
+<style>
+/* UNDERGRID 1.39.7c // ADVANCEMENT VISIBILITY INTEGRITY */
+#setupGrid .recruit.hasPendingAdvance{
+  border-color:var(--warn)!important;
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--warn) 24%,transparent);
+}
+#setupGrid .advDossierLink[data-canonical-advancement="1"]{
+  display:block!important;
+  color:var(--warn)!important;
+  border-top:1px dashed color-mix(in srgb,var(--warn) 45%,transparent);
+  border-bottom:1px dashed color-mix(in srgb,var(--warn) 45%,transparent);
+}
+</style>
+<script>
+/* UNDERGRID 1.39.7c // ADVANCEMENT VISIBILITY INTEGRITY
+   Deployment was correctly blocked by authoritative persistent-person pending
+   advancements, but Crew Loadout could repaint after rank-up without recreating
+   the ADVANCEMENT READY notice or pending dossier glow. This synchronizer derives
+   all advancement affordances directly from UNDERGRID_PEOPLE after every setup paint. */
+(()=>{
+ 'use strict';
+ const BUILD='1.39.7c';
+
+ function personFor(name){
+   try{
+     window.UNDERGRID_PEOPLE?.ensure?.();
+     return window.UNDERGRID_PEOPLE?.personByName?.(name,'PLAYER')||null;
+   }catch(e){
+     console.error('[UNDERGRID ADV VIS PERSON]',name,e);
+     return null;
+   }
+ }
+
+ function pendingFor(name){
+   const p=personFor(name);
+   return Math.max(0,Number(p?.pending)||0);
+ }
+
+ function openDossier(name){
+   if(!name)return;
+   try{
+     if(window.UNDERGRID_DOSSIER?.open)return window.UNDERGRID_DOSSIER.open(name);
+     if(window.showPersonDossier)return window.showPersonDossier(name);
+     if(window.showDossier)return window.showDossier(name);
+   }catch(e){console.error('[UNDERGRID ADV VIS OPEN]',name,e)}
+ }
+
+ function syncCard(card){
+   if(!card)return null;
+   const i=Number(card.dataset.i),r=Number.isFinite(i)&&window.CREW_POOL?.[i];
+   if(!r)return null;
+
+   const pending=pendingFor(r.name);
+   card.classList.toggle('hasPendingAdvance',pending>0);
+
+   const dossierBtn=card.querySelector('.dossierBtn');
+   if(dossierBtn){
+     dossierBtn.classList.toggle('pendingAdvance',pending>0);
+     dossierBtn.title=pending>0
+       ? `${r.name} // ADVANCEMENT READY ×${pending} // OPEN DOSSIER`
+       : `${r.name} // OPEN DOSSIER`;
+   }
+
+   let notice=card.querySelector('.advDossierLink');
+   if(pending>0){
+     if(!notice){
+       notice=document.createElement('div');
+       notice.className='adv advDossierLink';
+       notice.dataset.advFighter=r.name;
+       notice.dataset.canonicalAdvancement='1';
+       notice.setAttribute('role','button');
+       notice.setAttribute('tabindex','0');
+
+       // Keep the notice with career/status information and ahead of equipment controls.
+       const firstSelect=card.querySelector('select');
+       if(firstSelect)firstSelect.insertAdjacentElement('beforebegin',notice);
+       else card.appendChild(notice);
+     }
+     notice.dataset.canonicalAdvancement='1';
+     notice.dataset.advFighter=r.name;
+     notice.title=`Open ${r.name}'s dossier to choose advancement`;
+     notice.innerHTML=`<div class="advtitle">ADVANCEMENT READY ×${pending} // REVIEW IN DOSSIER</div>`;
+     notice.onclick=e=>{e.preventDefault();e.stopPropagation();openDossier(r.name)};
+     notice.onkeydown=e=>{
+       if(e.key==='Enter'||e.key===' '){
+         e.preventDefault();e.stopPropagation();openDossier(r.name);
+       }
+     };
+   }else if(notice){
+     notice.remove();
+   }
+
+   return {name:r.name,pending,notice:!!card.querySelector('.advDossierLink'),glow:card.classList.contains('hasPendingAdvance')};
+ }
+
+ function sync(reason='manual'){
+   try{window.UNDERGRID_PEOPLE?.ensure?.()}catch(e){}
+   const rows=[...document.querySelectorAll('#setupGrid>.recruit')].map(syncCard).filter(Boolean);
+   try{window.UNDERGRID_DOSSIER?.rebind?.()}catch(e){console.error('[UNDERGRID ADV VIS REBIND]',reason,e)}
+   return rows;
+ }
+
+ // Late-wrap the canonical setup stage so every newly painted crew screen gets
+ // advancement affordances after all progression normalization has completed.
+ const gateway=window.UNDERGRID_LIFECYCLE_GATEWAY;
+ if(gateway?.legacy?.renderSetup){
+   const previous=gateway.legacy.renderSetup;
+   gateway.legacy.renderSetup=function(){
+     const result=previous.apply(this,arguments);
+     sync('renderSetup');
+     queueMicrotask(()=>sync('renderSetup microtask'));
+     requestAnimationFrame(()=>sync('renderSetup frame'));
+     return result;
+   };
+ }
+
+ // Dossier advancement selection already repaints setup; this additionally handles
+ // any asynchronous career reconciliation or return-to-crew path without observation loops.
+ document.addEventListener('click',e=>{
+   if(e.target?.closest?.('#restart,#same,#quickplayExit,#dossierClose,.cdaChoose,.dossierAdvanceChoose')){
+     setTimeout(()=>sync('navigation/advancement'),0);
+   }
+ },true);
+
+ window.UNDERGRID_ADVANCEMENT_VISIBILITY={
+   build:BUILD,
+   sync,
+   audit(){
+     const rows=sync('audit');
+     const mismatch=rows.filter(x=>(x.pending>0)!==(x.notice&&x.glow));
+     return {
+       schema:'UNDERGRID_ADVANCEMENT_VISIBILITY_V1',
+       build:BUILD,
+       rows,
+       mismatch,
+       pass:mismatch.length===0
+     };
+   }
+ };
+
+ setTimeout(()=>sync('startup'),0);
+
+ const manual=document.getElementById('manual');
+ if(manual)manual.insertAdjacentHTML('beforeend',
+   `<p><b>ADVANCEMENT VISIBILITY 1.39.7c</b> // Crew Loadout advancement warnings and DOSSIER highlights are now rebuilt directly from the authoritative persistent-person pending state after every setup paint. If deployment is blocked for an advancement, the fighter card must visibly say ADVANCEMENT READY and the DOSSIER button must highlight.</p>`);
+})();
+</script>
+
+
+<script>
+/* UNDERGRID 1.39.7d // ADVANCEMENT UI POSTCONDITION
+   Production exposed a late Crew Loadout repaint that can occur after the normal
+   renderSetup/microtask/rAF synchronization window. This observer watches only
+   setupGrid child-list replacement. It does NOT observe attributes or text, so
+   restoring an advancement badge cannot create the old self-triggering loop. */
+(()=>{
+ 'use strict';
+ const BUILD='1.39.7d';
+ let scheduled=false,passes=0,lastReason='startup';
+
+ function schedule(reason='mutation'){
+   lastReason=reason;
+   if(scheduled)return;
+   scheduled=true;
+   queueMicrotask(()=>{
+     scheduled=false;
+     passes++;
+     try{window.UNDERGRID_ADVANCEMENT_VISIBILITY?.sync?.(`postcondition:${reason}`)}
+     catch(e){console.error('[UNDERGRID ADV POSTCONDITION]',reason,e)}
+   });
+ }
+
+ const grid=document.getElementById('setupGrid');
+ if(grid && typeof MutationObserver!=='undefined'){
+   const observer=new MutationObserver(records=>{
+     // Only structural changes matter. The visibility sync itself may add one notice;
+     // that causes at most one harmless follow-up pass because subsequent sync is idempotent.
+     if(records.some(r=>r.type==='childList'))schedule('setup childList');
+   });
+   observer.observe(grid,{childList:true,subtree:true,attributes:false,characterData:false});
+   window.__UNDERGRID_ADVANCEMENT_POSTCONDITION_OBSERVER=observer;
+ }
+
+ // Also reassert after known asynchronous navigation points.
+ window.addEventListener('pageshow',()=>schedule('pageshow'));
+ document.addEventListener('visibilitychange',()=>{
+   if(document.visibilityState==='visible')schedule('visibility');
+ });
+
+ window.UNDERGRID_ADVANCEMENT_POSTCONDITION={
+   build:BUILD,
+   sync:()=>schedule('manual'),
+   audit(){
+     const base=window.UNDERGRID_ADVANCEMENT_VISIBILITY?.audit?.()||null;
+     return {build:BUILD,passes,lastReason,base,pass:base?.pass===true};
+   }
+ };
+
+ setTimeout(()=>schedule('startup timeout'),0);
+ requestAnimationFrame(()=>requestAnimationFrame(()=>schedule('double frame')));
+
+ const manual=document.getElementById('manual');
+ if(manual)manual.insertAdjacentHTML('beforeend',
+   `<p><b>ADVANCEMENT POSTCONDITION 1.39.7d</b> // Production revealed a late structural repaint after the normal setup render window. Crew Loadout now treats advancement visibility as a DOM postcondition: whenever setup cards are structurally replaced, authoritative pending advancement state is re-applied. The observer watches child-list changes only, avoiding the previous attribute/text feedback-loop class of bug.</p>`);
 })();
 </script>
 

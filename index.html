@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>UNDERGRID // 1.39.7 World Career + Supply Live Sync</title>
+<title>UNDERGRID // 1.39.6 Fighters Become People Integration Seal</title>
 <style>
 :root{--bg:#010402;--panel:#031006;--panelGlass:#031006ee;--toolbar:#020b05ed;--bottom:#020805;--halo:#07160b;--g:#9dff7a;--dim:#5a8a5f;--enemy:#ffb060;--warn:#ffe37a;--cyan:#78e3dc;--red:#ff6d5c;--title:#c9ffaf;--border:#1e4825;--border2:#3c8245;--button:#061409;--buttonOn:#14361a;--scan:#8fff8710;--glow:#071;--glowInner:#0b3515;--glowOuter:#051709}
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--g);font:13px Consolas,Monaco,monospace}
@@ -463,7 +463,7 @@
 </style>
 
 </head><body><div id="app"><div id="stage"><canvas id="c"></canvas><div class="scan"></div>
-<div class="top"><div class="box"><span class="title">UNDERGRID // 1.39.7 // FIGHTERS BECOME PEOPLE INTEGRATION SEAL</span><br><span id="mission"></span></div><div class="box" id="phase"></div></div>
+<div class="top"><div class="box"><span class="title">UNDERGRID // 1.39.6 // FIGHTERS BECOME PEOPLE INTEGRATION SEAL</span><br><span id="mission"></span></div><div class="box" id="phase"></div></div>
 <div id="controlrail"><div id="status"></div><div id="toolbar"><button class="action on" id="move">MOVE¹</button><button class="action climb" id="climb">CLIMB¹</button><button class="action jump" id="jump">JUMP¹</button><span class="railsep"></span><button class="action" id="shoot">SHOOT</button><button class="action ammoAction" id="reload">RELOAD¹</button><button class="action" id="melee">MELEE¹</button><button class="action" id="gren">GRENADE¹</button><button class="action" id="gear">GEAR</button><button class="action" id="extinguish" style="display:none">EXTINGUISH¹</button><button class="action" id="salvage">SALVAGE²</button><button class="action" id="ow">OW¹</button><span class="railsep"></span><button class="action" id="end">END</button></div><div id="gamebar"><button class="mini" id="auto">AUTO OFF</button><button class="mini" id="speedBtn">SLOW</button><button class="mini" id="viewBtn">100%</button><button class="mini" id="optionsBtn">OPTIONS</button></div></div><div id="toast"></div><div id="shotMath" class="shotMath"></div><div id="deployPhase"><div class="deployHead"><div><div class="title" style="font-size:14px">TACTICAL DEPLOYMENT</div><div class="deployHint">Click one CREW miniature, then another to swap their starting positions. Click the same fighter again to cancel.</div></div><button id="deployReady" class="deployReady">READY // BEGIN</button></div></div><div id="optionsPop"><div class="title">DISPLAY / OPTIONS</div><button class="mini" id="themeBtn">THEME // PHOSPHOR</button><button class="mini" id="focusBtn">TURN CAM // OFF</button><button class="mini" id="manualBtn">FIELD MANUAL</button><div class="hint">Wheel zoom • middle/right drag • HOME reset<br>Ctrl+Shift+D developer tools</div></div><div id="debugbar">DEV MODE // BLACK BOX <span id="vcount">0 ERR</span><button class="mini" id="export">EXPORT DEBUG</button><button class="mini" id="runTests">RUN LOS TEST</button><span class="zoomHint">Ctrl+Shift+D hides/shows developer tools</span></div>
 <div id="setupOverlay"><div class="setupCard"><div class="title" style="font-size:18px">UNDERGRID // CREW LOADOUT</div><div class="muted">Choose exactly 4 fighters. SELECT changes the squad; DOSSIER opens the definitive character sheet. Your previous squad remains selected.</div><div id="crewColorBar" class="crewColorBar"><span>CREW COLOR //</span><button type="button" data-crew-color="#68d7ff" title="Cyan" style="--crew-swatch:#68d7ff"></button><button type="button" data-crew-color="#ff5f55" title="Red" style="--crew-swatch:#ff5f55"></button><button type="button" data-crew-color="#ff9b4a" title="Orange" style="--crew-swatch:#ff9b4a"></button><button type="button" data-crew-color="#ffe45e" title="Yellow" style="--crew-swatch:#ffe45e"></button><button type="button" data-crew-color="#ff66c7" title="Magenta" style="--crew-swatch:#ff66c7"></button><button type="button" data-crew-color="#b98cff" title="Violet" style="--crew-swatch:#b98cff"></button><button type="button" data-crew-color="#e8f2e8" title="White" style="--crew-swatch:#e8f2e8"></button><button type="button" data-crew-color="#9cff57" title="Acid Green" style="--crew-swatch:#9cff57"></button></div><div id="setupGrid" class="setupGrid"></div><div class="setupFooter"><div><span id="pickCount">0 / 4 selected</span><div class="weaponLegend"></div></div><button id="deployBtn" disabled>DEPLOY CREW</button></div><div class="campaignTools"><span class="label">CAMPAIGN DATA // BANK <span id="campaignBank">0</span> SCRIP // <span id="campaignBattles">0</span> BATTLES</span><button id="exportSave">EXPORT SAVE</button><button id="importSave">IMPORT SAVE</button><button id="resetCampaign" class="danger">RESET CAMPAIGN</button><input id="importSaveFile" type="file" accept="application/json,.json" hidden></div></div></div>
 <div id="overlay"><div class="modal"><h2 id="resultTitle"></h2><div id="resultBody"></div><button id="restart">NEW SEED</button><button id="same">REPLAY SEED</button></div></div></div>
@@ -3096,13 +3096,6 @@ const COMMON_WEAP=[];
 const COMMON_ARM=[];
 function economyInit(){campaign.economy=campaign.economy||{};if(!campaign.economy.foundationGrant){campaign.scrip=(campaign.scrip||0)+60;campaign.economy.foundationGrant=true;campaign.economy.ledger=campaign.economy.ledger||[];saveCampaign()}campaign.economy.ledger=campaign.economy.ledger||[]}
 window.undergridEconomyInit=economyInit;
-let supplyReturnArmory=false;
-function refreshArmoryAfterSupply(reason='transaction'){
- if(!supplyReturnArmory&&!$('armoryOverlay')?.classList.contains('show'))return;
- const run=()=>{try{if(typeof window.renderArmory==='function')window.renderArmory();else if(typeof renderArmory==='function')renderArmory()}catch(e){console.error('[SUPPLY ARMORY LIVE SYNC]',reason,e)}};
- queueMicrotask(run);
- requestAnimationFrame(()=>requestAnimationFrame(run));
-}
 
 function nextItemId(prefix){let a=campaign.armory;a.nextId=a.nextId||1;return prefix+String(a.nextId++).padStart(4,'0')}
 function makeMarketItem(kind,key){
@@ -3112,9 +3105,9 @@ function makeMarketItem(kind,key){
  return{id:nextItemId(kind==='WEAPON'?'W':kind==='ARMOR'?'A':'G'),kind,key,label,condition:100,mods:[],value,
   rarity:kind==='GEAR'?(g?.rarity||'COMMON'):(window.UNDERGRID_ARSENAL?.rarity?.(kind,key)||'COMMON'),acquired:'SUPPLY TERMINAL',kills:0,assignedTo:null,slot:null,traits}
 }
-function buy(kind,key){economyInit();let price=kind==='GEAR'?(GEAR_TYPES[key]?.value||20):(window.UNDERGRID_ARSENAL?.value?.(kind,key)||(BUY[key]||20));if((campaign.scrip||0)<price){feedback('SUPPLY','Insufficient scrip.','warn',1000);return}campaign.scrip-=price;campaign.armory.items.push(makeMarketItem(kind,key));campaign.economy.ledger.push({battle:campaign.battles||0,type:'PURCHASE',amount:-price,item:key});saveCampaign();renderSupply();renderSetup();refreshCampaignMeta();refreshArmoryAfterSupply('buy '+kind+' '+key);feedback('SUPPLY',`${kind==='WEAPON'?WEAP[key].label:kind==='ARMOR'?ARMOR[key].label+' ARMOR':GEAR_TYPES[key]?.label||key} added to stash.`,'good',1200)}
-function buyGrenade(key){economyInit();ensureGrenadeCampaign();let g=GRENADE_TYPES[key],price=g.value;if(!g)return;if((campaign.scrip||0)<price){feedback('SUPPLY','Insufficient scrip.','warn',1000);return}campaign.scrip-=price;campaign.grenadeStock[key]=(campaign.grenadeStock[key]||0)+1;campaign.economy.ledger.push({battle:campaign.battles||0,type:'PURCHASE',amount:-price,item:key,kind:'GRENADE'});saveCampaign();renderSupply();renderSetup();refreshCampaignMeta();refreshArmoryAfterSupply('buy grenade '+key);feedback('SUPPLY',`${g.label} added to grenade stock.`,'good',1200)}
-function sell(id){economyInit();let it=campaign.armory.items.find(x=>x.id===id);if(!it||it.assignedTo)return;let amount=Math.max(1,Math.floor((it.value||20)*.55));campaign.armory.items=campaign.armory.items.filter(x=>x.id!==id);campaign.scrip=(campaign.scrip||0)+amount;campaign.economy.ledger.push({battle:campaign.battles||0,type:'SALE',amount,item:it.key});saveCampaign();renderSupply();renderSetup();refreshCampaignMeta();refreshArmoryAfterSupply('sell '+it.id);feedback('SUPPLY',`${it.label} sold // +${amount} scrip.`,'good',1100)}
+function buy(kind,key){economyInit();let price=kind==='GEAR'?(GEAR_TYPES[key]?.value||20):(window.UNDERGRID_ARSENAL?.value?.(kind,key)||(BUY[key]||20));if((campaign.scrip||0)<price){feedback('SUPPLY','Insufficient scrip.','warn',1000);return}campaign.scrip-=price;campaign.armory.items.push(makeMarketItem(kind,key));campaign.economy.ledger.push({battle:campaign.battles||0,type:'PURCHASE',amount:-price,item:key});saveCampaign();renderSupply();if($('armoryOverlay')?.classList.contains('show'))renderArmory();renderSetup();refreshCampaignMeta();feedback('SUPPLY',`${kind==='WEAPON'?WEAP[key].label:kind==='ARMOR'?ARMOR[key].label+' ARMOR':GEAR_TYPES[key]?.label||key} added to stash.`,'good',1200)}
+function buyGrenade(key){economyInit();ensureGrenadeCampaign();let g=GRENADE_TYPES[key],price=g.value;if(!g)return;if((campaign.scrip||0)<price){feedback('SUPPLY','Insufficient scrip.','warn',1000);return}campaign.scrip-=price;campaign.grenadeStock[key]=(campaign.grenadeStock[key]||0)+1;campaign.economy.ledger.push({battle:campaign.battles||0,type:'PURCHASE',amount:-price,item:key,kind:'GRENADE'});saveCampaign();renderSupply();if($('armoryOverlay')?.classList.contains('show'))renderArmory();renderSetup();refreshCampaignMeta();feedback('SUPPLY',`${g.label} added to grenade stock.`,'good',1200)}
+function sell(id){economyInit();let it=campaign.armory.items.find(x=>x.id===id);if(!it||it.assignedTo)return;let amount=Math.max(1,Math.floor((it.value||20)*.55));campaign.armory.items=campaign.armory.items.filter(x=>x.id!==id);campaign.scrip=(campaign.scrip||0)+amount;campaign.economy.ledger.push({battle:campaign.battles||0,type:'SALE',amount,item:it.key});saveCampaign();renderSupply();if($('armoryOverlay')?.classList.contains('show'))renderArmory();renderSetup();refreshCampaignMeta();feedback('SUPPLY',`${it.label} sold // +${amount} scrip.`,'good',1100)}
 function supplyInfo(kind,key){
  let box=$('supplyInspect');if(!box)return;
  let title=key,body='',traits=[],rar='COMMON',value=0;
@@ -3170,9 +3163,9 @@ function renderSupply(){
  }).join('')||'<div class="muted" style="margin-top:10px">NO UNASSIGNED EQUIPMENT</div>';
  $('supplySell').querySelectorAll('[data-sell]').forEach(b=>b.onclick=()=>sell(b.dataset.sell))
 }
-function openSupply(){economyInit();supplyReturnArmory=!!$('armoryOverlay')?.classList.contains('show');$('supplyOverlay').classList.add('show');renderSupply()}
+function openSupply(){economyInit();$('supplyOverlay').classList.add('show');renderSupply()}
 window.undergridOpenSupply=openSupply;
-function closeSupply(){$('supplyOverlay').classList.remove('show');renderSetup();if(supplyReturnArmory)refreshArmoryAfterSupply('close supply');supplyReturnArmory=false}
+function closeSupply(){$('supplyOverlay').classList.remove('show');renderSetup()}
 $('supplyClose').onclick=closeSupply;
 // 1.37.1 canonical setup: economy initialization is owned by the canonical setup entrypoint.
 // Replace only campaign aftermath accounting. Tactical resolution and presentation FX are untouched.
@@ -3406,7 +3399,6 @@ function resolveWorldCycle(playerWon){
    campaign.economy.ledger.push({battle:campaign.battles||0,type:'CREW_UPKEEP',cycle:t.cycle,amount:-upkeep});
  }
  let r={cycle:t.cycle,playerWon,results,incomes,playerIncome,upkeep,netIncome:playerIncome-upkeep};
- try{window.UNDERGRID_PEOPLE?.resolveWorldCycleCareers?.(r,{playerTarget:t.playerPlan?.to||null,playerOpponentCrewId:game?.oppositionCrewId||null})}catch(e){console.error('[WORLD CAREER RESOLUTION]',e)}
  t.lastResolution=r;t.history.push({type:'CYCLE_RESOLUTION',...JSON.parse(JSON.stringify(r))});
  t.cycle++;t.phase='PLANNING';t.playerPlan=null;t.rivalPlans=[];t.claims={};
  let next=ownedBy('PLAYER').flatMap(s=>connections(s.id)).find(n=>n.owner!=='PLAYER');
@@ -6203,39 +6195,6 @@ RESULT // ${rep.counts.PASS} PASS // ${rep.counts.WARN} WARN // ${rep.counts.FAI
  if($('exportSave'))$('exportSave').onclick=exportCampaignSave;if($('adminExportSave'))$('adminExportSave').onclick=exportCampaignSave;
  try{let baseDebug=Game.prototype.debugExport;Game.prototype.debugExport=function(){let d=baseDebug.call(this);d.people={careerMode:this.careerMode||'DISPOSABLE',crew:this.fighters.map(f=>({name:f.name,id:f.fighterId||null,crewId:f.crewId||null,rank:f.rank||null,battleStats:f._careerBattle||null})),oppositionCrewId:this.oppositionCrewId||null};return d}}catch(e){}
 
- function worldCycleCareerSelection(crewId,cycle,targetId){
-  let ids=(campaign.rosters?.[crewId]||[]).slice(),r=rngFor(`WORLD|${cycle}|${targetId}|${crewId}`);
-  for(let i=ids.length-1;i>0;i--){let j=Math.floor(r()*(i+1));[ids[i],ids[j]]=[ids[j],ids[i]]}
-  return ids.slice(0,Math.min(4,ids.length));
- }
- function resolveWorldCycleCareers(resolution,context={}){
-  ensurePeople();if(!resolution?.results?.length)return{cycle:resolution?.cycle||0,battles:[]};
-  let report={cycle:resolution.cycle,battles:[]},seenDirect=false;
-  for(const result of resolution.results){
-    let crews=[...new Set((result.participants||[]).map(x=>x.crew).filter(id=>/^R[1-5]$/.test(id||'')))];
-    for(const crewId of crews){
-      if(!seenDirect&&result.target===context.playerTarget&&crewId===context.playerOpponentCrewId){seenDirect=true;continue}
-      let ids=worldCycleCareerSelection(crewId,resolution.cycle,result.target),won=result.after===crewId,rows=[];
-      for(const id of ids){
-        let p=personById(id);if(!p)continue;
-        let oldRank=p.rank||1,gain=1+(won?1:0),bs=EMPTY_STATS();bs.battles=1;if(won)bs.wins=1;
-        p.careerStats=mergeCareerStats(p.careerStats,bs);
-        p.xp=(p.xp||0)+gain;p.battles=(p.battles||0)+1;p.lastBattle=campaign.battles||0;p.lastResult=won?'WIN':'LOSS';p.lastLocation=result.name||result.target;
-        syncProgression(p);
-        if(p.rank>oldRank)addHistory(p,'RANK',`Reached RANK ${p.rank} // ${rankTitle(p.rank)} during a rival-world conflict.`,{oldRank,newRank:p.rank,worldCycle:resolution.cycle,target:result.target});
-        addHistory(p,'WORLD BATTLE',`${won?'Victory':'Defeat'} at ${result.name||result.target} // +${gain} XP.`,{result:won?'WIN':'LOSS',xp:gain,worldCycle:resolution.cycle,target:result.target,abstract:true});
-        let learned=autoAdvance(p);
-        rows.push({id:p.id,name:p.name,xpGain:gain,battles:p.battles,xp:p.xp,rank:p.rank,learned});
-      }
-      report.battles.push({crewId,target:result.target,name:result.name,won,fighters:rows});
-    }
-  }
-  if(report.battles.length){
-    campaign.worldCareerHistory=Array.isArray(campaign.worldCareerHistory)?campaign.worldCareerHistory:[];
-    campaign.worldCareerHistory.push(report);if(campaign.worldCareerHistory.length>18)campaign.worldCareerHistory.splice(0,campaign.worldCareerHistory.length-18);
-  }
-  return report;
- }
  function peopleAudit(){
   ensurePeople();let people=Object.values(campaign.people||{}),ids=new Set(people.map(p=>p.id)),rosterErrors=[],personErrors=[];
   for(const [crewId,roster] of Object.entries(campaign.rosters||{})){for(const id of roster||[])if(!ids.has(id))rosterErrors.push(`${crewId} -> missing ${id}`)}
@@ -6243,9 +6202,9 @@ RESULT // ${rep.counts.PASS} PASS // ${rep.counts.WARN} WARN // ${rep.counts.FAI
   let rivalRosterSizes=Object.fromEntries(Object.keys(RIVAL_NAMES).map(k=>[k,(campaign.rosters?.[k]||[]).length]));
   return{schema:SCHEMA,build:BUILD,people:people.length,playerRoster:(campaign.rosters?.PLAYER||[]).length,rivalRosterSizes,localRosters:Object.keys(campaign.rosters||{}).filter(k=>k.startsWith('LOCAL_')).length,skillFamilies:Object.fromEntries(FAMILIES.map(f=>[f,Object.values(SKILL_FAMILY).filter(x=>x===f).length])),thresholds:XP_THRESHOLDS.slice(),pendingPlayers:(campaign.rosters?.PLAYER||[]).map(personById).filter(p=>p?.pending>0).map(p=>({id:p.id,name:p.name,pending:p.pending})),rosterErrors,personErrors,pass:!rosterErrors.length&&!personErrors.length&&(campaign.rosters?.PLAYER||[]).length===6&&Object.values(rivalRosterSizes).every(n=>n===8)}
  }
- window.UNDERGRID_PEOPLE={build:BUILD,schema:SCHEMA,thresholds:XP_THRESHOLDS.slice(),families:FAMILIES.slice(),skills:{...SKILL_RULES},skillFamily:{...SKILL_FAMILY},injuries:copy(INJURY_CATALOG),scars:{...SCAR_CATALOG},ensure:ensurePeople,personById,personByName,derived:personDerivedStats,offers:id=>{let p=personById(id);return p?advanceOffersForPerson(p):[]},apply:(id,adv)=>{let p=personById(id);return p?applyAdvanceToPerson(p,adv):false},show:showPersonDossier,careerBattle:g=>g?.careerMode==='CAMPAIGN',resolveWorldCycleCareers,audit:peopleAudit};
+ window.UNDERGRID_PEOPLE={build:BUILD,schema:SCHEMA,thresholds:XP_THRESHOLDS.slice(),families:FAMILIES.slice(),skills:{...SKILL_RULES},skillFamily:{...SKILL_FAMILY},injuries:copy(INJURY_CATALOG),scars:{...SCAR_CATALOG},ensure:ensurePeople,personById,personByName,derived:personDerivedStats,offers:id=>{let p=personById(id);return p?advanceOffersForPerson(p):[]},apply:(id,adv)=>{let p=personById(id);return p?applyAdvanceToPerson(p,adv):false},show:showPersonDossier,careerBattle:g=>g?.careerMode==='CAMPAIGN',audit:peopleAudit};
  let campaignLab=[...document.querySelectorAll('#undergridLab .uglCard')].find(c=>c.querySelector('.uglCardTitle')?.textContent.trim()==='CAMPAIGN LAB');if(campaignLab&&!campaignLab.querySelector('#uglPeopleAudit')){let a=document.createElement('div');a.className='uglActions';a.innerHTML='<button id="uglPeopleAudit">RUN PEOPLE AUDIT</button>';campaignLab.appendChild(a);a.querySelector('button').onclick=()=>{let report=peopleAudit(),out=$('uglReport');if(out)out.textContent=`FIGHTERS BECOME PEOPLE // ${report.pass?'PASS':'CHECK'}\n`+JSON.stringify(report,null,2)}};
- let lab=document.querySelector('#undergridLab .uglVersion');if(lab)lab.innerHTML='<b>WORKING // 1.39.7 WORLD CAREER + SUPPLY LIVE SYNC</b><br>STABLE COMBAT REFERENCE // 1.38.4 WEAPON + GRENADE + MELEE INTEGRITY<br>CAREER // SHARED PLAYER + RIVAL FIGHTER SCHEMA<br>EXEMPT // HOTSEAT + FUTURE QUICK BATTLE ARE DISPOSABLE';
+ let lab=document.querySelector('#undergridLab .uglVersion');if(lab)lab.innerHTML='<b>WORKING // 1.39.5 CAMPAIGN SYSTEMS INTEGRITY + QUICK BATTLE</b><br>STABLE COMBAT REFERENCE // 1.38.4 WEAPON + GRENADE + MELEE INTEGRITY<br>CAREER // SHARED PLAYER + RIVAL FIGHTER SCHEMA<br>EXEMPT // HOTSEAT + FUTURE QUICK BATTLE ARE DISPOSABLE';
  if($('manual'))$('manual').insertAdjacentHTML('beforeend',`<p><b>FIGHTERS BECOME PEOPLE 1.39.0</b> // Campaign fighters are persistent entities first and tactical units second. Player fighters, five rival crews and unclaimed-site defenders share one fighter schema: stable ID, base stats, XP/rank, advancement state, skills, injuries/scars, behavior statistics, history and persistent loadout snapshot. Rival teams keep 8-person rosters and deploy 4 persistent fighters per battle; enemy kills, injuries, XP and skills survive into later encounters. HOTSEAT remains disposable and does not enter the career system. A future QUICK BATTLE should use the same disposable boundary.</p><p><b>ADVANCEMENT</b> // Advancement thresholds are 5 / 12 / 22 / 35 / 52 / 72 XP and continue with widening gaps. Offers are weighted by how that fighter actually behaves: shooting, melee, movement, survival, gear/grenade use and objective play. Six families are active: GUNNER, BRAWLER, AGILITY, SURVIVAL, TECH, LEADERSHIP. Rivals use the same offers and rules but choose automatically with light faction-doctrine weighting.</p><p><b>INJURIES + HISTORY</b> // Downed fighters can suffer source-aware minor, lasting or critical injuries, or scars. Falls/blasts, fire, shock, toxin, melee and ballistic trauma use different injury pools. Critical injuries already carry future cybernetic body hooks. Minor injuries recover as campaign battles pass. Dossiers record battles, kills, advancements, injuries, recoveries and scars.</p>`);
  ensurePeople(true);renderSetup();
 })();
@@ -7040,7 +6999,7 @@ RESULT // ${rep.counts.PASS} PASS // ${rep.counts.WARN} WARN // ${rep.counts.FAI
            known=fighters.filter(x=>x.p).length;
 
      body.innerHTML=`<div class="rivalIntelSummary"><b>${esc(crewName(selectedCrew))}</b> // ${known}/${ids.length} KNOWN FIGHTERS // ${turfCount(selectedCrew)} TURF // STR ${esc(crewStrength(selectedCrew))}<br>
-       Persistent career state is shown below. Named rivals advance from battles against you and from their own resolved Territory conflicts. Off-screen world battles currently award participation/victory XP and can trigger legal advancements; detailed abstract kills/injuries are reserved for the later population simulation. Current equipment is persistent roster loadout data; autonomous rival weapon-shopping/upgrading is not implemented yet.</div>
+       Persistent career state is shown below. XP, rank, skills, injuries, scars and kills advance across campaign encounters. Current equipment is persistent roster loadout data; autonomous rival weapon-shopping/upgrading is not implemented yet.</div>
        <div class="rivalIntelGrid">${fighters.length?fighters.map(x=>fighterCard(x.p,x.id)).join(''):'<div class="warn">NO ROSTER FOUND FOR THIS CREW.</div>'}</div>
        <div class="rivalIntelFoot">CLICK A FIGHTER // open their persistent dossier. Rival fighters use the same campaign-person progression rules as your crew.</div>`;
 
@@ -7498,10 +7457,8 @@ RESULT // ${rep.counts.PASS} PASS // ${rep.counts.WARN} WARN // ${rep.counts.FAI
          total:rivalIds.length,
          withBattles:rivalIds.filter(id=>(campaign.people?.[id]?.battles||0)>0).length,
          withXP:rivalIds.filter(id=>(campaign.people?.[id]?.xp||0)>0).length,
-         advanced:rivalIds.filter(id=>(campaign.people?.[id]?.advTaken||0)>0).length,
-         worldCareerCycles:(campaign.worldCareerHistory||[]).length
+         advanced:rivalIds.filter(id=>(campaign.people?.[id]?.advTaken||0)>0).length
        },
-       supplyLiveSync:{armoryOpen:!!document.getElementById('armoryOverlay')?.classList.contains('show'),supplyOpen:!!document.getElementById('supplyOverlay')?.classList.contains('show')},
        currentBattle:game?.careerMode==='CAMPAIGN'?{
          oppositionCrewId:game.oppositionCrewId||null,
          oppositionPersonIds:(game.oppositionPersonIds||[]).slice(),
@@ -7533,7 +7490,7 @@ RESULT // ${rep.counts.PASS} PASS // ${rep.counts.WARN} WARN // ${rep.counts.FAI
    const top=document.querySelector('.top .title');
    if(top)top.textContent='UNDERGRID // 1.39.6 // FIGHTERS BECOME PEOPLE INTEGRATION SEAL';
    const lab=document.querySelector('#undergridLab .uglVersion');
-   if(lab)lab.innerHTML='<b>WORKING // 1.39.7 WORLD CAREER + SUPPLY LIVE SYNC</b><br>PROTECTED ARCHITECTURE // 1.37.3 STABILITY SEAL<br>COMBAT CHECKPOINT // 1.38.4 WEAPON + GRENADE + MELEE INTEGRITY<br>CAMPAIGN // SHARED PLAYER + RIVAL PERSISTENT PEOPLE<br>EXEMPT // HOTSEAT + QUICK BATTLE ARE DISPOSABLE';
+   if(lab)lab.innerHTML='<b>WORKING // 1.39.6 FIGHTERS BECOME PEOPLE INTEGRATION SEAL</b><br>PROTECTED ARCHITECTURE // 1.37.3 STABILITY SEAL<br>COMBAT CHECKPOINT // 1.38.4 WEAPON + GRENADE + MELEE INTEGRITY<br>CAMPAIGN // SHARED PLAYER + RIVAL PERSISTENT PEOPLE<br>EXEMPT // HOTSEAT + QUICK BATTLE ARE DISPOSABLE';
  }
  // Registered after historical lifecycle listeners, so the current build label wins.
  setBuildLabels();
@@ -7573,82 +7530,6 @@ RESULT // ${rep.counts.PASS} PASS // ${rep.counts.WARN} WARN // ${rep.counts.FAI
  }
  window.UNDERGRID_INTEGRATION_AUDIT={build:BUILD,run};
  if(document.getElementById('manual'))document.getElementById('manual').insertAdjacentHTML('beforeend',`<p><b>INTEGRATION SEAL 1.39.6</b> // Full post-Stability-Seal review repaired the Fighters Become People load-time integration, verified shared persistent player/rival careers, removed duplicate advancement presentation, made AI grenade cluster logic self-safe, aligned Overwatch UI with weapon AP legality, and added a non-mutating whole-game diagnostic at <code>UNDERGRID_INTEGRATION_AUDIT.run()</code>.</p>`);
-})();
-</script>
-
-<script>
-(()=>{
- if(document.getElementById('manual'))document.getElementById('manual').insertAdjacentHTML('beforeend',`<p><b>WORLD CAREERS + SUPPLY LIVE SYNC 1.39.7</b> // Rival Territory orders now resolve as persistent career battles for the named fighters who represent each off-screen crew conflict. Four roster fighters are selected per participating crew/conflict, gain +1 participation XP and +1 victory XP when their crew wins, increment BATTLES, write history, rank normally and choose legal AI advancements. The specific rival crew already fought in the player's tactical battle is not double-counted for that same conflict. Supply transactions now use a canonical delayed Armory refresh and also refresh when Supply closes, so purchases appear in the Crew Stash without a browser reload.</p>`);
-})();
-</script>
-
-
-<script>
-/* UNDERGRID 1.39.7a // DEPLOY GATE HOTFIX
-   Post-battle campaign deploy could remain visually disabled even with four legal fighters
-   and a committed Territory attack. This late integrity gate derives legality from the
-   authoritative persistent-person state + current Territory plan, then owns the final
-   DEPLOY CREW disabled state after every setup render. */
-(()=>{
- 'use strict';
- const BUILD='1.39.7a';
-
- function pendingForDeploy(name){
-   try{
-     const p=window.UNDERGRID_PEOPLE?.personByName?.(name);
-     if(p)return Math.max(0,Number(p.pending)||0);
-   }catch(e){}
-   try{return Math.max(0,Number(cstate(name)?.pending)||0)}catch(e){return 0}
- }
- function strategy(){
-   try{return window.undergridEnsureStrategy?.()||null}catch(e){return null}
- }
- function audit(){
-   const dep=document.getElementById('deployBtn');
-   const picks=[...document.querySelectorAll('#setupGrid .pick:checked')];
-   const names=picks.map(p=>{
-     const card=p.closest('.recruit'),i=card?+card.dataset.i:NaN;
-     return Number.isFinite(i)&&CREW_POOL?.[i]?.name||null;
-   }).filter(Boolean);
-   const pending=names.map(name=>({name,pending:pendingForDeploy(name)})).filter(x=>x.pending>0);
-   const t=strategy(),target=t?.playerPlan?.to;
-   const targetNode=target&&typeof tnode==='function'?tnode(target):null;
-   const committed=!!(t&&t.phase==='COMMITTED'&&t.playerPlan&&targetNode&&targetNode.owner!=='PLAYER');
-   return {build:BUILD,picks:names.length,names,pending,phase:t?.phase||null,playerPlan:t?.playerPlan||null,target:targetNode?.name||null,committed,legal:names.length===4&&!pending.length&&committed,disabled:dep?.disabled??null};
- }
- function sync(reason='sync'){
-   const dep=document.getElementById('deployBtn');if(!dep)return false;
-   const a=audit();
-   dep.disabled=!a.legal;
-   dep.dataset.deployGate=BUILD;
-   if(a.legal)dep.title=`Deploy to ${a.target||'committed territory'}`;
-   else if(a.picks!==4)dep.title=`Choose exactly 4 fighters // ${a.picks} selected`;
-   else if(a.pending.length)dep.title=`Resolve advancement // ${a.pending.map(x=>x.name).join(', ')}`;
-   else if(!a.committed)dep.title='Open TERRITORY and commit a valid adjacent attack first';
-   else dep.title='Deployment unavailable';
-   return a.legal;
- }
-
- const gateway=window.UNDERGRID_LIFECYCLE_GATEWAY;
- if(gateway?.legacy?.renderSetup){
-   const previous=gateway.legacy.renderSetup;
-   gateway.legacy.renderSetup=function(){
-     const r=previous.apply(this,arguments);
-     sync('render');
-     queueMicrotask(()=>sync('microtask'));
-     requestAnimationFrame(()=>sync('frame'));
-     return r;
-   };
- }
- document.addEventListener('change',e=>{
-   if(e.target?.closest?.('#setupGrid'))queueMicrotask(()=>sync('crew change'));
- },true);
- document.addEventListener('click',e=>{
-   if(e.target?.closest?.('#territoryCommitPlan,#territoryCancelPlan,#territoryClose'))setTimeout(()=>sync('territory action'),0);
- },true);
-
- window.UNDERGRID_DEPLOY_GATE={build:BUILD,sync,audit};
- setTimeout(()=>sync('startup'),0);
 })();
 </script>
 

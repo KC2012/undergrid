@@ -7582,4 +7582,74 @@ RESULT // ${rep.counts.PASS} PASS // ${rep.counts.WARN} WARN // ${rep.counts.FAI
 })();
 </script>
 
+
+<script>
+/* UNDERGRID 1.39.7a // DEPLOY GATE HOTFIX
+   Post-battle campaign deploy could remain visually disabled even with four legal fighters
+   and a committed Territory attack. This late integrity gate derives legality from the
+   authoritative persistent-person state + current Territory plan, then owns the final
+   DEPLOY CREW disabled state after every setup render. */
+(()=>{
+ 'use strict';
+ const BUILD='1.39.7a';
+
+ function pendingForDeploy(name){
+   try{
+     const p=window.UNDERGRID_PEOPLE?.personByName?.(name);
+     if(p)return Math.max(0,Number(p.pending)||0);
+   }catch(e){}
+   try{return Math.max(0,Number(cstate(name)?.pending)||0)}catch(e){return 0}
+ }
+ function strategy(){
+   try{return window.undergridEnsureStrategy?.()||null}catch(e){return null}
+ }
+ function audit(){
+   const dep=document.getElementById('deployBtn');
+   const picks=[...document.querySelectorAll('#setupGrid .pick:checked')];
+   const names=picks.map(p=>{
+     const card=p.closest('.recruit'),i=card?+card.dataset.i:NaN;
+     return Number.isFinite(i)&&CREW_POOL?.[i]?.name||null;
+   }).filter(Boolean);
+   const pending=names.map(name=>({name,pending:pendingForDeploy(name)})).filter(x=>x.pending>0);
+   const t=strategy(),target=t?.playerPlan?.to;
+   const targetNode=target&&typeof tnode==='function'?tnode(target):null;
+   const committed=!!(t&&t.phase==='COMMITTED'&&t.playerPlan&&targetNode&&targetNode.owner!=='PLAYER');
+   return {build:BUILD,picks:names.length,names,pending,phase:t?.phase||null,playerPlan:t?.playerPlan||null,target:targetNode?.name||null,committed,legal:names.length===4&&!pending.length&&committed,disabled:dep?.disabled??null};
+ }
+ function sync(reason='sync'){
+   const dep=document.getElementById('deployBtn');if(!dep)return false;
+   const a=audit();
+   dep.disabled=!a.legal;
+   dep.dataset.deployGate=BUILD;
+   if(a.legal)dep.title=`Deploy to ${a.target||'committed territory'}`;
+   else if(a.picks!==4)dep.title=`Choose exactly 4 fighters // ${a.picks} selected`;
+   else if(a.pending.length)dep.title=`Resolve advancement // ${a.pending.map(x=>x.name).join(', ')}`;
+   else if(!a.committed)dep.title='Open TERRITORY and commit a valid adjacent attack first';
+   else dep.title='Deployment unavailable';
+   return a.legal;
+ }
+
+ const gateway=window.UNDERGRID_LIFECYCLE_GATEWAY;
+ if(gateway?.legacy?.renderSetup){
+   const previous=gateway.legacy.renderSetup;
+   gateway.legacy.renderSetup=function(){
+     const r=previous.apply(this,arguments);
+     sync('render');
+     queueMicrotask(()=>sync('microtask'));
+     requestAnimationFrame(()=>sync('frame'));
+     return r;
+   };
+ }
+ document.addEventListener('change',e=>{
+   if(e.target?.closest?.('#setupGrid'))queueMicrotask(()=>sync('crew change'));
+ },true);
+ document.addEventListener('click',e=>{
+   if(e.target?.closest?.('#territoryCommitPlan,#territoryCancelPlan,#territoryClose'))setTimeout(()=>sync('territory action'),0);
+ },true);
+
+ window.UNDERGRID_DEPLOY_GATE={build:BUILD,sync,audit};
+ setTimeout(()=>sync('startup'),0);
+})();
+</script>
+
 </body></html>

@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>UNDERGRID // 1.39.7e Advancement Banner Lock</title>
+<title>UNDERGRID // 1.39.7f Advancement Selector Fix</title>
 <style>
 :root{--bg:#010402;--panel:#031006;--panelGlass:#031006ee;--toolbar:#020b05ed;--bottom:#020805;--halo:#07160b;--g:#9dff7a;--dim:#5a8a5f;--enemy:#ffb060;--warn:#ffe37a;--cyan:#78e3dc;--red:#ff6d5c;--title:#c9ffaf;--border:#1e4825;--border2:#3c8245;--button:#061409;--buttonOn:#14361a;--scan:#8fff8710;--glow:#071;--glowInner:#0b3515;--glowOuter:#051709}
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--g);font:13px Consolas,Monaco,monospace}
@@ -463,7 +463,7 @@
 </style>
 
 </head><body><div id="app"><div id="stage"><canvas id="c"></canvas><div class="scan"></div>
-<div class="top"><div class="box"><span class="title">UNDERGRID // 1.39.7e // ADVANCEMENT BANNER LOCK</span><br><span id="mission"></span></div><div class="box" id="phase"></div></div>
+<div class="top"><div class="box"><span class="title">UNDERGRID // 1.39.7f // ADVANCEMENT SELECTOR FIX</span><br><span id="mission"></span></div><div class="box" id="phase"></div></div>
 <div id="controlrail"><div id="status"></div><div id="toolbar"><button class="action on" id="move">MOVE¹</button><button class="action climb" id="climb">CLIMB¹</button><button class="action jump" id="jump">JUMP¹</button><span class="railsep"></span><button class="action" id="shoot">SHOOT</button><button class="action ammoAction" id="reload">RELOAD¹</button><button class="action" id="melee">MELEE¹</button><button class="action" id="gren">GRENADE¹</button><button class="action" id="gear">GEAR</button><button class="action" id="extinguish" style="display:none">EXTINGUISH¹</button><button class="action" id="salvage">SALVAGE²</button><button class="action" id="ow">OW¹</button><span class="railsep"></span><button class="action" id="end">END</button></div><div id="gamebar"><button class="mini" id="auto">AUTO OFF</button><button class="mini" id="speedBtn">SLOW</button><button class="mini" id="viewBtn">100%</button><button class="mini" id="optionsBtn">OPTIONS</button></div></div><div id="toast"></div><div id="shotMath" class="shotMath"></div><div id="deployPhase"><div class="deployHead"><div><div class="title" style="font-size:14px">TACTICAL DEPLOYMENT</div><div class="deployHint">Click one CREW miniature, then another to swap their starting positions. Click the same fighter again to cancel.</div></div><button id="deployReady" class="deployReady">READY // BEGIN</button></div></div><div id="optionsPop"><div class="title">DISPLAY / OPTIONS</div><button class="mini" id="themeBtn">THEME // PHOSPHOR</button><button class="mini" id="focusBtn">TURN CAM // OFF</button><button class="mini" id="manualBtn">FIELD MANUAL</button><div class="hint">Wheel zoom • middle/right drag • HOME reset<br>Ctrl+Shift+D developer tools</div></div><div id="debugbar">DEV MODE // BLACK BOX <span id="vcount">0 ERR</span><button class="mini" id="export">EXPORT DEBUG</button><button class="mini" id="runTests">RUN LOS TEST</button><span class="zoomHint">Ctrl+Shift+D hides/shows developer tools</span></div>
 <div id="setupOverlay"><div class="setupCard"><div class="title" style="font-size:18px">UNDERGRID // CREW LOADOUT</div><div class="muted">Choose exactly 4 fighters. SELECT changes the squad; DOSSIER opens the definitive character sheet. Your previous squad remains selected.</div><div id="crewColorBar" class="crewColorBar"><span>CREW COLOR //</span><button type="button" data-crew-color="#68d7ff" title="Cyan" style="--crew-swatch:#68d7ff"></button><button type="button" data-crew-color="#ff5f55" title="Red" style="--crew-swatch:#ff5f55"></button><button type="button" data-crew-color="#ff9b4a" title="Orange" style="--crew-swatch:#ff9b4a"></button><button type="button" data-crew-color="#ffe45e" title="Yellow" style="--crew-swatch:#ffe45e"></button><button type="button" data-crew-color="#ff66c7" title="Magenta" style="--crew-swatch:#ff66c7"></button><button type="button" data-crew-color="#b98cff" title="Violet" style="--crew-swatch:#b98cff"></button><button type="button" data-crew-color="#e8f2e8" title="White" style="--crew-swatch:#e8f2e8"></button><button type="button" data-crew-color="#9cff57" title="Acid Green" style="--crew-swatch:#9cff57"></button></div><div id="setupGrid" class="setupGrid"></div><div class="setupFooter"><div><span id="pickCount">0 / 4 selected</span><div class="weaponLegend"></div></div><button id="deployBtn" disabled>DEPLOY CREW</button></div><div class="campaignTools"><span class="label">CAMPAIGN DATA // BANK <span id="campaignBank">0</span> SCRIP // <span id="campaignBattles">0</span> BATTLES</span><button id="exportSave">EXPORT SAVE</button><button id="importSave">IMPORT SAVE</button><button id="resetCampaign" class="danger">RESET CAMPAIGN</button><input id="importSaveFile" type="file" accept="application/json,.json" hidden></div></div></div>
 <div id="overlay"><div class="modal"><h2 id="resultTitle"></h2><div id="resultBody"></div><button id="restart">NEW SEED</button><button id="same">REPLAY SEED</button></div></div></div>
@@ -6537,7 +6537,7 @@ RESULT // ${rep.counts.PASS} PASS // ${rep.counts.WARN} WARN // ${rep.counts.FAI
  }
  guardedSetup.__undergridCanonical='1.39.1a-six-card-postcondition';
  gateway.legacy.renderSetup=guardedSetup;
- window.UNDERGRID_SETUP_INTEGRITY={build:BUILD,expected:EXPECTED,audit:()=>({expected:EXPECTED(),actual:document.querySelectorAll('#setupGrid>.recruit').length,names:[...document.querySelectorAll('#setupGrid>.recruit h3')].map(x=>x.textContent.trim()),lastError:lastError?String(lastError?.stack||lastError):null})};
+ window.UNDERGRID_SETUP_INTEGRITY={build:BUILD,expected:EXPECTED,audit:()=>({expected:EXPECTED(),actual:document.querySelectorAll('#setupGrid .recruit').length,names:[...document.querySelectorAll('#setupGrid .recruit h3')].map(x=>x.textContent.trim()),lastError:lastError?String(lastError?.stack||lastError):null})};
 
  // The page's initial setup was painted before this late integrity patch loaded. Repaint once
  // through the existing public gateway so the postcondition is active immediately on open.
@@ -6740,7 +6740,7 @@ RESULT // ${rep.counts.PASS} PASS // ${rep.counts.WARN} WARN // ${rep.counts.FAI
        if(r)open(r.name);
      };
    });
-   for(const card of document.querySelectorAll('#setupGrid>.recruit')){
+   for(const card of document.querySelectorAll('#setupGrid .recruit')){
      const r=CREW_POOL?.[+card.dataset.i],pending=r?pendingFor(r.name):0;
      card.classList.toggle('hasPendingAdvance',pending>0);
      const title=card.querySelector('.advtitle');
@@ -6779,7 +6779,7 @@ RESULT // ${rep.counts.PASS} PASS // ${rep.counts.WARN} WARN // ${rep.counts.FAI
    audit(){
      return {
        build:'1.39.3a',
-       setupCards:document.querySelectorAll('#setupGrid>.recruit').length,
+       setupCards:document.querySelectorAll('#setupGrid .recruit').length,
        dossierButtons:document.querySelectorAll('#setupGrid .dossierBtn').length,
        pendingNotices:document.querySelectorAll('#setupGrid .advtitle').length,
        canonicalPanel:document.querySelectorAll('#canonicalDossierAdvancement').length,
@@ -6892,7 +6892,7 @@ RESULT // ${rep.counts.PASS} PASS // ${rep.counts.WARN} WARN // ${rep.counts.FAI
    build:'1.39.4',
    redraw:stablePreviewRedraw,
    audit:()=>({
-     cards:document.querySelectorAll('#setupGrid>.recruit').length,
+     cards:document.querySelectorAll('#setupGrid .recruit').length,
      canvases:[...document.querySelectorAll('#setupGrid .recruitPreview')].map(c=>({
        css:[Math.round(c.clientWidth),Math.round(c.clientHeight)],
        pixels:[c.width,c.height]
@@ -7570,7 +7570,7 @@ RESULT // ${rep.counts.PASS} PASS // ${rep.counts.WARN} WARN // ${rep.counts.FAI
    const add=(id,pass,detail)=>rows.push({id,pass:!!pass,detail});
    const people=window.UNDERGRID_PEOPLE;
    let pa=null;try{pa=people?.audit?.()}catch(e){pa={error:e.message}}
-   const setup=[...document.querySelectorAll('#setupGrid>.recruit')];
+   const setup=[...document.querySelectorAll('#setupGrid .recruit')];
    add('SETUP_SIX_FIGHTERS',setup.length===6,`${setup.length}/6 cards`);
    add('PEOPLE_API',!!people&&people.schema==='UNDERGRID_FIGHTER_V2',people?`${people.build} // ${people.schema}`:'missing');
    add('PEOPLE_AUDIT',!!pa&&!pa.error&&(!Array.isArray(pa.errors)||pa.errors.length===0),pa?.error||`${pa?.people??'?'} people`);
@@ -7761,7 +7761,7 @@ RESULT // ${rep.counts.PASS} PASS // ${rep.counts.WARN} WARN // ${rep.counts.FAI
 
  function sync(reason='manual'){
    try{window.UNDERGRID_PEOPLE?.ensure?.()}catch(e){}
-   const rows=[...document.querySelectorAll('#setupGrid>.recruit')].map(syncCard).filter(Boolean);
+   const rows=[...document.querySelectorAll('#setupGrid .recruit')].map(syncCard).filter(Boolean);
    try{window.UNDERGRID_DOSSIER?.rebind?.()}catch(e){console.error('[UNDERGRID ADV VIS REBIND]',reason,e)}
    return rows;
  }
@@ -7931,7 +7931,7 @@ RESULT // ${rep.counts.PASS} PASS // ${rep.counts.WARN} WARN // ${rep.counts.FAI
  }
  function sync(reason='manual'){
    try{window.UNDERGRID_ADVANCEMENT_VISIBILITY?.sync?.(`banner-base:${reason}`)}catch(e){}
-   return [...document.querySelectorAll('#setupGrid>.recruit')].map(place).filter(Boolean);
+   return [...document.querySelectorAll('#setupGrid .recruit')].map(place).filter(Boolean);
  }
  const grid=document.getElementById('setupGrid');
  if(grid&&typeof MutationObserver!=='undefined'){
@@ -7950,6 +7950,34 @@ RESULT // ${rep.counts.PASS} PASS // ${rep.counts.WARN} WARN // ${rep.counts.FAI
  };
  setTimeout(()=>sync('startup'),0);
  requestAnimationFrame(()=>requestAnimationFrame(()=>sync('double frame')));
+})();
+</script>
+
+
+<script>
+(()=>{
+ 'use strict';
+ const BUILD='1.39.7f';
+ window.UNDERGRID_ADVANCEMENT_SELECTOR_FIX={
+   build:BUILD,
+   audit(){
+     const direct=document.querySelectorAll('#setupGrid>.recruit').length;
+     const nested=document.querySelectorAll('#setupGrid .recruit').length;
+     const pending=[...document.querySelectorAll('#setupGrid .recruit')].map(c=>{
+       const i=+c.dataset.i,name=window.CREW_POOL?.[i]?.name;
+       let p=0;
+       try{window.UNDERGRID_PEOPLE?.ensure?.();p=Number(window.UNDERGRID_PEOPLE?.personByName?.(name,'PLAYER')?.pending)||0}catch(e){}
+       return {name,pending:p,notice:!!c.querySelector('.advDossierLink'),dossierGlow:!!c.querySelector('.dossierBtn.pendingAdvance')};
+     });
+     return {build:BUILD,direct,nested,pending,pass:nested>0};
+   }
+ };
+ setTimeout(()=>{
+   try{window.UNDERGRID_ADVANCEMENT_VISIBILITY?.sync?.('1.39.7f startup')}
+   catch(e){}
+   try{window.UNDERGRID_ADVANCEMENT_BANNER?.sync?.('1.39.7f startup')}
+   catch(e){}
+ },0);
 })();
 </script>
 

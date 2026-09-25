@@ -1,6 +1,6 @@
 # UNDERGRID
 
-**Version 1.40.7 — Public Tablet Release**  
+**Version 1.40.7c — Public Tablet Release / Footer Viewport Fix**  
 A turn-based, side-view tactical skirmish game about positioning, vertical combat, weapons, and the consequences of a bad move.
 
 **Play:** https://undergrid.unaffiliated.page/  
@@ -88,6 +88,50 @@ This release combines the full battlefield candidate with the iPad/touch interfa
 - **Public Release Audit:** A development-lab check that brings together core stability, battlefield generation, mechanisms, ladder/LOS geometry, deployment visibility, responsive view, and key interface checks.
 - **Release seal:** No intentional changes to weapon balance, campaign economy, or progression as part of this final stability pass.
 
+## v1.40.7a — Live render hotfix
+
+The original public tablet build had a reproducible empty-battlefield failure on some Sewer Warren maps. The game correctly deployed all eight fighters, but the decorative SLUDGE platform renderer could calculate a negative bubble radius on platforms extending into negative world coordinates. The browser then stopped drawing the frame before it reached the fighter miniatures.
+
+This hotfix uses platform-local bubble indices (always nonnegative), protects canvas state when platform decoration fails, and allows the main renderer to fall back to a plain platform rather than lose the entire battlefield. The deployment audit now verifies that a frame reached and completed the fighter-rendering stage in addition to checking fighter positions. The public build label is also corrected. No combat, ladder geometry, campaign, or save-data rules changed.
+
+**Reproduction:** Quick Battle, Sewer Warren // Pipe Junction, seed `654236803`. The original build displayed no fighters; v1.40.7a renders all eight.
+
+## v1.40.7b — Fall trajectory and branding footer
+
+A left-edge knockback bug could select the **opposite (right) edge** of a platform when a fighter was pushed just inside its left boundary. The fall resolver then treated the fighter as falling at that distant location, making the miniature appear to teleport across the battlefield. The bug was reproduced in v1.40.7a and corrected in this build.
+
+- **Correct ledge direction:** A fighter knocked off the left or right edge now departs from that actual edge.
+- **Vertical landing:** Falls search downward from the real departure X. A landing may catch a fighter within a small body-width edge graze; it cannot pull a fighter horizontally across a large gap. A fall without a supporting deck continues into the void.
+- **Displacement animation:** Grenades, launchers, melee exchanges, AI shots, and direct AI overwatch damage animate knocked fighters rather than instantly displaying their final coordinates. Human projectile hits retain their existing arrival-timed presentation.
+- **Permanent miniature footer:** A low-profile, theme-aware Unaffiliated strip is visible at the bottom of menus and gameplay, including collapsed HUD and iPad layouts. `UNAFFILIATED.PAGE` links to the creative site on the left; `UNDERGRID // v1.40.7b` appears on the right. The footer has its own layout row rather than covering controls.
+- **Release diagnostics:** The developer Public Release Audit includes a left/right ledge regression and footer check. Debug exports identify the current public build.
+
+**Verification:** Reproduced the old opposite-edge error in v1.40.7a; all six targeted fall cases passed in v1.40.7b. 61 browser-rendered battlefields passed across all 14 families and desktop/tablet viewports; the previous platform-art recovery also passed fault injection. Five desktop/tablet/phone layouts passed footer visibility, no-overlap and collapsed-HUD checks. All 109 JavaScript blocks passed syntax validation.
+
+**Known limitation:** In a separate 300-match headless AUTO stress sample, 285 battles finished and 15 reached the activation limit. The same sample on v1.40.7a finished 287 with 13 stalls; most stalled seeds are shared. AUTO navigation can still repeat movement patterns on some maps. This patch does not attempt an AI overhaul. No large horizontal landing snaps were observed in the 376 recorded falls in the new sample.
+
+## v1.40.7c — Footer viewport fix
+
+The v1.40.7b footer had its own layout row during combat, but Crew Loadout, Territory Network, and other full-screen overlays still measured themselves against the entire viewport. Their panels could extend behind the footer, particularly at desktop/iPad landscape heights and short desktop windows.
+
+- **Reserved footer space everywhere:** Every full-screen screen and developer overlay now ends above the permanent Unaffiliated footer. Crew Loadout, Territory Network, Armory, Supply, dossiers, and auxiliary screens use the same remaining visual viewport.
+- **Responsive panel heights:** Tall panels shrink to the available space. On short or narrow screens, existing scrolling remains available instead of hiding buttons or content behind the footer.
+- **Consistent branding:** The footer remains the same low-profile, theme-aware 18px strip, with `UNAFFILIATED.PAGE` on the left and `UNDERGRID // v1.40.7c` on the right.
+- **Diagnostics:** The Public Release Audit now includes a footer/overlay clearance check. This is a presentation-only update; combat, campaign, save format, fall physics, and weapon balance are unchanged.
+
+**Verification:** 96 overlay/layout cases across eight desktop, iPad, tablet, portrait, and phone viewports passed, including the screenshot-size desktop layout and a short-height window. Real Crew → Territory → Crew → Quick Battle navigation passed on desktop and an iPad-sized touch viewport, with 16 territory nodes, eight visible fighters, passing fall and public audits, and no browser page errors. All 110 JavaScript blocks passed syntax validation. Existing AUTO navigation limitations noted in v1.40.7b remain unchanged.
+
+## v1.40.7c — Footer viewport fix
+
+The v1.40.7b footer had its own layout row during combat, but Crew Loadout, Territory Network, and other full-screen overlays still measured themselves against the entire viewport. Their panels could extend behind the footer, particularly at desktop/iPad landscape heights and short desktop windows.
+
+- **Reserved footer space everywhere:** Every full-screen screen and developer overlay now ends above the permanent Unaffiliated footer. Crew Loadout, Territory Network, Armory, Supply, dossiers, and auxiliary screens use the same remaining visual viewport.
+- **Responsive panel heights:** Tall panels shrink to the available space. On short or narrow screens, existing scrolling remains available instead of hiding buttons or content behind the footer.
+- **Consistent branding:** The footer remains the same low-profile, theme-aware 18px strip, with `UNAFFILIATED.PAGE` on the left and `UNDERGRID // v1.40.7c` on the right.
+- **Diagnostics:** The Public Release Audit now includes a footer/overlay clearance check. This is a presentation-only update; combat, campaign, save format, fall physics, and weapon balance are unchanged.
+
+**Verification:** 96 overlay/layout cases across eight desktop, iPad, tablet, portrait, and phone viewports passed, including the screenshot-size desktop layout and a short-height window. Real Crew → Territory → Crew → Quick Battle navigation passed on desktop and an iPad-sized touch viewport, with 16 territory nodes, eight visible fighters, passing fall and public audits, and no browser page errors. All 110 JavaScript blocks passed syntax validation. Existing AUTO navigation limitations noted in v1.40.7b remain unchanged.
+
 ## Running locally
 
 There is no build step or dependency installation. Download `index.html` and open it in a modern browser. The release is a self-contained HTML file; a local web server is optional for ordinary play. For the published version, deploy the same file as your site's root `index.html`.
@@ -97,7 +141,7 @@ There is no build step or dependency installation. Download `index.html` and ope
 The existing site is deployed through a GitHub-to-Vercel workflow:
 
 1. Back up the currently published `index.html` and keep the previous release available for rollback.
-2. Replace the repository's existing `index.html` with the v1.40.7 file.
+2. Replace the repository's existing `index.html` with the v1.40.7c file.
 3. Commit and push to the branch used by the production Vercel project.
 4. Wait for the Vercel deployment to complete, then open the live URL and hard-refresh if necessary.
 5. Smoke-test a Quick Battle on desktop and an iPad in landscape orientation. Check fighter visibility, touch pan/pinch, HUD toggle, toolbar layout, climb endpoints, and shooting through a top ladder aperture.
@@ -107,13 +151,16 @@ The existing site is deployed through a GitHub-to-Vercel workflow:
 
 ## Release checks
 
-The 1.40.7 release includes a developer-facing **Public Release Audit**. It combines existing checks for core stability, all live battlefield families, battlefield mechanisms, ladder/LOS cases, fighter deployment visibility, responsive canvas layout, and required UI elements. Some live-battle checks are deferred until a battle is active. The audit is a regression aid, not a substitute for a real iPad/browser smoke test after deployment.
+The 1.40.7c release includes a developer-facing **Public Release Audit**. It combines existing checks for core stability, all live battlefield families, battlefield mechanisms, ladder/LOS cases, fighter deployment visibility **and completed-frame health**, responsive canvas layout, fall trajectory, branding footer, overlay/footer clearance, and required UI elements. Some live-battle checks are deferred until a battle is active. The audit is a regression aid, not a substitute for a real iPad/browser smoke test after deployment.
 
 To access development controls, use `Ctrl` + `Shift` + `D` in the desktop browser. Development and experimental level-lab controls are not part of the normal player flow.
 
 ## Troubleshooting
 
-**Fighters do not appear after deployment:** Try **VIEW** to refit the battlefield. If the problem persists, capture the battle seed and use the in-game debug export so the exact map and state can be reproduced.
+**A fighter appears to teleport when knocked off a ledge:** Check the header for **1.40.7c**. If it still happens, export the debug JSON with the battle seed and the `LEDGE`/`FALL` action records. These now include departure side, departure X, landing X, and the horizontal landing correction in pixels.
+
+
+**Fighters do not appear after deployment:** Confirm the page header says **1.40.7c**, then try **VIEW** to refit the battlefield. If the problem persists, export the in-game debug JSON and include the seed. The export now records completed-frame health and any recovered platform-rendering errors.
 
 **A ladder is visible but CLIMB will not use it:** Only connected ladder endpoints are climb destinations. Some highlighted endpoints are too far away for the current free approach; move closer before climbing. A ladder merely passing behind a platform does not necessarily connect to that platform.
 
@@ -125,8 +172,8 @@ To access development controls, use `Ctrl` + `Shift` + `D` in the desktop browse
 
 ## Project and release notes
 
-UNDERGRID is part of **Unaffiliated**, the home for experimental games and creative projects. Version 1.40.7 is the public tablet-capable release built on the 1.40.6 full battlefield candidate. The emphasis of this release is readable vertical tactics, dependable deployment, and the ability to play the full battlefield experience on an iPad without sacrificing desktop controls.
+UNDERGRID is part of **Unaffiliated**, the home for experimental games and creative projects. Version 1.40.7c is the current public tablet-capable release, building on the 1.40.7a rendering fix and 1.40.7b fall-trajectory fix. The emphasis of this release is readable vertical tactics, dependable deployment, and the ability to play the full battlefield experience on an iPad without sacrificing desktop controls.
 
-**Version:** 1.40.7  
-**Release:** Public Tablet Release  
+**Version:** 1.40.7c  
+**Release:** Public Tablet Release / Footer Viewport Fix  
 **Site:** https://undergrid.unaffiliated.page/

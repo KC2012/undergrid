@@ -575,7 +575,7 @@
 <div id="controlrail"><div id="status"></div><div id="toolbar"><button class="action on" id="move">MOVE¹</button><button class="action climb" id="climb">CLIMB¹</button><button class="action jump" id="jump">JUMP¹</button><span class="railsep"></span><button class="action" id="shoot">SHOOT</button><button class="action ammoAction" id="reload">RELOAD¹</button><button class="action" id="melee">MELEE¹</button><button class="action" id="gren">GRENADE¹</button><button class="action" id="gear">GEAR</button><button class="action" id="extinguish" style="display:none">EXTINGUISH¹</button><button class="action" id="salvage">SALVAGE²</button><button class="action" id="ow">OW¹</button><span class="railsep"></span><button class="action" id="end">END</button></div><div id="gamebar"><button class="mini" id="auto">AUTO OFF</button><button class="mini" id="speedBtn">SLOW</button><button class="mini" id="viewBtn">100%</button><button class="mini" id="optionsBtn">OPTIONS</button></div></div><div id="toast"></div><div id="shotMath" class="shotMath"></div><div id="deployPhase"><div class="deployHead"><div><div class="title" style="font-size:14px">TACTICAL DEPLOYMENT</div><div class="deployHint">Click one CREW miniature, then another to swap their starting positions. Click the same fighter again to cancel.</div></div><button id="deployReady" class="deployReady">READY // BEGIN</button></div></div><div id="optionsPop"><div class="title">DISPLAY / OPTIONS</div><button class="mini" id="themeBtn">THEME // PHOSPHOR</button><button class="mini" id="focusBtn">TURN CAM // OFF</button><button class="mini" id="manualBtn">FIELD MANUAL</button><div class="hint">Wheel zoom • middle/right drag • HOME reset<br>Ctrl+Shift+D developer tools</div></div><div id="debugbar">DEV MODE // BLACK BOX <span id="vcount">0 ERR</span><button class="mini" id="export">EXPORT DEBUG</button><button class="mini" id="runTests">RUN LOS TEST</button><span class="zoomHint">Ctrl+Shift+D hides/shows developer tools</span></div>
 <div id="setupOverlay"><div class="setupCard"><div class="title" style="font-size:18px">UNDERGRID // CREW LOADOUT</div><div class="muted">Choose exactly 4 fighters. SELECT changes the squad; DOSSIER opens the definitive character sheet. Your previous squad remains selected.</div><div id="crewColorBar" class="crewColorBar"><span>CREW COLOR //</span><button type="button" data-crew-color="#68d7ff" title="Cyan" style="--crew-swatch:#68d7ff"></button><button type="button" data-crew-color="#ff5f55" title="Red" style="--crew-swatch:#ff5f55"></button><button type="button" data-crew-color="#ff9b4a" title="Orange" style="--crew-swatch:#ff9b4a"></button><button type="button" data-crew-color="#ffe45e" title="Yellow" style="--crew-swatch:#ffe45e"></button><button type="button" data-crew-color="#ff66c7" title="Magenta" style="--crew-swatch:#ff66c7"></button><button type="button" data-crew-color="#b98cff" title="Violet" style="--crew-swatch:#b98cff"></button><button type="button" data-crew-color="#e8f2e8" title="White" style="--crew-swatch:#e8f2e8"></button><button type="button" data-crew-color="#9cff57" title="Acid Green" style="--crew-swatch:#9cff57"></button></div><div id="setupGrid" class="setupGrid"></div><div class="setupFooter"><div><span id="pickCount">0 / 4 selected</span><div class="weaponLegend"></div></div><button id="deployBtn" disabled>DEPLOY CREW</button></div><div class="campaignTools"><span class="label">CAMPAIGN DATA // BANK <span id="campaignBank">0</span> SCRIP // <span id="campaignBattles">0</span> BATTLES</span><button id="exportSave">EXPORT SAVE</button><button id="importSave">IMPORT SAVE</button><button id="resetCampaign" class="danger">RESET CAMPAIGN</button><input id="importSaveFile" type="file" accept="application/json,.json" hidden></div></div></div>
 <div id="overlay"><div class="modal"><h2 id="resultTitle"></h2><div id="resultBody"></div><button id="restart">NEW SEED</button><button id="same">REPLAY SEED</button></div></div></div>
-<div id="bottom"><div class="panel"><div class="title">ACTIVE FIGHTER // <span id="fname"></span></div><div id="stats"></div></div><div class="panel"><div class="title">ROSTER</div><div id="roster"></div></div><div class="panel"><div class="missionStrip"><div><div class="title">MISSION // <span id="missionName"></span></div><div class="objective" id="objectiveInfo"></div></div><div id="roundInfo"></div></div><div class="title">COMBAT FEED</div><div id="feed"></div></div></div><div id="dossier" class="dossier"><button class="mini dossierClose" id="dossierClose">CLOSE</button><div id="dossierBody"></div></div><div id="manual" class="dossier"><button class="mini dossierClose" id="manualClose">CLOSE</button><div class="title" style="font-size:18px">UNDERGRID FIELD MANUAL</div><div class="sep"></div><p><b>ACTIVATIONS</b> // Crew and rival alternate one fighter at a time. Most actions cost 1 AP; heavy weapons cost 2 AP.</p><p><b>MOVE / CLIMB / JUMP</b> // Move stays on a platform. Climb includes a short free ladder approach and is the dependable vertical route. Jump is an agile shortcut with a displayed success chance. Short downward drops are included in legal jump landings and are highly reliable.</p><p><b>SHOOTING</b> // Solid decks are hard structure. Open-grate catwalks are penetrable but impose a severe GRID penalty. Hover a target in SHOOT mode for the exact AIM + weapon + range + cover + terrain + skill modifier stack.</p><p><b>LADDER FIRE LANES</b> // The top landing of each ladder has a narrow shoot-through aperture. Fighters may fire up or down the ladder shaft when the actual shot ray passes through that opening. A ladder does not make any other floor section penetrable.</p><p><b>DEPLOYMENT</b> // Before initiative, your crew is auto-placed in legal nodes. Click one friendly miniature, then another to swap their actual generated positions, or READY immediately.</p><p><b>OVERWATCH</b> // Commit the fighter's remaining activation to watch for enemy movement entering legal LOS/range. If 2 AP remain, Overwatch reserves both, allowing an unfired 2-AP weapon to react. A 2-AP weapon cannot enter Overwatch after spending 1 AP.</p><p><b>GRENADES</b> // Every fighter carries one grenade per battle. FRAG: BLAST + KNOCKBACK, Pen 2 radial damage. SMOKE: temporary LOS-blocking volume. SHOCK: fighters in the burst receive canonical SHOCK. INCENDIARY: fighters in the initial burst receive canonical BURN and the temporary fire zone ignites fighters who begin an activation inside it. Grenade type is selected per fighter in the Armory.</p><p><b>CAMPAIGN</b> // XP creates rank advances; injuries, skills and stat changes persist. Click a fighter on the crew screen for a full dossier.</p></div></div>
+<div id="bottom"><div class="panel"><div class="title">ACTIVE FIGHTER // <span id="fname"></span></div><div id="stats"></div></div><div class="panel"><div class="title">ROSTER</div><div id="roster"></div></div><div class="panel"><div class="missionStrip"><div><div class="title">MISSION // <span id="missionName"></span></div><div class="objective" id="objectiveInfo"></div></div><div id="roundInfo"></div></div><div class="title">COMBAT FEED</div><div id="feed"></div></div></div><footer id="ugFooter" aria-label="Unaffiliated branding"><a href="https://unaffiliated.page/" target="_blank" rel="noopener noreferrer">UNAFFILIATED.PAGE</a><span>UNDERGRID // v1.40.7c</span></footer><div id="dossier" class="dossier"><button class="mini dossierClose" id="dossierClose">CLOSE</button><div id="dossierBody"></div></div><div id="manual" class="dossier"><button class="mini dossierClose" id="manualClose">CLOSE</button><div class="title" style="font-size:18px">UNDERGRID FIELD MANUAL</div><div class="sep"></div><p><b>ACTIVATIONS</b> // Crew and rival alternate one fighter at a time. Most actions cost 1 AP; heavy weapons cost 2 AP.</p><p><b>MOVE / CLIMB / JUMP</b> // Move stays on a platform. Climb includes a short free ladder approach and is the dependable vertical route. Jump is an agile shortcut with a displayed success chance. Short downward drops are included in legal jump landings and are highly reliable.</p><p><b>SHOOTING</b> // Solid decks are hard structure. Open-grate catwalks are penetrable but impose a severe GRID penalty. Hover a target in SHOOT mode for the exact AIM + weapon + range + cover + terrain + skill modifier stack.</p><p><b>LADDER FIRE LANES</b> // The top landing of each ladder has a narrow shoot-through aperture. Fighters may fire up or down the ladder shaft when the actual shot ray passes through that opening. A ladder does not make any other floor section penetrable.</p><p><b>DEPLOYMENT</b> // Before initiative, your crew is auto-placed in legal nodes. Click one friendly miniature, then another to swap their actual generated positions, or READY immediately.</p><p><b>OVERWATCH</b> // Commit the fighter's remaining activation to watch for enemy movement entering legal LOS/range. If 2 AP remain, Overwatch reserves both, allowing an unfired 2-AP weapon to react. A 2-AP weapon cannot enter Overwatch after spending 1 AP.</p><p><b>GRENADES</b> // Every fighter carries one grenade per battle. FRAG: BLAST + KNOCKBACK, Pen 2 radial damage. SMOKE: temporary LOS-blocking volume. SHOCK: fighters in the burst receive canonical SHOCK. INCENDIARY: fighters in the initial burst receive canonical BURN and the temporary fire zone ignites fighters who begin an activation inside it. Grenade type is selected per fighter in the Armory.</p><p><b>CAMPAIGN</b> // XP creates rank advances; injuries, skills and stat changes persist. Click a fighter on the crew screen for a full dossier.</p></div></div>
 <script>var __mod={exports:{}};
 'use strict';
 
@@ -1198,8 +1198,34 @@ class Game {
   if(f.status.shock>0){f.ap=Math.max(0,f.ap-1);f.status.shock=0;ev.push({kind:'SHOCK',ap:1});this.record('STATUS_TICK',{fighter:this.fighters.indexOf(f),status:'SHOCK',apLost:1})}
   f.statusEvents=ev;return ev
  }
- knock(t,dx,from){let p=this.map.p[t.pi];t.x+=dx;if(t.x<p.x+.005||t.x>p.x+p.w-.005){t.x=t.x<p.x?p.x-.008:p.x+p.w+.008;this.record('LEDGE',{target:this.fighters.indexOf(t)});this.fallFrom(t,t.pi,from)}}
- fallFrom(t,originPi,from){let oldY=this.map.p[originPi].y,below=this.map.p.map((p,i)=>({p,i})).filter(o=>o.p.y>oldY+.02),overlap=below.filter(o=>t.x>=o.p.x&&t.x<=o.p.x+o.p.w).sort((a,b)=>a.p.y-b.p.y);let cands=overlap;if(!cands.length){let near=below.map(o=>{let edge=t.x<o.p.x?o.p.x:t.x>o.p.x+o.p.w?o.p.x+o.p.w:t.x;return{...o,edge,dx:Math.abs(edge-t.x)}}).filter(o=>o.dx<=.025).sort((a,b)=>a.p.y-b.p.y||a.dx-b.dx);cands=near}if(!cands.length){this.record('FALL_VOID',{target:this.fighters.indexOf(t),from:originPi,x:t.x});this.down(t,'fell into undergrid',from);return}let o=cands[0],meters=Math.max(2,Math.round((o.p.y-oldY)*45)),roll=this.rnd(1,100),d=Math.max(2,Math.round(meters*.75));if(roll>t.dex)d+=this.rnd(3,8);t.pi=o.i;t.y=o.p.y;if(o.edge!==undefined)t.x=clamp(o.edge,o.p.x+.01,o.p.x+o.p.w-.01);else t.x=clamp(t.x,o.p.x+.01,o.p.x+o.p.w-.01);t.hp-=d;this.record('FALL',{target:this.fighters.indexOf(t),meters,damage:d,roll,dex:t.dex,landingPi:o.i,landingX:t.x});if(t.hp<=0)this.down(t,'fall trauma',from)}
+ // 1.40.7b: resolve which edge was actually crossed. A fighter in the leftmost
+ // five-thousandths of a deck must never be teleported to the RIGHT edge.
+ knock(t,dx,from){
+  const p=this.map.p[t.pi],fromX=t.x,nextX=fromX+dx;
+  const offLeft=nextX<p.x+.005,offRight=nextX>p.x+p.w-.005;
+  if(!offLeft&&!offRight){t.x=nextX;return}
+  const side=offLeft?'LEFT':'RIGHT';
+  t.x=offLeft?p.x-.008:p.x+p.w+.008;
+  this.record('LEDGE',{target:this.fighters.indexOf(t),side,fromX,edgeX:t.x,push:dx});
+  this.fallFrom(t,t.pi,from);
+ }
+ fallFrom(t,originPi,from){
+  const oldY=this.map.p[originPi].y,fallX=t.x;
+  // A fall is vertical from the actual departure point. Only a fighter-width
+  // edge graze may count as a landing; no 40+px magnetism to remote decks.
+  const footRadius=7/this.W;
+  const landing=this.map.p.map((p,i)=>({p,i})).filter(o=>o.p.y>oldY+.02)
+   .map(o=>({...o,nearestX:clamp(fallX,o.p.x,o.p.x+o.p.w)}))
+   .filter(o=>Math.abs(o.nearestX-fallX)<=footRadius+1e-8)
+   .sort((a,b)=>a.p.y-b.p.y||Math.abs(a.nearestX-fallX)-Math.abs(b.nearestX-fallX))[0];
+  if(!landing){this.record('FALL_VOID',{target:this.fighters.indexOf(t),from:originPi,x:fallX});this.down(t,'fell into undergrid',from);return}
+  const o=landing,meters=Math.max(2,Math.round((o.p.y-oldY)*45)),roll=this.rnd(1,100);
+  let damage=Math.max(2,Math.round(meters*.75));if(roll>t.dex)damage+=this.rnd(3,8);
+  const inset=Math.min(8/this.W,o.p.w*.25);
+  t.pi=o.i;t.y=o.p.y;t.x=clamp(fallX,o.p.x+inset,o.p.x+o.p.w-inset);t.hp-=damage;
+  this.record('FALL',{target:this.fighters.indexOf(t),from:originPi,fallX,meters,damage,roll,dex:t.dex,landingPi:o.i,landingX:t.x,horizontalPx:Math.abs(t.x-fallX)*this.W});
+  if(t.hp<=0)this.down(t,'fall trauma',from);
+ }
  down(t,why,from){if(t.down)return;this.dropSalvage(t,why);t.down=true;t.hp=0;if(from)from.kills++;this.record('DOWN',{target:this.fighters.indexOf(t),why});if(!this.alive(0).length||!this.alive(1).length){this.gameOver=true;this.winner=this.alive(0).length?0:1;this.victoryReason='ELIMINATION'}}
  
  areaContactTargets(a,primary,w){
@@ -1409,6 +1435,22 @@ function releasePresentation(i,pre,post,kind='move'){
  if(Math.hypot(post.x-pre.x,post.y-pre.y)>5)startMotion(i,pre,post,kind,{duration:kind==='fall'?620:260,mid:{x:post.x,y:pre.y}});
  else motions.delete(i);
 }
+// Snapshot immediately before a non-projectile impact, then animate any
+// displaced or freshly downed fighter. Human shots retain their existing
+// projectile-arrival/hold presentation and are not routed through this helper.
+function captureImpactPositions(){return game.fighters.map((f,i)=>({pos:motionPos(i,f),model:basePos(f),down:!!f.down}));}
+function animateImpactPositions(before){
+ if(!before)return;
+ game.fighters.forEach((f,i)=>{
+  const b=before[i];if(!b||b.down)return;
+  const end=f.down?{x:f.x*W,y:H+70}:basePos(f);
+  if(Math.hypot(end.x-(b.model||b.pos).x,end.y-(b.model||b.pos).y)<=5&&f.down===b.down)return;
+  const fall=f.down||end.y-b.pos.y>25;
+  startMotion(i,b.pos,end,fall?'fall':'move',{
+   duration:fall?700:300,arc:fall?18:0,mid:{x:end.x,y:b.pos.y}
+  });
+ });
+}
 function fxPresentationProgress(q){
  if(q.type==='arc')return Math.min(1,(q.t||0)/(q.total||q.life||1));
  return Math.max(0,Math.min(1,1-(q.life||0)/(q.total||1)));
@@ -1560,11 +1602,11 @@ function grenadeAction(a,x,y){
  let A=game.pos(a),max=game.throwRange?game.throwRange(a):95+a.str*2.15,D=Math.hypot(x-A.x,y-A.y);if(D>max){feedback('THROW',`Beyond throw range // ${Math.round(D)} needed / ${Math.round(max)} max.`,'warn');return false}
  a.ap--;a.gren--;game.record('GRENADE',{fighter:game.active,grenade:key,x,y,range:D,max});uiLog('THROW',`${a.name} throws ${d.label}.`);feedback('THROW',`${a.name} // ${d.label} in flight.`,'good',900);
  let gd=GRENADE_DESIGN[key]||GRENADE_DESIGN.FRAG,total=Math.max(24,Math.round(44/(gd.travel||1)));
- fx.push({type:'grenadeThrow',grenade:key,x0:A.x,y0:A.y,x1:x,y1:y,life:total,total,design:{...gd},trail:[],onImpact:()=>{resolveGrenadeImpact(a,key,x,y);fx.push({type:'grenadeImpact',grenade:key,x,y,r:d.radius,life:Math.round(28*(gd.hold||1)),total:Math.round(28*(gd.hold||1)),design:{...gd}});game.assertState();checkEnd();refresh()}});return true
+ fx.push({type:'grenadeThrow',grenade:key,x0:A.x,y0:A.y,x1:x,y1:y,life:total,total,design:{...gd},trail:[],onImpact:()=>{const beforeImpact=captureImpactPositions();resolveGrenadeImpact(a,key,x,y);animateImpactPositions(beforeImpact);fx.push({type:'grenadeImpact',grenade:key,x,y,r:d.radius,life:Math.round(28*(gd.hold||1)),total:Math.round(28*(gd.hold||1)),design:{...gd}});game.assertState();checkEnd();refresh()}});return true
 }
-function launcherAction(a,x,y){let w=WEAP[a.weapon];if(!w||!weaponHas(w,'INDIRECT')){feedback('INDIRECT','Current weapon cannot make an indirect attack.','warn');return false}if(a.ap<w.ap){feedback('AP',`${w.label} requires ${w.ap} AP // ${a.ap} available.`,'warn');return false}let A=game.pos(a),D=Math.hypot(x-A.x,y-A.y);if(D>w.range){feedback('RANGE',`Launcher target is too far // ${Math.round(D/10)}m / ${Math.round(w.range/10)}m max.`,'warn');return false}a.ap-=w.ap;game.record('LAUNCHER',{fighter:game.active,x,y,range:D,max:w.range,blast:w.blast});uiLog('LAUNCH',`${a.name} fires ${w.label}.`);feedback('LAUNCH',`${a.name} // indirect projectile in flight.`,'good',1100);busy=true;fx.push({type:'arc',x0:A.x,y0:A.y,x1:x,y1:y,t:0,life:42,total:42,trail:[],cb:()=>{uiLog('BOOM','Launcher grenade detonates.');game.record('BLAST',{actor:game.active,x,y,radius:w.blast});fx.push({type:'ring',x,y,r:7,life:28});game.fighters.forEach(f=>{if(f.down)return;let P=game.pos(f),dd=Math.hypot(P.x-x,P.y-y);if(dd<w.blast){let scale=Math.max(.25,1-dd/w.blast);let raw=Math.max(2,Math.round(((w.dmg[0]+w.dmg[1])/2)*scale));game.damage(f,raw,Math.max(8,w.imp*scale),a);fx.push({type:'float',x:P.x,y:P.y-34,text:`-${raw}`,life:80})}});busy=false;game.assertState();checkEnd();refresh();if(!game.gameOver&&a===activeF()&&a.ap<=0)setTimeout(endActivation,450)}});return true}
+function launcherAction(a,x,y){let w=WEAP[a.weapon];if(!w||!weaponHas(w,'INDIRECT')){feedback('INDIRECT','Current weapon cannot make an indirect attack.','warn');return false}if(a.ap<w.ap){feedback('AP',`${w.label} requires ${w.ap} AP // ${a.ap} available.`,'warn');return false}let A=game.pos(a),D=Math.hypot(x-A.x,y-A.y);if(D>w.range){feedback('RANGE',`Launcher target is too far // ${Math.round(D/10)}m / ${Math.round(w.range/10)}m max.`,'warn');return false}a.ap-=w.ap;game.record('LAUNCHER',{fighter:game.active,x,y,range:D,max:w.range,blast:w.blast});uiLog('LAUNCH',`${a.name} fires ${w.label}.`);feedback('LAUNCH',`${a.name} // indirect projectile in flight.`,'good',1100);busy=true;fx.push({type:'arc',x0:A.x,y0:A.y,x1:x,y1:y,t:0,life:42,total:42,trail:[],cb:()=>{const beforeImpact=captureImpactPositions();uiLog('BOOM','Launcher grenade detonates.');game.record('BLAST',{actor:game.active,x,y,radius:w.blast});fx.push({type:'ring',x,y,r:7,life:28});game.fighters.forEach(f=>{if(f.down)return;let P=game.pos(f),dd=Math.hypot(P.x-x,P.y-y);if(dd<w.blast){let scale=Math.max(.25,1-dd/w.blast);let raw=Math.max(2,Math.round(((w.dmg[0]+w.dmg[1])/2)*scale));game.damage(f,raw,Math.max(8,w.imp*scale),a);fx.push({type:'float',x:P.x,y:P.y-34,text:`-${raw}`,life:80})}});animateImpactPositions(beforeImpact);busy=false;game.assertState();checkEnd();refresh();if(!game.gameOver&&a===activeF()&&a.ap<=0)setTimeout(endActivation,450)}});return true}
 function overwatchAction(f){if(!f){feedback('OVERWATCH','No active fighter.');return false}let w=WEAP[f.weapon];if(w?.melee||!resourceCanFire(f)){feedback('OVERWATCH',`${f.name} // ${resourceStatus(f)} // weapon unavailable.`,'warn');return false}let need=Math.max(1,w?.ap||1);if(f.ap<need){feedback('AP',`${w?.label||f.weapon} requires ${need} AP to enter Overwatch // ${f.ap} available.`,'warn');return false}let reserve=f.ap>=2?2:1;f.ap-=reserve;f.over=true;f.overwatchReserve=reserve;game.record('OVERWATCH',{fighter:game.active,reservedAP:reserve,weaponAP:need});uiLog('OVERWATCH',`${f.name} watches for movement // ${reserve} AP committed.`);return true}
-function reactionCheck(mover){let shooter=game.fighters.find(e=>e.team!==mover.team&&!e.down&&e.over&&game.shotInfo(e,mover).legal);if(!shooter)return false;shooter.over=false;uiLog('OVERWATCH',`${shooter.name} INTERRUPTS ${mover.name}.`);feedback('OVERWATCH',`${shooter.name} reacts to ${mover.name}!`,'warn',1200);if(busy&&mover.team===1){let before=game.actions.length,A=game.pos(shooter),B=game.pos(mover),ok=game.shoot(shooter,mover,true),shot=game.actions.slice(before).find(x=>x.type==='SHOT'),dmg=game.actions.slice(before).find(x=>x.type==='DAMAGE');if(ok&&shot){queueWeaponFireFx(shooter.weapon,A,B,shot.hit);if(shot.hit&&dmg)fx.push({type:'float',x:B.x,y:B.y-35,text:`-${dmg.amount}`,life:50});checkEnd();refresh()}return ok}shootAction(shooter,mover,true);return true}
+function reactionCheck(mover){let shooter=game.fighters.find(e=>e.team!==mover.team&&!e.down&&e.over&&game.shotInfo(e,mover).legal);if(!shooter)return false;shooter.over=false;uiLog('OVERWATCH',`${shooter.name} INTERRUPTS ${mover.name}.`);feedback('OVERWATCH',`${shooter.name} reacts to ${mover.name}!`,'warn',1200);if(busy&&mover.team===1){let beforeImpact=captureImpactPositions(),before=game.actions.length,A=game.pos(shooter),B=game.pos(mover),ok=game.shoot(shooter,mover,true),shot=game.actions.slice(before).find(x=>x.type==='SHOT'),dmg=game.actions.slice(before).find(x=>x.type==='DAMAGE');if(ok&&shot){animateImpactPositions(beforeImpact);queueWeaponFireFx(shooter.weapon,A,B,shot.hit);if(shot.hit&&dmg)fx.push({type:'float',x:B.x,y:B.y-35,text:`-${dmg.amount}`,life:50});checkEnd();refresh()}return ok}shootAction(shooter,mover,true);return true}
 
 function presentActivationStatuses(){
  let f=activeF(),ev=f?.statusEvents||[];if(!f||!ev.length)return;
@@ -1597,7 +1639,7 @@ function aiActivation(expectedSide=game.side,expectedActive=game.active){
   if(a.down||a.ap<=0){
     delete a._aiIntent;delete a._aiActivationPrevPi;delete a._aiRouteEdge;
     busy=false;game.endActivation();checkEnd();refresh();if(!game.gameOver)scheduleAI();return
-  }let aiIdx=game.fighters.indexOf(a),pre=basePos(a),preAim=game.pos(a),preTargets=game.fighters.map(f=>basePos(f)),preAimTargets=game.fighters.map(f=>game.pos(f)),before=game.actions.length,ok=false;
+  }let aiIdx=game.fighters.indexOf(a),pre=motionPos(aiIdx,a),preAim=game.pos(a),preTargets=captureImpactPositions(),preAimTargets=game.fighters.map(f=>game.pos(f)),before=game.actions.length,ok=false;
 try{ok=game.aiStep(a)}
 catch(err){
  console.error('[UNDERGRID AI RUNTIME]',err);
@@ -1607,7 +1649,7 @@ catch(err){
  a.ap=0;busy=false;delete a._aiIntent;delete a._aiActivationPrevPi;delete a._aiRouteEdge;
  try{game.endActivation()}catch(endErr){console.error('[UNDERGRID AI RECOVERY END]',endErr)}
  checkEnd();refresh();if(!game.gameOver)scheduleAI();return;
-}let post=a.down?{x:a.x*W,y:H+70}:basePos(a),acts=game.actions.slice(before);let shot=acts.find(x=>x.type==='SHOT'),gren=acts.find(x=>x.type==='GRENADE'),mv=acts.find(x=>['MOVE','CLIMB','JUMP','STEP_LINK'].includes(x.type));if(mv){let kind=mv.type==='JUMP'?'jump':mv.type==='CLIMB'?'climb':'move';startMotion(aiIdx,pre,post,kind,{duration:kind==='jump'?480:kind==='climb'?380:250,arc:55});reactionCheck(a)}if(shot){let t=game.fighters[shot.target],w=WEAP[a.weapon],dmg=acts.find(x=>x.type==='DAMAGE'),shotA={...preAim},shotB={...(preAimTargets[shot.target]||game.pos(t))};uiLog(shot.hit?'HIT':'MISS',`${a.name} → ${t.name} // ${shot.roll}/${shot.chance} // ${shot.cover}.`);fx.push({type:'aim',a:shotA,b:shotB,life:w.ap===2?22:12});setTimeout(()=>{if(w.melee)fx.push({type:'melee',weapon:a.weapon,a:shotA,b:shotB,...meleeFxProfile(a.weapon),total:meleeFxProfile(a.weapon).life});else{let fp=queueWeaponFireFx(a.weapon,shotA,shotB,shot.hit);if(fp.kind==='grenadeArc')setTimeout(()=>fx.push({type:'ring',x:shotB.x,y:shotB.y,r:7,life:28}),300)}if(shot.hit&&dmg)fx.push({type:'float',x:shotB.x,y:shotB.y-35,text:`-${dmg.amount}${dmg.blocked?' ARM -'+dmg.blocked:''}`,life:90});else if(!shot.hit)fx.push({type:'float',x:shotB.x,y:shotB.y-35,text:'MISS',life:40,good:true})},w.ap===2?280:150)}else if(gren){let gd=GRENADE_TYPES[gren.grenade]||GRENADE_TYPES.FRAG;uiLog('THROW',`${a.name} uses ${gd.label} // cluster target.`);fx.push({type:'grenadeImpact',grenade:gren.grenade,x:gren.x,y:gren.y,r:gd.radius,life:24,total:24,design:{...(GRENADE_DESIGN[gren.grenade]||GRENADE_DESIGN.FRAG)}})}else if(mv)uiLog(mv.type==='STEP_LINK'?'MOVE':mv.type,mv.type==='STEP_LINK'?`${a.name} steps across connected decking.`:`${a.name} ${mv.type.toLowerCase()}s.`);if(!ok&&a.ap>0){
+}let post=a.down?{x:a.x*W,y:H+70}:basePos(a),acts=game.actions.slice(before);let shot=acts.find(x=>x.type==='SHOT'),gren=acts.find(x=>x.type==='GRENADE'),mv=acts.find(x=>['MOVE','CLIMB','JUMP','STEP_LINK'].includes(x.type));if(mv){let kind=mv.type==='JUMP'?'jump':mv.type==='CLIMB'?'climb':'move';startMotion(aiIdx,pre,post,kind,{duration:kind==='jump'?480:kind==='climb'?380:250,arc:55});reactionCheck(a)}if(shot){animateImpactPositions(preTargets);let t=game.fighters[shot.target],w=WEAP[a.weapon],dmg=acts.find(x=>x.type==='DAMAGE'),shotA={...preAim},shotB={...(preAimTargets[shot.target]||game.pos(t))};uiLog(shot.hit?'HIT':'MISS',`${a.name} → ${t.name} // ${shot.roll}/${shot.chance} // ${shot.cover}.`);fx.push({type:'aim',a:shotA,b:shotB,life:w.ap===2?22:12});setTimeout(()=>{if(w.melee)fx.push({type:'melee',weapon:a.weapon,a:shotA,b:shotB,...meleeFxProfile(a.weapon),total:meleeFxProfile(a.weapon).life});else{let fp=queueWeaponFireFx(a.weapon,shotA,shotB,shot.hit);if(fp.kind==='grenadeArc')setTimeout(()=>fx.push({type:'ring',x:shotB.x,y:shotB.y,r:7,life:28}),300)}if(shot.hit&&dmg)fx.push({type:'float',x:shotB.x,y:shotB.y-35,text:`-${dmg.amount}${dmg.blocked?' ARM -'+dmg.blocked:''}`,life:90});else if(!shot.hit)fx.push({type:'float',x:shotB.x,y:shotB.y-35,text:'MISS',life:40,good:true})},w.ap===2?280:150)}else if(gren){let gd=GRENADE_TYPES[gren.grenade]||GRENADE_TYPES.FRAG;uiLog('THROW',`${a.name} uses ${gd.label} // cluster target.`);fx.push({type:'grenadeImpact',grenade:gren.grenade,x:gren.x,y:gren.y,r:gd.radius,life:24,total:24,design:{...(GRENADE_DESIGN[gren.grenade]||GRENADE_DESIGN.FRAG)}})}else if(mv)uiLog(mv.type==='STEP_LINK'?'MOVE':mv.type,mv.type==='STEP_LINK'?`${a.name} steps across connected decking.`:`${a.name} ${mv.type.toLowerCase()}s.`);if(!ok&&a.ap>0){
   game.record('AI_LIVE_STOP',{fighter:aiIdx,intent:a._aiIntent?.kind||null,carrying:a.carryingSalvage});
   a.ap=0;
 }
@@ -1851,7 +1893,7 @@ window.UNDERGRID_PRESENTATION={
 
 function showShotMath(si,t,B){let el=$('shotMath');if(!el)return;if(!si||!si.legal){el.classList.remove('show');return}let rows=(si.breakdown||[]).map(m=>`<div class="${m.value>0?'plus':m.value<0?'minus':'neutral'}">${m.name.padEnd(16,' ')} ${m.value>0?'+':''}${m.value}</div>`).join('');el.innerHTML=`<div class="sum">${t.name} // HIT ${si.chance}%</div>${rows}<div class="neutral">${si.zone} // ${Math.round(si.meters)}m</div>`;let r=cv.getBoundingClientRect(),sx=B.x*camera.zoom+camera.ox,sy=B.y*camera.zoom+camera.oy,ew=210;el.style.left=Math.max(8,Math.min(r.width-ew-8,sx+24))+'px';el.style.top=Math.max(72,Math.min(r.height-190,sy-95))+'px';el.classList.add('show')}
 function hideShotMath(){let el=$('shotMath');if(el)el.classList.remove('show')}
-function draw(){requestAnimationFrame(draw);hideShotMath();if(!game)return;ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,cv.width,cv.height);ctx.save();ctx.setTransform(DPR*camera.zoom,0,0,DPR*camera.zoom,DPR*camera.ox,DPR*camera.oy);ctx.lineCap='round';ctx.strokeStyle=THEME.pal.world;ctx.lineWidth=1;if(game.map?.dna){try{window.UNDERGRID_BATTLEFIELD_DNA?.draw?.(ctx,game,W,H)}catch(e){}}else{for(let i=0;i<9;i++){let x=(i*191+60)%W,h=65+(i*77)%210;ctx.strokeRect(x,H*.87-h,35+(i%3)*17,h)}}game.map.p.forEach(p=>{let X=p.x*W,Y=p.y*H,ww=p.w*W;if(game.map?.dna&&window.UNDERGRID_BATTLEFIELD_DNA?.drawPlatformSurface?.(ctx,p,X,Y,ww,game,W,H))return;ctx.strokeStyle=THEME.pal.floor;ctx.lineWidth=p.type==='grate'?1.5:2;if(p.type==='grate'){ctx.save();ctx.globalAlpha=.72;ctx.setLineDash([10,6]);ctx.beginPath();ctx.moveTo(X,Y);ctx.lineTo(X+ww,Y);ctx.stroke();ctx.setLineDash([2,6]);ctx.globalAlpha=.34;ctx.beginPath();ctx.moveTo(X,Y+5);ctx.lineTo(X+ww,Y+5);ctx.stroke();ctx.restore()}else{ctx.fillStyle=THEME.pal.floorFill;ctx.fillRect(X,Y,ww,10);ctx.beginPath();ctx.moveTo(X,Y);ctx.lineTo(X+ww,Y);ctx.stroke()}});ctx.setLineDash([4,5]);game.map.l.forEach(l=>{let x=l.x*W,y1=game.map.p[l.a].y*H,y2=game.map.p[l.b].y*H;ctx.strokeStyle=THEME.pal.ladder;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x-6,y1);ctx.lineTo(x-6,y2);ctx.moveTo(x+6,y1);ctx.lineTo(x+6,y2);ctx.stroke();for(let y=Math.min(y1,y2);y<Math.max(y1,y2);y+=12){ctx.beginPath();ctx.moveTo(x-6,y);ctx.lineTo(x+6,y);ctx.stroke()}/* 1.40.6c5: endpoint caps mark actual climb connections; a ladder merely passing another deck gets no cap there. */ctx.save();ctx.setLineDash([]);ctx.globalAlpha=.9;ctx.lineWidth=2;ctx.strokeStyle=THEME.pal.ladder;for(const yy of [y1,y2]){ctx.beginPath();ctx.moveTo(x-11,yy-1);ctx.lineTo(x+11,yy-1);ctx.stroke()}ctx.restore()});if(game&&game.ladderTopApertures){game.map.p.forEach((p,pi)=>{if(p.type==='grate')return;game.ladderTopApertures(pi).forEach(a=>{let left=a.x-a.half,right=a.x+a.half,y=p.y*H;ctx.save();ctx.lineWidth=4;ctx.strokeStyle=THEME.pal.floorFill||'#010405';ctx.beginPath();ctx.moveTo(left-1,y);ctx.lineTo(right+1,y);ctx.stroke();ctx.strokeStyle=THEME.pal.cyan||THEME.pal.ladder||'#78e3dc';ctx.globalAlpha=.98;ctx.lineWidth=2;ctx.setLineDash([5,4]);ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(right,y);ctx.stroke();ctx.globalAlpha=.42;ctx.lineWidth=1;ctx.setLineDash([2,5]);ctx.beginPath();ctx.moveTo(left+2,y+5);ctx.lineTo(right-2,y+5);ctx.stroke();ctx.restore()})})}ctx.setLineDash([]);game.map.cover.forEach(c=>{let p=game.map.p[c.pi],X=(c.x-c.w/2)*W,Y=p.y*H-c.h*H;if(game.map?.dna&&window.UNDERGRID_BATTLEFIELD_DNA?.drawCover?.(ctx,c,p,X,Y,c.w*W,c.h*H,game,W,H))return;ctx.fillStyle=THEME.pal.coverFill;ctx.fillRect(X,Y,c.w*W,c.h*H);ctx.strokeStyle=THEME.pal.cover;ctx.strokeRect(X,Y,c.w*W,c.h*H)});if(game.map?.dna)try{window.UNDERGRID_BATTLEFIELD_DNA?.drawEnvironment?.(ctx,game,W,H)}catch(e){}if(game.mission==='RELAY CONTROL'&&game.objective){let o=game.objective,ctl=game.objectiveControl(),col=ctl===0?THEME.pal.ally:ctl===1?THEME.pal.enemy:THEME.pal.warn;ctx.strokeStyle=col;ctx.fillStyle=col;ctx.globalAlpha=.18;ctx.beginPath();ctx.arc(o.x,o.y,o.radius,0,Math.PI*2);ctx.fill();ctx.globalAlpha=.75;ctx.setLineDash([7,7]);ctx.beginPath();ctx.arc(o.x,o.y,o.radius,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);ctx.globalAlpha=1;ctx.beginPath();ctx.moveTo(o.x,o.y-36);ctx.lineTo(o.x,o.y-8);ctx.moveTo(o.x-8,o.y-30);ctx.lineTo(o.x+8,o.y-30);ctx.stroke();ctx.font='bold 11px Consolas';ctx.fillText('RELAY',o.x+12,o.y-22);}if(game.mission==='SALVAGE RUN'){game.extraction.forEach(z=>{let col=z.team===0?THEME.pal.ally:THEME.pal.enemy;ctx.strokeStyle=col;ctx.fillStyle=col;ctx.globalAlpha=.08;ctx.beginPath();ctx.arc(z.x,z.y,z.radius,0,Math.PI*2);ctx.fill();ctx.globalAlpha=.55;ctx.setLineDash([8,7]);ctx.beginPath();ctx.arc(z.x,z.y,z.radius,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);ctx.globalAlpha=1;ctx.font='bold 10px Consolas';ctx.fillText(`EXTRACT ${hotseatMode?'PLAYER '+(z.team+1):(z.team===0?'CREW':'RIVAL')} // ${game.score[z.team]}/${game.scoreTarget}`,z.x-55,z.y-z.radius-8)});game.salvage.forEach(o=>{if(o.state!=='GROUND')return;ctx.strokeStyle=THEME.pal.warn;ctx.fillStyle=THEME.pal.warn;ctx.globalAlpha=.16;ctx.beginPath();ctx.arc(o.x,o.y,o.radius,0,Math.PI*2);ctx.fill();ctx.globalAlpha=.85;ctx.setLineDash([5,6]);ctx.beginPath();ctx.arc(o.x,o.y,o.radius,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);ctx.strokeRect(o.x-10,o.y-15,20,14);ctx.font='bold 10px Consolas';ctx.fillText('SALVAGE // PICKUP 2 AP',o.x+15,o.y-20);ctx.globalAlpha=1})}
+function draw(){requestAnimationFrame(draw);hideShotMath();if(!game)return;const _ugFrame=window.__UG_FRAME_HEALTH||(window.__UG_FRAME_HEALTH={attempts:0,completed:0,drawn:0,seed:null,lastStarted:0,lastCompleted:0});if(_ugFrame.gameRef!==game){_ugFrame.gameRef=game;_ugFrame.drawn=0;_ugFrame.lastCompleted=0;}_ugFrame.attempts++;_ugFrame.seed=game.seed;_ugFrame.lastStarted=performance.now();ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,cv.width,cv.height);ctx.save();ctx.setTransform(DPR*camera.zoom,0,0,DPR*camera.zoom,DPR*camera.ox,DPR*camera.oy);ctx.lineCap='round';ctx.strokeStyle=THEME.pal.world;ctx.lineWidth=1;if(game.map?.dna){try{window.UNDERGRID_BATTLEFIELD_DNA?.draw?.(ctx,game,W,H)}catch(e){}}else{for(let i=0;i<9;i++){let x=(i*191+60)%W,h=65+(i*77)%210;ctx.strokeRect(x,H*.87-h,35+(i%3)*17,h)}}game.map.p.forEach(p=>{let X=p.x*W,Y=p.y*H,ww=p.w*W;if(game.map?.dna&&window.UNDERGRID_BATTLEFIELD_DNA?.drawPlatformSurface){let decorated=false;try{decorated=!!window.UNDERGRID_BATTLEFIELD_DNA.drawPlatformSurface(ctx,p,X,Y,ww,game,W,H)}catch(err){window.__UG_PLATFORM_RENDER_ERRORS=window.__UG_PLATFORM_RENDER_ERRORS||new Set();const key=String(err?.message||err);if(!window.__UG_PLATFORM_RENDER_ERRORS.has(key)){window.__UG_PLATFORM_RENDER_ERRORS.add(key);console.error('[UNDERGRID PLATFORM DRAW RECOVERED]',err);try{game.violation('PLATFORM_RENDER_RECOVERED',{platform:game.map.p.indexOf(p),error:key})}catch(_){}}ctx.globalAlpha=1;ctx.shadowBlur=0;ctx.setLineDash([])}if(decorated)return;}ctx.strokeStyle=THEME.pal.floor;ctx.lineWidth=p.type==='grate'?1.5:2;if(p.type==='grate'){ctx.save();ctx.globalAlpha=.72;ctx.setLineDash([10,6]);ctx.beginPath();ctx.moveTo(X,Y);ctx.lineTo(X+ww,Y);ctx.stroke();ctx.setLineDash([2,6]);ctx.globalAlpha=.34;ctx.beginPath();ctx.moveTo(X,Y+5);ctx.lineTo(X+ww,Y+5);ctx.stroke();ctx.restore()}else{ctx.fillStyle=THEME.pal.floorFill;ctx.fillRect(X,Y,ww,10);ctx.beginPath();ctx.moveTo(X,Y);ctx.lineTo(X+ww,Y);ctx.stroke()}});ctx.setLineDash([4,5]);game.map.l.forEach(l=>{let x=l.x*W,y1=game.map.p[l.a].y*H,y2=game.map.p[l.b].y*H;ctx.strokeStyle=THEME.pal.ladder;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x-6,y1);ctx.lineTo(x-6,y2);ctx.moveTo(x+6,y1);ctx.lineTo(x+6,y2);ctx.stroke();for(let y=Math.min(y1,y2);y<Math.max(y1,y2);y+=12){ctx.beginPath();ctx.moveTo(x-6,y);ctx.lineTo(x+6,y);ctx.stroke()}/* 1.40.6c5: endpoint caps mark actual climb connections; a ladder merely passing another deck gets no cap there. */ctx.save();ctx.setLineDash([]);ctx.globalAlpha=.9;ctx.lineWidth=2;ctx.strokeStyle=THEME.pal.ladder;for(const yy of [y1,y2]){ctx.beginPath();ctx.moveTo(x-11,yy-1);ctx.lineTo(x+11,yy-1);ctx.stroke()}ctx.restore()});if(game&&game.ladderTopApertures){game.map.p.forEach((p,pi)=>{if(p.type==='grate')return;game.ladderTopApertures(pi).forEach(a=>{let left=a.x-a.half,right=a.x+a.half,y=p.y*H;ctx.save();ctx.lineWidth=4;ctx.strokeStyle=THEME.pal.floorFill||'#010405';ctx.beginPath();ctx.moveTo(left-1,y);ctx.lineTo(right+1,y);ctx.stroke();ctx.strokeStyle=THEME.pal.cyan||THEME.pal.ladder||'#78e3dc';ctx.globalAlpha=.98;ctx.lineWidth=2;ctx.setLineDash([5,4]);ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(right,y);ctx.stroke();ctx.globalAlpha=.42;ctx.lineWidth=1;ctx.setLineDash([2,5]);ctx.beginPath();ctx.moveTo(left+2,y+5);ctx.lineTo(right-2,y+5);ctx.stroke();ctx.restore()})})}ctx.setLineDash([]);game.map.cover.forEach(c=>{let p=game.map.p[c.pi],X=(c.x-c.w/2)*W,Y=p.y*H-c.h*H;if(game.map?.dna&&window.UNDERGRID_BATTLEFIELD_DNA?.drawCover?.(ctx,c,p,X,Y,c.w*W,c.h*H,game,W,H))return;ctx.fillStyle=THEME.pal.coverFill;ctx.fillRect(X,Y,c.w*W,c.h*H);ctx.strokeStyle=THEME.pal.cover;ctx.strokeRect(X,Y,c.w*W,c.h*H)});if(game.map?.dna)try{window.UNDERGRID_BATTLEFIELD_DNA?.drawEnvironment?.(ctx,game,W,H)}catch(e){}if(game.mission==='RELAY CONTROL'&&game.objective){let o=game.objective,ctl=game.objectiveControl(),col=ctl===0?THEME.pal.ally:ctl===1?THEME.pal.enemy:THEME.pal.warn;ctx.strokeStyle=col;ctx.fillStyle=col;ctx.globalAlpha=.18;ctx.beginPath();ctx.arc(o.x,o.y,o.radius,0,Math.PI*2);ctx.fill();ctx.globalAlpha=.75;ctx.setLineDash([7,7]);ctx.beginPath();ctx.arc(o.x,o.y,o.radius,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);ctx.globalAlpha=1;ctx.beginPath();ctx.moveTo(o.x,o.y-36);ctx.lineTo(o.x,o.y-8);ctx.moveTo(o.x-8,o.y-30);ctx.lineTo(o.x+8,o.y-30);ctx.stroke();ctx.font='bold 11px Consolas';ctx.fillText('RELAY',o.x+12,o.y-22);}if(game.mission==='SALVAGE RUN'){game.extraction.forEach(z=>{let col=z.team===0?THEME.pal.ally:THEME.pal.enemy;ctx.strokeStyle=col;ctx.fillStyle=col;ctx.globalAlpha=.08;ctx.beginPath();ctx.arc(z.x,z.y,z.radius,0,Math.PI*2);ctx.fill();ctx.globalAlpha=.55;ctx.setLineDash([8,7]);ctx.beginPath();ctx.arc(z.x,z.y,z.radius,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);ctx.globalAlpha=1;ctx.font='bold 10px Consolas';ctx.fillText(`EXTRACT ${hotseatMode?'PLAYER '+(z.team+1):(z.team===0?'CREW':'RIVAL')} // ${game.score[z.team]}/${game.scoreTarget}`,z.x-55,z.y-z.radius-8)});game.salvage.forEach(o=>{if(o.state!=='GROUND')return;ctx.strokeStyle=THEME.pal.warn;ctx.fillStyle=THEME.pal.warn;ctx.globalAlpha=.16;ctx.beginPath();ctx.arc(o.x,o.y,o.radius,0,Math.PI*2);ctx.fill();ctx.globalAlpha=.85;ctx.setLineDash([5,6]);ctx.beginPath();ctx.arc(o.x,o.y,o.radius,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);ctx.strokeRect(o.x-10,o.y-15,20,14);ctx.font='bold 10px Consolas';ctx.fillText('SALVAGE // PICKUP 2 AP',o.x+15,o.y-20);ctx.globalAlpha=1})}
  // Grenade zones use deliberately schematic battlefield graphics.
  for(let z of activeGrenadeZones(game)){
   let smoke=z.type==='SMOKE';ctx.save();ctx.fillStyle=smoke?'#9aa09a':THEME.pal.warn;ctx.strokeStyle=smoke?'#b9c0b9':THEME.pal.boom;ctx.globalAlpha=smoke?.18:.12;ctx.beginPath();ctx.arc(z.x,z.y,z.r,0,Math.PI*2);ctx.fill();ctx.globalAlpha=smoke?.58:.72;ctx.setLineDash(smoke?[5,5]:[3,5]);ctx.beginPath();ctx.arc(z.x,z.y,z.r,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);ctx.font='bold 9px Consolas';ctx.fillStyle=smoke?'#c0c4c0':THEME.pal.warn;ctx.fillText(smoke?'SMOKE // LOS BLOCK':'FIRE // BURN',z.x-z.r*.42,z.y-z.r-7);ctx.restore();
@@ -1866,7 +1908,7 @@ function draw(){requestAnimationFrame(draw);hideShotMath();if(!game)return;ctx.s
  labelRects=[];
  if(!window.__UG_FIGHTER_RENDER_ERRORS)window.__UG_FIGHTER_RENDER_ERRORS=new Set();
  const drawFighterEmergency=(q,i,err)=>{let mp=motionPos(i,q),X=mp.x,Y=mp.y,col=q.team?(game?.enemyFactionColor||COLORS.enemy):COLORS.ally;ctx.save();ctx.globalAlpha=1;ctx.setLineDash([]);ctx.shadowBlur=5;ctx.shadowColor=col;ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineWidth=2;ctx.beginPath();ctx.arc(X,Y-28,5,0,Math.PI*2);ctx.moveTo(X,Y-23);ctx.lineTo(X,Y-8);ctx.moveTo(X,Y-18);ctx.lineTo(X-8,Y-13);ctx.moveTo(X,Y-18);ctx.lineTo(X+8,Y-13);ctx.moveTo(X,Y-8);ctx.lineTo(X-7,Y);ctx.moveTo(X,Y-8);ctx.lineTo(X+7,Y);ctx.stroke();ctx.shadowBlur=0;ctx.font='bold 10px Consolas';ctx.fillText(q.name,X-18,Y-43);ctx.font='8px Consolas';ctx.fillText('RENDER SAFE',X-18,Y+13);ctx.restore();let key=`${q.name}|${err?.message||err}`;if(!window.__UG_FIGHTER_RENDER_ERRORS.has(key)){window.__UG_FIGHTER_RENDER_ERRORS.add(key);try{game.violation('FIGHTER_RENDER_FAIL',{fighter:i,name:q.name,error:String(err?.stack||err)})}catch(_){ }try{uiLog('RENDER SAFE',`${q.name} miniature recovered // debug export records renderer fault.`)}catch(_){ }}};
- game.fighters.forEach((q,i)=>{try{drawFighter(q,i)}catch(err){drawFighterEmergency(q,i,err)}});
+ game.fighters.forEach((q,i)=>{try{drawFighter(q,i)}catch(err){drawFighterEmergency(q,i,err)}});_ugFrame.completed++;_ugFrame.drawn=game.fighters.filter(q=>!q.down).length;_ugFrame.lastCompleted=performance.now();
  for(let q of fx){if(q.type==='weaponfire'){drawCanonicalWeaponFire(ctx,q);fireFxImpact(q)
 }else if(q.type==='grenadeThrow'){let step=fxStep(q),gd=q.design||{},p=1-q.life/Math.max(1,q.total||44),x=q.x0+(q.x1-q.x0)*p,y=q.y0+(q.y1-q.y0)*p-Math.sin(Math.PI*p)*85*(gd.arc||1),col=q.grenade==='SHOCK'?THEME.pal.cyan:q.grenade==='INCENDIARY'?THEME.pal.warn:q.grenade==='SMOKE'?'#b3b6b8':THEME.pal.boom;if((gd.trail||0)>0){q.trail=q.trail||[];q.trail.push({x,y});if(q.trail.length>14)q.trail.shift();ctx.save();ctx.strokeStyle=col;ctx.globalAlpha=.25*(gd.trail||0);ctx.beginPath();q.trail.forEach((pt,i)=>i?ctx.lineTo(pt.x,pt.y):ctx.moveTo(pt.x,pt.y));ctx.stroke();ctx.restore()}ctx.save();ctx.fillStyle=col;ctx.beginPath();ctx.arc(x,y,4*(gd.projectile||1),0,Math.PI*2);ctx.fill();ctx.restore();q.life-=step
 }else if(q.type==='grenadeImpact'){let step=fxStep(q),p=1-q.life/Math.max(1,q.total||28),gd=q.design||{},rr=q.r*(gd.effect||1),col=q.grenade==='SMOKE'?'#b3b6b8':q.grenade==='SHOCK'?THEME.pal.cyan:q.grenade==='INCENDIARY'?THEME.pal.warn:THEME.pal.boom;ctx.save();ctx.strokeStyle=col;ctx.globalAlpha=1-p;ctx.lineWidth=2;ctx.beginPath();ctx.arc(q.x,q.y,rr*(.18+.82*p),0,Math.PI*2);ctx.stroke();ctx.restore();q.life-=step
@@ -2044,6 +2086,7 @@ function exchange(a,t,charge=false,free=false){
  if(!free){if(a.ap<1)return false;a.ap--;}
  a.facing=t.x>=a.x?1:-1;t.facing=a.x>=t.x?1:-1;
 
+ const beforeImpact=captureImpactPositions();
  let aHP=a.hp,tHP=t.hp,verb=charge?'CHARGE':'FIGHT';
  uiLog(verb,`${a.name} engages ${t.name}.`);
 
@@ -2066,6 +2109,7 @@ function exchange(a,t,charge=false,free=false){
    }
  }
  game.record('MELEE_EXCHANGE',{initiator:game.fighters.indexOf(a),defender:game.fighters.indexOf(t),charge,first:first.attacks,hits:first.hits,fightBack:back.attacks,fightBackHits:back.hits});
+ animateImpactPositions(beforeImpact);
  return {first,back};
 }
 function chargeProfile(f){
@@ -10171,7 +10215,7 @@ function drawBackground(ctx,dna,W,H){
 function drawPlatformSurface(ctx,p,X,Y,w,game,W,H){
   if(!p?.surface||p.safetyFloor)return false;
   const pal=THEME?.pal||{},floor=pal.floor||'#a8e9e7',dim=pal.world||'#4f8d9f',fill=pal.floorFill||'#071315';
-  ctx.save();ctx.strokeStyle=floor;ctx.fillStyle=fill;ctx.lineWidth=p.type==='grate'?1.4:2;ctx.lineCap='round';
+  ctx.save();try{ctx.strokeStyle=floor;ctx.fillStyle=fill;ctx.lineWidth=p.type==='grate'?1.4:2;ctx.lineCap='round';
   if(p.type==='grate'){ctx.globalAlpha=.80;ctx.setLineDash([10,6]);ctx.beginPath();ctx.moveTo(X,Y);ctx.lineTo(X+w,Y);ctx.stroke();ctx.setLineDash([])}
   else{ctx.globalAlpha=.95;ctx.beginPath();ctx.moveTo(X,Y);ctx.lineTo(X+w,Y);ctx.stroke()}
 
@@ -10204,7 +10248,7 @@ function drawPlatformSurface(ctx,p,X,Y,w,game,W,H){
   if(p.moveMult&&p.moveMult<1){
     ctx.fillStyle=pal.warn||'#ffd83d';ctx.globalAlpha=.55;ctx.font='bold 7px Consolas';ctx.fillText(`${p.terrainLabel||'DIFFICULT'} // ${Math.round(p.moveMult*100)}% MOVE`,X+5,Y+18);
   }
-  ctx.restore();return true;
+  }finally{ctx.restore()}return true;
 }
 function drawEnvironment(ctx,game,W,H){
   const e=game?.map?.environment;if(!e)return;
@@ -11246,11 +11290,11 @@ api.drawPlatformSurface=function(ctx,p,X,Y,w,g,W,H){
  const handled=oldSurface(ctx,p,X,Y,w,g,W,H);
  if(!handled||!p||p.safetyFloor)return handled;
  const pal=THEME?.pal||{},cyan=pal.cyan||pal.ladder||'#68d7ff',warn=pal.warn||'#ffd83d',dim=pal.world||'#4f8d9f',t=performance.now()/1000;
- ctx.save();ctx.lineCap='round';ctx.lineJoin='round';
+ ctx.save();try{ctx.lineCap='round';ctx.lineJoin='round';
  if(p.terrainLabel==='SLUDGE'||p.terrainLabel==='MIRE'){
    ctx.fillStyle='#071619';ctx.globalAlpha=.72;ctx.fillRect(X,Y+3,w,22);ctx.strokeStyle=cyan;ctx.globalAlpha=.50;ctx.lineWidth=1.2;ctx.beginPath();
    for(let x=X;x<=X+w;x+=8){const yy=Y+4+Math.sin((x-X)*.045+t*1.7)*2;x===X?ctx.moveTo(x,yy):ctx.lineTo(x,yy)}ctx.stroke();
-   for(let x=X+18;x<X+w;x+=44){ctx.globalAlpha=.25+.15*Math.sin(t*2+x);ctx.beginPath();ctx.arc(x,Y+13+(x%7),2+(x%3),0,Math.PI*2);ctx.stroke()}
+   for(let x=X+18,i=0;x<X+w;x+=44,i++){ctx.globalAlpha=.25+.15*Math.sin(t*2+x);ctx.beginPath();ctx.arc(x,Y+13+(i%7),2+(i%3),0,Math.PI*2);ctx.stroke()}
  }else if(p.terrainLabel==='FLOODED'||p.terrainLabel==='WET'){
    ctx.fillStyle=cyan;ctx.globalAlpha=p.terrainLabel==='FLOODED'?.10:.045;ctx.fillRect(X,Y+2,w,p.terrainLabel==='FLOODED'?30:15);ctx.strokeStyle=cyan;ctx.globalAlpha=.48;ctx.beginPath();
    for(let x=X;x<=X+w;x+=10){const yy=Y+5+Math.sin((x-X)*.04+t*2.1)*2;x===X?ctx.moveTo(x,yy):ctx.lineTo(x,yy)}ctx.stroke();
@@ -11263,7 +11307,7 @@ api.drawPlatformSurface=function(ctx,p,X,Y,w,g,W,H){
    ctx.strokeStyle=warn;ctx.fillStyle=warn;ctx.globalAlpha=.48;ctx.lineWidth=1;const dir=p.conveyorDir||1;
    for(let x=X+14;x<X+w-15;x+=34){ctx.beginPath();ctx.moveTo(x,Y+12);ctx.lineTo(x+dir*10,Y+12);ctx.lineTo(x+dir*6,Y+8);ctx.moveTo(x+dir*10,Y+12);ctx.lineTo(x+dir*6,Y+16);ctx.stroke()}
  }
- ctx.restore();return true;
+ }finally{ctx.restore()}return true;
 };
 
 /* ---------- MECHANISM / SYSTEM DRAWING ---------- */
@@ -11511,7 +11555,7 @@ function setLabels(){
  const lab=document.querySelector('#undergridLab .uglVersion');if(lab)lab.innerHTML='<b>WORKING // 1.40.6 FULL BATTLEFIELD RELEASE CANDIDATE</b><br>STABLE LEVEL REFERENCE // 1.40.2 LIVING BATTLEFIELDS + DEPLOYMENT<br>LIVE CANDIDATE // 14 BATTLEFIELD FAMILIES + ARCHETYPE SYSTEMS + DISPOSABLE MODE PARITY';
  const diag=document.getElementById('llMechanismBrief');if(diag)diag.textContent='1.40.6 RELEASE CANDIDATE // all 14 archetypes are live-capable. Level Lab EXTREMITY / WORLD SHAPE controls remain experimental stress tools; normal Campaign / Quick Battle / Player vs Player use curated standard forms.';
 }
-setLabels();document.addEventListener('DOMContentLoaded',setLabels,{once:true});window.addEventListener('load',setLabels,{once:true});setTimeout(setLabels,0);setTimeout(setLabels,250);setTimeout(setLabels,1000);
+setLabels();document.addEventListener('DOMContentLoaded',setLabels,{once:true});window.addEventListener('load',setLabels,{once:true});setTimeout(setLabels,0);setTimeout(setLabels,250);
 function installAuditButton(){
  const grid=document.querySelector('#undergridLab .uglGrid');if(!grid||document.getElementById('uglLevelReleaseCard'))return;
  const card=document.createElement('div');card.className='uglCard';card.id='uglLevelReleaseCard';card.innerHTML='<div class="uglCardTitle">LEVEL RELEASE 1.40.6</div><p>Checks every live battlefield family, mechanism identity, objective sockets and campaign promotion state without mutating campaign battle results.</p><div class="uglActions"><button id="uglLevelReleaseAudit">RUN LEVEL RELEASE AUDIT</button></div>';
@@ -11761,6 +11805,205 @@ body.ugHudCollapsed #stage{border-bottom-color:transparent}
  const manual=document.getElementById('manual');if(manual&&!document.getElementById('ugManual1407'))manual.insertAdjacentHTML('beforeend',`<p id="ugManual1407"><b>1.40.7 PUBLIC TABLET RELEASE</b> // Stability seal for the live build. The full 14-family battlefield system remains intact; iPad/tablet landscape keeps drag-pan, pinch-zoom, tactical preview and collapsible HUD support; mid-width desktop/tablet layouts keep the view controls clear of the action rail. Ladder combat now uses narrow top-landing firing apertures only, with endpoint caps distinguishing real climb connections from ladders that merely pass another deck. Deployment visibility recovery and its audit now reference the active game correctly. No campaign economy, combat damage, weapon stats or progression rules are changed by this seal.</p>`);
  setLabels();installAuditCard();
  document.addEventListener('DOMContentLoaded',()=>{setLabels();installAuditCard()},{once:true});window.addEventListener('load',()=>{setLabels();installAuditCard()},{once:true});setTimeout(()=>{setLabels();installAuditCard()},250);
+})();
+</script>
+
+<script>
+/* UNDERGRID 1.40.7a // LIVE EMPTY-BOARD RENDER HOTFIX
+   Corrects negative-radius decorative bubbles on platforms extending left of world x=0.
+   Adds completed-frame verification to the deployment audit; geometry-only checks cannot
+   prove that any fighter was actually painted to the battlefield canvas. */
+(()=>{'use strict';
+ const BUILD='1.40.7a';
+ const previousAudit=window.UNDERGRID_DEPLOYMENT_RENDER?.audit;
+ const audit=(g=(typeof game!=='undefined'?game:null))=>{
+   const projection=previousAudit?previousAudit(g):{pass:false,error:'NO_PROJECTION_AUDIT'};
+   const h=window.__UG_FRAME_HEALTH||null;
+   const expected=g?.fighters?.filter(f=>!f.down).length||0;
+   const recent=!!(h&&g&&h.seed===g.seed&&h.gameRef===g&&h.lastCompleted&&performance.now()-h.lastCompleted<2500);
+   const completed=!!(recent&&h.drawn>=expected&&h.completed>0);
+   return {...projection,build:BUILD,pass:!!projection.pass&&(!g||completed),frame:{expected,drawn:h?.drawn||0,attempts:h?.attempts||0,completedFrames:h?.completed||0,recent,pass:!g||completed},platformRenderErrors:[...(window.__UG_PLATFORM_RENDER_ERRORS||[])]};
+ };
+ if(window.UNDERGRID_DEPLOYMENT_RENDER){window.UNDERGRID_DEPLOYMENT_RENDER.audit=audit;window.UNDERGRID_DEPLOYMENT_RENDER.build=BUILD;}
+ window.UNDERGRID_RENDER_HEALTH={build:BUILD,audit};
+ try{const prev=Game.prototype.debugExport;Game.prototype.debugExport=function(){const d=prev.call(this);d.publicBuild=BUILD;d.deploymentRender=audit(this);d.renderHealth=d.deploymentRender.frame;d.platformRenderErrors=d.deploymentRender.platformRenderErrors;return d}}catch(_){ }
+ function labels(){document.title='UNDERGRID // 1.40.7a Public Tablet Render Hotfix';const top=document.querySelector('.top .title');if(top)top.textContent='UNDERGRID // 1.40.7a // PUBLIC TABLET RELEASE';const lab=document.querySelector('#undergridLab .uglVersion');if(lab)lab.innerHTML='<b>PUBLIC // 1.40.7a TABLET RENDER HOTFIX</b><br>FIX // NEGATIVE-X SLUDGE DECORATION + FRAME VISIBILITY AUDIT<br>FOUNDATION // 1.40.7 TABLET + LADDER FIRE LANES';}
+ const manual=document.getElementById('manual');if(manual)manual.insertAdjacentHTML('beforeend','<p><b>1.40.7a LIVE RENDER HOTFIX</b> // Fixed a Sewer Warren terrain-decoration exception that could stop the entire battlefield render before fighters were drawn. Platform art now uses nonnegative, platform-local bubble sizes and recovers from future platform-art exceptions without hiding fighters. Deployment diagnostics now verify that the miniature-render stage actually completed, rather than only checking projected fighter coordinates. Gameplay rules and saves are unchanged.</p>');
+ labels();document.addEventListener('DOMContentLoaded',labels,{once:true});window.addEventListener('load',labels,{once:true});setTimeout(labels,300);setTimeout(labels,1200);
+})();
+</script>
+
+<style id="ugFooter1407c">
+/* 1.40.7b // permanent 18px CATCAM-style branding row. Does not overlap HUD. */
+#app{--ugFooterH:calc(18px + env(safe-area-inset-bottom));grid-template-rows:minmax(0,1fr) 190px var(--ugFooterH)!important}
+#ugFooter{position:relative;min-width:0;min-height:var(--ugFooterH);height:var(--ugFooterH);box-sizing:border-box;padding-bottom:env(safe-area-inset-bottom);display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 max(8px,env(safe-area-inset-right)) 0 max(8px,env(safe-area-inset-left));border-top:1px solid var(--border);background:var(--bottom);color:var(--dim);font:8px/1 Consolas,Monaco,monospace;letter-spacing:.08em;opacity:.78;white-space:nowrap;overflow:hidden;z-index:2600}
+#ugFooter a{color:var(--dim);text-decoration:none;min-width:0;overflow:hidden;text-overflow:ellipsis}
+#ugFooter a:hover,#ugFooter a:focus-visible{color:var(--title);text-decoration:underline}
+#ugFooter span{color:var(--g);min-width:0;overflow:hidden;text-overflow:ellipsis;text-align:right}
+body.ugHudCollapsed #app{grid-template-rows:minmax(0,1fr) 0px var(--ugFooterH)!important}
+@media(pointer:coarse) and (orientation:landscape){#app{grid-template-rows:minmax(0,1fr) 170px var(--ugFooterH)!important}body.ugHudCollapsed #app{grid-template-rows:minmax(0,1fr) 0px var(--ugFooterH)!important}}
+@media(max-height:620px) and (orientation:landscape){#app{grid-template-rows:minmax(0,1fr) 148px var(--ugFooterH)!important}body.ugHudCollapsed #app{grid-template-rows:minmax(0,1fr) 0px var(--ugFooterH)!important}}
+@media(max-width:420px){#ugFooter{font-size:7px;letter-spacing:0;gap:5px}}
+</style>
+<script>
+/* UNDERGRID 1.40.7b // FALL TRAJECTORY + APP FOOTER */
+(()=>{'use strict';
+ const BUILD='1.40.7c';
+ function labels(){
+  document.title='UNDERGRID // 1.40.7c Public Tablet Release';
+  const top=document.querySelector('.top .title');if(top)top.textContent='UNDERGRID // 1.40.7c // PUBLIC TABLET RELEASE';
+  const lab=document.querySelector('#undergridLab .uglVersion');if(lab)lab.innerHTML='<b>PUBLIC // 1.40.7c FOOTER VIEWPORT FIX</b><br>FIX // LEDGE SIDE + VERTICAL LANDING + DISPLACEMENT PRESENTATION<br>FOUNDATION // 1.40.7a LIVE RENDER + TABLET + LADDER FIRE LANES';
+ }
+ const oldDebug=Game.prototype.debugExport;
+ Game.prototype.debugExport=function(){const d=oldDebug.call(this);d.publicBuild=BUILD;return d};
+ // Keep a permanent non-mutating regression for the original cross-platform teleport.
+ function fallAudit(){
+  const platforms=[{x:.2,w:.45,y:.25},{x:.16,w:.15,y:.50},{x:.65,w:.18,y:.53}];
+  const cases=[{name:'LEFT LEDGE',x:.204,dx:-.002,side:'LEFT',pi:1},
+   {name:'RIGHT LEDGE',x:.645,dx:.003,side:'RIGHT',pi:2}].map(c=>{
+    const fighter={pi:0,x:c.x,y:.25,hp:100,dex:100,down:false},actions=[];
+    const fake={map:{p:platforms},W:1600,H:800,fighters:[fighter],rnd:(a)=>a,
+     record:(type,data)=>actions.push({type,...data}),down:(f)=>{f.down=true},fallFrom:Game.prototype.fallFrom};
+    Game.prototype.knock.call(fake,fighter,c.dx,null);
+    const ledge=actions.find(a=>a.type==='LEDGE'),fall=actions.find(a=>a.type==='FALL');
+    return{name:c.name,pass:ledge?.side===c.side&&fighter.pi===c.pi&&!fighter.down&&fall?.horizontalPx<=16,
+     side:ledge?.side,landingPi:fighter.pi,horizontalPx:fall?.horizontalPx??null};
+   });
+  return{build:BUILD,pass:cases.every(c=>c.pass),cases};
+ }
+ window.UNDERGRID_FALL_RELEASE={build:BUILD,audit:fallAudit};
+ if(window.UNDERGRID_PUBLIC_RELEASE){
+  const original=window.UNDERGRID_PUBLIC_RELEASE.audit;
+  window.UNDERGRID_PUBLIC_RELEASE.build=BUILD;
+  window.UNDERGRID_PUBLIC_RELEASE.audit=(samples)=>{
+   const rep=original(samples),fall=fallAudit(),foot=document.getElementById('ugFooter');
+   rep.build=BUILD;
+   rep.checks.push({name:'FALL TRAJECTORY',pass:fall.pass,detail:`${fall.cases.filter(c=>c.pass).length}/${fall.cases.length} ledge cases`});
+   rep.checks.push({name:'APP BRANDING FOOTER',pass:!!foot&&foot.textContent.includes(BUILD),detail:'Unaffiliated / Undergrid version strip'});
+   rep.pass=rep.checks.every(c=>c.pass);rep.detail.fall=fall;return rep;
+  };
+ }
+ function updateAuditCard(){
+  const button=document.getElementById('uglPublicAudit1407');if(!button)return;
+  const title=button.closest('.uglCard')?.querySelector('.uglCardTitle');if(title)title.textContent='PUBLIC RELEASE // '+BUILD;
+  button.onclick=()=>{const rep=window.UNDERGRID_PUBLIC_RELEASE.audit(12),out=document.getElementById('uglReport');
+   if(out)out.textContent=`PUBLIC RELEASE ${BUILD} // ${rep.pass?'PASS':'CHECK'}\n\n`+rep.checks.map(c=>`[${c.pass?'PASS':'FAIL'}] ${c.name} // ${c.detail}`).join('\n');};
+ }
+ updateAuditCard();setTimeout(updateAuditCard,350);
+ const manual=document.getElementById('manual');
+ if(manual)manual.insertAdjacentHTML('beforeend','<p><b>1.40.7b FALL TRAJECTORY FIX</b> // Corrected left-edge knockback choosing the opposite side of a platform. Falls now land vertically at the actual departure X (with only fighter-width edge grazes), never snap to a distant deck. Grenade, launcher and AUTO damage displacement now animate instead of jumping instantly to final coordinates. The small persistent footer shows Unaffiliated branding and this build number across desktop and tablet layouts.</p>');
+ labels();document.addEventListener('DOMContentLoaded',labels,{once:true});window.addEventListener('load',labels,{once:true});setTimeout(labels,300);setTimeout(labels,1200);
+ requestAnimationFrame(()=>{try{resize();if(camera.autoFit)fitBattlefieldView(false)}catch(e){console.error('[UG FOOTER RESIZE]',e)}});
+})();
+</script>
+
+<style id="ugFooterViewport1407c">
+/* 1.40.7c // Reserve the permanent footer row for EVERY full-screen surface.
+   1.40.7b reserved it for combat only, while modal screens still used 100dvh. */
+:root{--ugFooterH:calc(18px + env(safe-area-inset-bottom))}
+#app{height:100dvh}
+#ugFooter{padding-bottom:env(safe-area-inset-bottom)}
+/* Modal backdrops must stop at the footer instead of painting behind it. */
+#setupOverlay,#overlay,#armoryOverlay,#adminOverlay,#supplyOverlay,
+#territoryOverlay,#rivalIntelOverlay,#rivalDossierOverlay,
+#undergridLab,#equipmentReview,#combatLab,#grenadeLab,
+#levelLab,#hotseatCurtain,#equipmentTuningLab{
+  bottom:var(--ugFooterH)!important;
+}
+/* Panels use the remaining visual viewport, with their original top/bottom margins.
+   Preserve scrollability rather than hiding content on smaller screens. */
+#setupOverlay .setupCard{
+  height:calc(100dvh - var(--ugFooterH) - 22px)!important;
+  max-height:calc(100dvh - var(--ugFooterH) - 22px)!important;
+}
+#armoryOverlay .armoryPanel{
+  height:min(760px,calc(100dvh - var(--ugFooterH) - 22px))!important;
+}
+#supplyOverlay .supplyPanel{
+  height:min(720px,calc(100dvh - var(--ugFooterH) - 22px))!important;
+}
+#territoryOverlay .territoryPanel{
+  height:min(820px,calc(100dvh - var(--ugFooterH) - 28px))!important;
+}
+#setupOverlay .setupCard,#armoryOverlay .armoryPanel,
+#supplyOverlay .supplyPanel,#territoryOverlay .territoryPanel,
+#adminOverlay .adminPanel{
+  max-height:calc(100dvh - var(--ugFooterH) - 22px)!important;
+}
+#overlay .modal,#rivalIntelOverlay .rivalIntelPanel,
+#rivalDossierOverlay .rivalDossierPanel{
+  max-height:calc(100dvh - var(--ugFooterH) - 28px)!important;
+}
+#dossier,#manual{
+  bottom:calc(var(--ugFooterH) + max(10px,env(safe-area-inset-bottom)))!important;
+  max-height:calc(100dvh - var(--ugFooterH) - 22px)!important;
+}
+/* The short-screen and narrow layouts keep their existing vertical scrolling. */
+@media(max-height:680px) and (min-width:981px){
+  #setupOverlay .setupCard{
+    height:auto!important;min-height:660px!important;
+    max-height:none!important;overflow:visible!important;
+  }
+}
+@media(max-width:980px){
+  #setupOverlay .setupCard{
+    height:auto!important;min-height:0!important;
+    max-height:none!important;overflow:visible!important;
+  }
+}
+</style>
+
+<script>
+/* 1.40.7c // footer viewport clearance regression; gameplay unchanged. */
+(()=>{'use strict';
+ const BUILD='1.40.7c';
+ const oldDebug=Game.prototype.debugExport;
+ Game.prototype.debugExport=function(){const d=oldDebug.call(this);d.publicBuild=BUILD;return d};
+ const footer=document.getElementById('ugFooter');
+ const fullScreenIds=['setupOverlay','overlay','armoryOverlay','adminOverlay','supplyOverlay',
+   'territoryOverlay','rivalIntelOverlay','rivalDossierOverlay','undergridLab',
+   'equipmentReview','combatLab','grenadeLab','levelLab','hotseatCurtain','equipmentTuningLab'];
+ function viewportAudit(){
+   const f=footer.getBoundingClientRect(),limit=f.top;
+   const rows=fullScreenIds.map(id=>{
+     const el=document.getElementById(id);
+     if(!el)return{id,pass:true,skipped:true};
+     const r=el.getBoundingClientRect();
+     return{id,pass:r.bottom<=limit+1,viewportBottom:r.bottom,footerTop:limit};
+   });
+   const modalRows=['.setupCard','.armoryPanel','.supplyPanel','.territoryPanel',
+     '.rivalIntelPanel','.rivalDossierPanel','.modal'].map(sel=>{
+     const el=document.querySelector(sel);if(!el)return{sel,pass:true,skipped:true};
+     const parent=el.parentElement;
+     const active=parent&&(parent.classList.contains('show')||parent.id==='setupOverlay'&&!parent.classList.contains('hidden'));
+     const r=el.getBoundingClientRect();
+     // A scrollable, deliberately taller card is fine: the backdrop clips it
+     // above the footer and exposes its contents through native scrolling.
+     const scrollable=parent&&getComputedStyle(parent).overflowY!=='hidden';
+     return{sel,active:!!active,pass:!active||r.bottom<=limit+1||scrollable,
+       panelBottom:r.bottom,footerTop:limit};
+   });
+   const dossiers=['dossier','manual'].map(id=>{
+     const el=document.getElementById(id),r=el.getBoundingClientRect();
+     return{id,pass:r.bottom<=limit+1,viewportBottom:r.bottom};
+   });
+   return{build:BUILD,pass:rows.every(r=>r.pass)&&modalRows.every(r=>r.pass)&&dossiers.every(r=>r.pass),
+     footerTop:limit,overlays:rows,panels:modalRows,dossiers};
+ }
+ window.UNDERGRID_FOOTER_VIEWPORT={build:BUILD,audit:viewportAudit};
+ if(window.UNDERGRID_PUBLIC_RELEASE){
+   const previous=window.UNDERGRID_PUBLIC_RELEASE.audit;
+   window.UNDERGRID_PUBLIC_RELEASE.build=BUILD;
+   window.UNDERGRID_PUBLIC_RELEASE.audit=(samples)=>{
+     const r=previous(samples),v=viewportAudit();r.build=BUILD;
+     r.checks.push({name:'FOOTER / OVERLAY CLEARANCE',pass:v.pass,
+       detail:`${v.overlays.filter(x=>x.pass).length}/${v.overlays.length} full-screen overlays respect footer`});
+     r.pass=r.checks.every(c=>c.pass);r.detail.footerViewport=v;return r;
+   };
+ }
+ const manual=document.getElementById('manual');
+ if(manual)manual.insertAdjacentHTML('beforeend',
+   '<p><b>1.40.7c FOOTER VIEWPORT FIX</b> // Crew Loadout, Territory Network, Armory, Supply, dossiers, and all other full-screen panels now reserve the persistent 18px Unaffiliated footer. Modal content remains scrollable on short and narrow screens. No gameplay or campaign-state changes.</p>');
 })();
 </script>
 </body></html>

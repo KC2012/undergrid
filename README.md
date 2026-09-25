@@ -1,9 +1,9 @@
 # UNDERGRID
 
-**Version 1.40.7c — Public Tablet Release / Footer Viewport Fix**  
+**Version 1.40.8 — Rules Integrity & Tactical AI / Deployment Candidate**  
 A turn-based, side-view tactical skirmish game about positioning, vertical combat, weapons, and the consequences of a bad move.
 
-**Play:** https://undergrid.unaffiliated.page/  
+**Published site:** https://undergrid.unaffiliated.page/ (may still run the previous build until this package is deployed)  
 **Format:** Standalone HTML5 browser game  
 **Recommended:** Desktop browser or iPad in landscape orientation
 
@@ -121,16 +121,46 @@ The v1.40.7b footer had its own layout row during combat, but Crew Loadout, Terr
 
 **Verification:** 96 overlay/layout cases across eight desktop, iPad, tablet, portrait, and phone viewports passed, including the screenshot-size desktop layout and a short-height window. Real Crew → Territory → Crew → Quick Battle navigation passed on desktop and an iPad-sized touch viewport, with 16 territory nodes, eight visible fighters, passing fall and public audits, and no browser page errors. All 110 JavaScript blocks passed syntax validation. Existing AUTO navigation limitations noted in v1.40.7b remain unchanged.
 
-## v1.40.7c — Footer viewport fix
+## v1.40.7d — Shock activation and manual fighter selection
 
-The v1.40.7b footer had its own layout row during combat, but Crew Loadout, Territory Network, and other full-screen overlays still measured themselves against the entire viewport. Their panels could extend behind the footer, particularly at desktop/iPad landscape heights and short desktop windows.
+The normal activation system correctly removed 1 AP when SHOCK triggered, but manually selecting a different unacted fighter bypassed the activation-start status processor and reset their AP to 2. Switching away from a previously shocked fighter could also restore AP when the regular turn order selected them again later in the round.
 
-- **Reserved footer space everywhere:** Every full-screen screen and developer overlay now ends above the permanent Unaffiliated footer. Crew Loadout, Territory Network, Armory, Supply, dossiers, and auxiliary screens use the same remaining visual viewport.
-- **Responsive panel heights:** Tall panels shrink to the available space. On short or narrow screens, existing scrolling remains available instead of hiding buttons or content behind the footer.
-- **Consistent branding:** The footer remains the same low-profile, theme-aware 18px strip, with `UNAFFILIATED.PAGE` on the left and `UNDERGRID // v1.40.7c` on the right.
-- **Diagnostics:** The Public Release Audit now includes a footer/overlay clearance check. This is a presentation-only update; combat, campaign, save format, fall physics, and weapon balance are unchanged.
+- **One canonical activation path:** Selecting an unacted fighter now uses the same start-of-activation lifecycle as normal turn progression and AI. Pending SHOCK, BURN, TOXIN, campaign start skills, and battlefield environmental effects run on the selected fighter.
+- **Exactly once per round:** A fighter prepared earlier in the round retains their remaining AP and does not repeat status damage or environmental AP loss when selected again. A shocked fighter may switch before taking an action without restoring their lost AP.
+- **Combat diagnostic:** In desktop developer tools, `UNDERGRID_SHOCK_AUDIT.inspect()` returns current fighter AP/status and the latest ACTIVATE, SELECT, STATUS_APPLIED, STATUS_TICK, environmental shock, skill-trigger, and END events without modifying the match.
+- **Rule clarification:** SHOCK removes 1 AP at the fighter's next activation. Shock weapon hits apply it on a 55% roll after damage; Shock Grenades apply it to fighters caught in the burst. The FOLLOW THROUGH skill can legitimately refund 1 AP after a melee takedown, and Overwatch can fire later as a reaction.
 
-**Verification:** 96 overlay/layout cases across eight desktop, iPad, tablet, portrait, and phone viewports passed, including the screenshot-size desktop layout and a short-height window. Real Crew → Territory → Crew → Quick Battle navigation passed on desktop and an iPad-sized touch viewport, with 16 territory nodes, eight visible fighters, passing fall and public audits, and no browser page errors. All 110 JavaScript blocks passed syntax validation. Existing AUTO navigation limitations noted in v1.40.7b remain unchanged.
+**Verification:** Reproduced the manual-selection bypass on v1.40.7c, then passed 14 targeted browser checks covering direct/selected/AI shock, grenade application, repeated selection, later-round-order resumption, reactor hazards, campaign activation skills, and the non-mutating diagnostic. Desktop and iPad Quick Battle navigation passed with eight rendered fighters, fall and public audits, and zero page errors on the fixed regression seed `654236803`. All 111 JavaScript blocks passed syntax validation. The existing 96-case footer/overlay layout suite passed in the prior v1.40.7c release; the v1.40.7d change does not modify CSS.
+
+## v1.40.8 — Rules integrity, tactical relay AI and crane redesign
+
+This build addresses the additional combat-rule bugs found during the 1.40.7d review and the reported relay AI and Scrap Yard crane problems. It preserves the responsive Unaffiliated footer, ladder firing apertures, fall trajectory fixes, and existing browser-local campaign save format.
+
+### Combat rules
+
+- **Prepared-fighter status timing:** If an unacted fighter is selected, switched away from, then receives SHOCK, BURN or TOXIN, the newly inflicted effect processes when that fighter resumes. Existing BURN/TOXIN ticks are not repeated simply because the fighter was reselected. SHOCK still removes 1 AP, then clears.
+- **FOLLOW THROUGH:** The once-per-activation AP refund cannot be reset by switching fighters. An attack that refunded AP still counts as a committed action, so it cannot be used to bypass the selection restriction.
+- **SUPPRESSION:** A fighter suppressed during an activation retains the penalty until the end of their *next* activation, rather than immediately clearing when the current one ends. Suppression received before activation clears after that activation. RALLY can still clear it earlier.
+- **Radial knockback:** Frag grenades, launcher impacts and explosive splash push fighters away from the actual blast center, not the attacker's location. Damage attribution remains with the attacker.
+- **Kill credit:** Self-inflicted and friendly takedowns do not increment the attacking fighter's kill count or grant FOLLOW THROUGH. The actual damage/down event is still recorded.
+- **Combat feedback:** Pending status application and actual activation ticks are formatted separately, without undefined labels. The non-mutating `UNDERGRID_RULES_1408.inspect()` and `UNDERGRID_SHOCK_AUDIT.inspect()` diagnostics expose AP, statuses, skills, and recent tactical decisions.
+
+### Enemy tactics and level design
+
+- **Relay Control:** When a nearby enemy presents an immediate danger or occupies the objective, the AI can take a viable shot before rushing the relay. It also evaluates likely incoming fire at prospective positions, seeks different capture positions rather than piling onto the same point, and can still commit to an immediate winning capture.
+- **Elimination:** When an enemy on the same platform cannot be shot, the AI can seek a better firing angle rather than repeatedly waiting. Objective-carrier behavior in Salvage Run remains separate from this fallback to avoid disrupting extraction routes.
+- **Dual salvage cranes:** The two cranes now land on *separate* upper platforms, divided by a solid suspended machinery mast that blocks direct fire and top-deck jumps. Each landing connects to its own gantry, with a connected lower underpass for flanking. The mast is drawn in combat, the Territory schematic and the Level Lab preview.
+- **Combat coordinates:** Engagement and charge distance use the game's actual battlefield width, rather than depending on the current UI canvas size. This also keeps headless AUTO tests faithful to normal play.
+
+### Verification
+
+- **14/14 targeted browser tests** passed, including re-applied SHOCK, fresh versus existing BURN/TOXIN, suppression, FOLLOW THROUGH, real self-frag kill credit, grenade knockback, crane topology, hard mast LOS and the underpass route.
+- **Relay-specific tests** confirmed threat-first shooting and dispersal from a crowded capture position.
+- **120/120 crane layouts** generated successfully across six Level Lab presets; both crane landings remained distinct and valid.
+- **500/500 headless AUTO battles** completed in one 650-activation-per-match stress batch across all 14 battlefield families and all three mission types. The diagnostic still recorded 34 prevented AI oscillation patterns and 17 repeated-pattern warnings: this is a stress-test result, not proof that all navigation edge cases are gone.
+- **96/96 overlay/layout checks** passed at eight viewport sizes, with eight rendered fighters and no page errors. Desktop and iPad Crew → Territory → Quick Battle flows passed their built-in public and fall audits. **112 inline JavaScript blocks** passed syntax validation.
+
+**Deployment status:** This package is prepared locally and has not been pushed to the production site. Use the deployment instructions below and keep the same site origin to preserve browser-local campaign data.
 
 ## Running locally
 
@@ -141,7 +171,7 @@ There is no build step or dependency installation. Download `index.html` and ope
 The existing site is deployed through a GitHub-to-Vercel workflow:
 
 1. Back up the currently published `index.html` and keep the previous release available for rollback.
-2. Replace the repository's existing `index.html` with the v1.40.7c file.
+2. Replace the repository's existing `index.html` with the v1.40.8 file.
 3. Commit and push to the branch used by the production Vercel project.
 4. Wait for the Vercel deployment to complete, then open the live URL and hard-refresh if necessary.
 5. Smoke-test a Quick Battle on desktop and an iPad in landscape orientation. Check fighter visibility, touch pan/pinch, HUD toggle, toolbar layout, climb endpoints, and shooting through a top ladder aperture.
@@ -151,16 +181,16 @@ The existing site is deployed through a GitHub-to-Vercel workflow:
 
 ## Release checks
 
-The 1.40.7c release includes a developer-facing **Public Release Audit**. It combines existing checks for core stability, all live battlefield families, battlefield mechanisms, ladder/LOS cases, fighter deployment visibility **and completed-frame health**, responsive canvas layout, fall trajectory, branding footer, overlay/footer clearance, and required UI elements. Some live-battle checks are deferred until a battle is active. The audit is a regression aid, not a substitute for a real iPad/browser smoke test after deployment.
+The 1.40.8 release includes a developer-facing **Public Release Audit**. It combines existing checks for core stability, all live battlefield families, battlefield mechanisms, ladder/LOS cases, fighter deployment visibility **and completed-frame health**, responsive canvas layout, fall trajectory, branding footer, overlay/footer clearance, shock/AP and rules/tactical diagnostics, and required UI elements. Some live-battle checks are deferred until a battle is active. The audit is a regression aid, not a substitute for a real iPad/browser smoke test after deployment.
 
 To access development controls, use `Ctrl` + `Shift` + `D` in the desktop browser. Development and experimental level-lab controls are not part of the normal player flow.
 
 ## Troubleshooting
 
-**A fighter appears to teleport when knocked off a ledge:** Check the header for **1.40.7c**. If it still happens, export the debug JSON with the battle seed and the `LEDGE`/`FALL` action records. These now include departure side, departure X, landing X, and the horizontal landing correction in pixels.
+**A fighter appears to teleport when knocked off a ledge:** Check the header for **1.40.8**. If it still happens, export the debug JSON with the battle seed and the `LEDGE`/`FALL` action records. These now include departure side, departure X, landing X, and the horizontal landing correction in pixels.
 
 
-**Fighters do not appear after deployment:** Confirm the page header says **1.40.7c**, then try **VIEW** to refit the battlefield. If the problem persists, export the in-game debug JSON and include the seed. The export now records completed-frame health and any recovered platform-rendering errors.
+**Fighters do not appear after deployment:** Confirm the page header says **1.40.8**, then try **VIEW** to refit the battlefield. If the problem persists, export the in-game debug JSON and include the seed. The export now records completed-frame health and any recovered platform-rendering errors.
 
 **A ladder is visible but CLIMB will not use it:** Only connected ladder endpoints are climb destinations. Some highlighted endpoints are too far away for the current free approach; move closer before climbing. A ladder merely passing behind a platform does not necessarily connect to that platform.
 
@@ -172,8 +202,8 @@ To access development controls, use `Ctrl` + `Shift` + `D` in the desktop browse
 
 ## Project and release notes
 
-UNDERGRID is part of **Unaffiliated**, the home for experimental games and creative projects. Version 1.40.7c is the current public tablet-capable release, building on the 1.40.7a rendering fix and 1.40.7b fall-trajectory fix. The emphasis of this release is readable vertical tactics, dependable deployment, and the ability to play the full battlefield experience on an iPad without sacrificing desktop controls.
+UNDERGRID is part of **Unaffiliated**, the home for experimental games and creative projects. Version 1.40.8 is the current prepared release candidate, building on the 1.40.7a rendering fix, 1.40.7b fall-trajectory fix and 1.40.7d shock activation fix. This pass strengthens combat-rule consistency, relay tactics and the dual-crane battlefield while preserving tablet and desktop controls.
 
-**Version:** 1.40.7c  
-**Release:** Public Tablet Release / Footer Viewport Fix  
+**Version:** 1.40.8  
+**Release:** Rules Integrity & Tactical AI / Deployment Candidate  
 **Site:** https://undergrid.unaffiliated.page/

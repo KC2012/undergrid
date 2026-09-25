@@ -575,7 +575,7 @@
 <div id="controlrail"><div id="status"></div><div id="toolbar"><button class="action on" id="move">MOVE¹</button><button class="action climb" id="climb">CLIMB¹</button><button class="action jump" id="jump">JUMP¹</button><span class="railsep"></span><button class="action" id="shoot">SHOOT</button><button class="action ammoAction" id="reload">RELOAD¹</button><button class="action" id="melee">MELEE¹</button><button class="action" id="gren">GRENADE¹</button><button class="action" id="gear">GEAR</button><button class="action" id="extinguish" style="display:none">EXTINGUISH¹</button><button class="action" id="salvage">SALVAGE²</button><button class="action" id="ow">OW¹</button><span class="railsep"></span><button class="action" id="end">END</button></div><div id="gamebar"><button class="mini" id="auto">AUTO OFF</button><button class="mini" id="speedBtn">SLOW</button><button class="mini" id="viewBtn">100%</button><button class="mini" id="optionsBtn">OPTIONS</button></div></div><div id="toast"></div><div id="shotMath" class="shotMath"></div><div id="deployPhase"><div class="deployHead"><div><div class="title" style="font-size:14px">TACTICAL DEPLOYMENT</div><div class="deployHint">Click one CREW miniature, then another to swap their starting positions. Click the same fighter again to cancel.</div></div><button id="deployReady" class="deployReady">READY // BEGIN</button></div></div><div id="optionsPop"><div class="title">DISPLAY / OPTIONS</div><button class="mini" id="themeBtn">THEME // PHOSPHOR</button><button class="mini" id="focusBtn">TURN CAM // OFF</button><button class="mini" id="manualBtn">FIELD MANUAL</button><div class="hint">Wheel zoom • middle/right drag • HOME reset<br>Ctrl+Shift+D developer tools</div></div><div id="debugbar">DEV MODE // BLACK BOX <span id="vcount">0 ERR</span><button class="mini" id="export">EXPORT DEBUG</button><button class="mini" id="runTests">RUN LOS TEST</button><span class="zoomHint">Ctrl+Shift+D hides/shows developer tools</span></div>
 <div id="setupOverlay"><div class="setupCard"><div class="title" style="font-size:18px">UNDERGRID // CREW LOADOUT</div><div class="muted">Choose exactly 4 fighters. SELECT changes the squad; DOSSIER opens the definitive character sheet. Your previous squad remains selected.</div><div id="crewColorBar" class="crewColorBar"><span>CREW COLOR //</span><button type="button" data-crew-color="#68d7ff" title="Cyan" style="--crew-swatch:#68d7ff"></button><button type="button" data-crew-color="#ff5f55" title="Red" style="--crew-swatch:#ff5f55"></button><button type="button" data-crew-color="#ff9b4a" title="Orange" style="--crew-swatch:#ff9b4a"></button><button type="button" data-crew-color="#ffe45e" title="Yellow" style="--crew-swatch:#ffe45e"></button><button type="button" data-crew-color="#ff66c7" title="Magenta" style="--crew-swatch:#ff66c7"></button><button type="button" data-crew-color="#b98cff" title="Violet" style="--crew-swatch:#b98cff"></button><button type="button" data-crew-color="#e8f2e8" title="White" style="--crew-swatch:#e8f2e8"></button><button type="button" data-crew-color="#9cff57" title="Acid Green" style="--crew-swatch:#9cff57"></button></div><div id="setupGrid" class="setupGrid"></div><div class="setupFooter"><div><span id="pickCount">0 / 4 selected</span><div class="weaponLegend"></div></div><button id="deployBtn" disabled>DEPLOY CREW</button></div><div class="campaignTools"><span class="label">CAMPAIGN DATA // BANK <span id="campaignBank">0</span> SCRIP // <span id="campaignBattles">0</span> BATTLES</span><button id="exportSave">EXPORT SAVE</button><button id="importSave">IMPORT SAVE</button><button id="resetCampaign" class="danger">RESET CAMPAIGN</button><input id="importSaveFile" type="file" accept="application/json,.json" hidden></div></div></div>
 <div id="overlay"><div class="modal"><h2 id="resultTitle"></h2><div id="resultBody"></div><button id="restart">NEW SEED</button><button id="same">REPLAY SEED</button></div></div></div>
-<div id="bottom"><div class="panel"><div class="title">ACTIVE FIGHTER // <span id="fname"></span></div><div id="stats"></div></div><div class="panel"><div class="title">ROSTER</div><div id="roster"></div></div><div class="panel"><div class="missionStrip"><div><div class="title">MISSION // <span id="missionName"></span></div><div class="objective" id="objectiveInfo"></div></div><div id="roundInfo"></div></div><div class="title">COMBAT FEED</div><div id="feed"></div></div></div><footer id="ugFooter" aria-label="Unaffiliated branding"><a href="https://unaffiliated.page/" target="_blank" rel="noopener noreferrer">UNAFFILIATED.PAGE</a><span>UNDERGRID // v1.40.7c</span></footer><div id="dossier" class="dossier"><button class="mini dossierClose" id="dossierClose">CLOSE</button><div id="dossierBody"></div></div><div id="manual" class="dossier"><button class="mini dossierClose" id="manualClose">CLOSE</button><div class="title" style="font-size:18px">UNDERGRID FIELD MANUAL</div><div class="sep"></div><p><b>ACTIVATIONS</b> // Crew and rival alternate one fighter at a time. Most actions cost 1 AP; heavy weapons cost 2 AP.</p><p><b>MOVE / CLIMB / JUMP</b> // Move stays on a platform. Climb includes a short free ladder approach and is the dependable vertical route. Jump is an agile shortcut with a displayed success chance. Short downward drops are included in legal jump landings and are highly reliable.</p><p><b>SHOOTING</b> // Solid decks are hard structure. Open-grate catwalks are penetrable but impose a severe GRID penalty. Hover a target in SHOOT mode for the exact AIM + weapon + range + cover + terrain + skill modifier stack.</p><p><b>LADDER FIRE LANES</b> // The top landing of each ladder has a narrow shoot-through aperture. Fighters may fire up or down the ladder shaft when the actual shot ray passes through that opening. A ladder does not make any other floor section penetrable.</p><p><b>DEPLOYMENT</b> // Before initiative, your crew is auto-placed in legal nodes. Click one friendly miniature, then another to swap their actual generated positions, or READY immediately.</p><p><b>OVERWATCH</b> // Commit the fighter's remaining activation to watch for enemy movement entering legal LOS/range. If 2 AP remain, Overwatch reserves both, allowing an unfired 2-AP weapon to react. A 2-AP weapon cannot enter Overwatch after spending 1 AP.</p><p><b>GRENADES</b> // Every fighter carries one grenade per battle. FRAG: BLAST + KNOCKBACK, Pen 2 radial damage. SMOKE: temporary LOS-blocking volume. SHOCK: fighters in the burst receive canonical SHOCK. INCENDIARY: fighters in the initial burst receive canonical BURN and the temporary fire zone ignites fighters who begin an activation inside it. Grenade type is selected per fighter in the Armory.</p><p><b>CAMPAIGN</b> // XP creates rank advances; injuries, skills and stat changes persist. Click a fighter on the crew screen for a full dossier.</p></div></div>
+<div id="bottom"><div class="panel"><div class="title">ACTIVE FIGHTER // <span id="fname"></span></div><div id="stats"></div></div><div class="panel"><div class="title">ROSTER</div><div id="roster"></div></div><div class="panel"><div class="missionStrip"><div><div class="title">MISSION // <span id="missionName"></span></div><div class="objective" id="objectiveInfo"></div></div><div id="roundInfo"></div></div><div class="title">COMBAT FEED</div><div id="feed"></div></div></div><footer id="ugFooter" aria-label="Unaffiliated branding"><a href="https://unaffiliated.page/" target="_blank" rel="noopener noreferrer">UNAFFILIATED.PAGE</a><span>UNDERGRID // v1.40.8</span></footer><div id="dossier" class="dossier"><button class="mini dossierClose" id="dossierClose">CLOSE</button><div id="dossierBody"></div></div><div id="manual" class="dossier"><button class="mini dossierClose" id="manualClose">CLOSE</button><div class="title" style="font-size:18px">UNDERGRID FIELD MANUAL</div><div class="sep"></div><p><b>ACTIVATIONS</b> // Crew and rival alternate one fighter at a time. Most actions cost 1 AP; heavy weapons cost 2 AP.</p><p><b>MOVE / CLIMB / JUMP</b> // Move stays on a platform. Climb includes a short free ladder approach and is the dependable vertical route. Jump is an agile shortcut with a displayed success chance. Short downward drops are included in legal jump landings and are highly reliable.</p><p><b>SHOOTING</b> // Solid decks are hard structure. Open-grate catwalks are penetrable but impose a severe GRID penalty. Hover a target in SHOOT mode for the exact AIM + weapon + range + cover + terrain + skill modifier stack.</p><p><b>LADDER FIRE LANES</b> // The top landing of each ladder has a narrow shoot-through aperture. Fighters may fire up or down the ladder shaft when the actual shot ray passes through that opening. A ladder does not make any other floor section penetrable.</p><p><b>DEPLOYMENT</b> // Before initiative, your crew is auto-placed in legal nodes. Click one friendly miniature, then another to swap their actual generated positions, or READY immediately.</p><p><b>OVERWATCH</b> // Commit the fighter's remaining activation to watch for enemy movement entering legal LOS/range. If 2 AP remain, Overwatch reserves both, allowing an unfired 2-AP weapon to react. A 2-AP weapon cannot enter Overwatch after spending 1 AP.</p><p><b>GRENADES</b> // Every fighter carries one grenade per battle. FRAG: BLAST + KNOCKBACK, Pen 2 radial damage. SMOKE: temporary LOS-blocking volume. SHOCK: fighters in the burst receive canonical SHOCK. INCENDIARY: fighters in the initial burst receive canonical BURN and the temporary fire zone ignites fighters who begin an activation inside it. Grenade type is selected per fighter in the Armory.</p><p><b>CAMPAIGN</b> // XP creates rank advances; injuries, skills and stat changes persist. Click a fighter on the crew screen for a full dossier.</p></div></div>
 <script>var __mod={exports:{}};
 'use strict';
 
@@ -1016,7 +1016,11 @@ class Game {
  available(team){return this.fighters.filter(f=>f.team===team&&!f.down&&!f.acted)}
  pos(f,point='muzzle'){let y=f.y*this.H; if(point==='head')y-=32; else if(point==='shoulder')y-=26; else if(point==='chest')y-=20; else if(point==='waist')y-=13; else if(point==='legs')y-=6; else y-=19; return{x:f.x*this.W,y};}
  dist(a,b){let A=this.pos(a),B=this.pos(b);return Math.hypot(A.x-B.x,A.y-B.y)}
- record(type,data={}){this.actions.push({n:this.actions.length+1,round:this.round,side:this.side,active:this.active,type,...data});if(this.actions.length>500)this.actions.shift()}
+ record(type,data={}){
+  const committed=new Set(['SHOT','MELEE_STRIKE','MOVE','JUMP','CLIMB','STEP_LINK','MECHANISM_TRAVERSE','GRENADE','GEAR_USE','OVERWATCH','SALVAGE_PICKUP','DISENGAGE','MECHANISM_TOGGLE']);
+  if(committed.has(type)){const i=Number.isInteger(data.actor)?data.actor:data.fighter;
+    if(i===this.active&&this.fighters?.[i])this.fighters[i]._ugActionCommittedRound=this.round;}
+  this.actions.push({n:this.actions.length+1,round:this.round,side:this.side,active:this.active,type,...data});if(this.actions.length>500)this.actions.shift()}
  violation(code,data={}){this.violations.push({code,round:this.round,side:this.side,active:this.active,...data});this.record('VIOLATION',{code,...data})}
  assertState(){
   this.fighters.forEach((f,i)=>{if(f.ap<0)this.violation('NEGATIVE_AP',{fighter:i,ap:f.ap});if(f.pi<0||f.pi>=this.map.p.length)this.violation('BAD_PLATFORM',{fighter:i,pi:f.pi});let p=this.map.p[f.pi];if(!f.down&&(f.x<p.x-.03||f.x>p.x+p.w+.03))this.violation('OFF_PLATFORM',{fighter:i,x:f.x,pi:f.pi});});
@@ -1034,10 +1038,22 @@ class Game {
   if(!this.available(0).length&&!this.available(1).length){this.resolveRoundObjective();if(this.gameOver)return false;this.round++;this.fighters.forEach(f=>{if(!f.down){f.acted=false;f.over=false;f.moved=false}});}
   if(!this.available(this.side).length)this.side=1-this.side;
   let pool=this.available(this.side); if(!pool.length)return this.startActivation();
-  let f=pool[0];this.active=this.fighters.indexOf(f);f.ap=f.maxap;f.moved=false;this.activationCount++;this.record('ACTIVATE',{fighter:this.active,name:f.name});this.processActivationStatus(f);this.assertState();return true;
+  let f=pool[0];this.active=this.fighters.indexOf(f);
+  let prepared=f._ugPreparedRound===this.round;
+  if(!prepared){f.ap=f.maxap;f.moved=false;f._ugActivationSerial=(f._ugActivationSerial||0)+1}
+  this.activationCount++;this.record('ACTIVATE',{fighter:this.active,name:f.name,resumed:prepared});
+  if(!prepared)this.processActivationStatus(f);
+  else {
+    // A fighter may be shocked/ignited/poisoned AFTER their first, unspent selection.
+    // Resume only newly applied effects; do not double-tick existing BURN/TOXIN.
+    const prev=f._ugStatusSeen||{},now=f.status||{},fresh=new Set();
+    for(const k of ['burn','toxin','shock'])if((now[k]||0)>(prev[k]||0))fresh.add(k.toUpperCase());
+    if(fresh.size)this.processActivationStatus(f,fresh);
+  }
+  this.assertState();return true;
  }
  endActivation(){let f=this.fighters[this.active];if(!f)return false;
- if(f.status?.suppressed>0){f.status.suppressed=0;this.record('STATUS_CLEARED',{fighter:this.active,status:'SUPPRESSED',method:'ACTIVATION END'})}
+ if(f.status?.suppressed>0&&(f._ugActivationSerial||0)>=(f._ugSuppressionClearAfter??(f._ugActivationSerial||0))){f.status.suppressed=0;delete f._ugSuppressionClearAfter;this.record('STATUS_CLEARED',{fighter:this.active,status:'SUPPRESSED',method:'NEXT ACTIVATION END'})}
  f.acted=true;f.ap=0;this.record('END',{fighter:this.active,name:f.name,down:!!f.down});this.side=1-this.side;this.active=-1;this.assertState();return this.startActivation();}
  // Liang-Barsky segment/rect test
  rectHit(x1,y1,x2,y2,r){let dx=x2-x1,dy=y2-y1,t0=0,t1=1,P=[-dx,dx,-dy,dy],Q=[x1-r.x,r.x+r.w-x1,y1-r.y,r.y+r.h-y1];for(let i=0;i<4;i++){if(P[i]===0){if(Q[i]<0)return false}else{let t=Q[i]/P[i];if(P[i]<0){if(t>t1)return false;if(t>t0)t0=t}else{if(t<t0)return false;if(t<t1)t1=t}}}return true}
@@ -1178,7 +1194,7 @@ class Game {
   t.hp-=final;this.record('DAMAGE',{target:this.fighters.indexOf(t),source:src,raw,armor:t.armor,armorRating:armor.save,penetration:(w.pen||0)+bonusPen,blocked,amount:final,traits:w.traits||[]});
   if(t.hp<=0){this.down(t,`${final} damage`,from);return}
   if(from&&final>0)this.applyWeaponTraits(t,from,w,src,traitOptions||{});
-  if(imp>0){let effectiveImp=imp*(weaponHas(w,'KNOCKBACK')?1.25:1),resist=t.grit+this.rnd(-12,12),push=effectiveImp*(resist<55?1:resist<73?.65:.34);this.knock(t,Math.sign(t.x-from.x||1)*push/this.W,from)}
+  if(imp>0){let effectiveImp=imp*(weaponHas(w,'KNOCKBACK')?1.25:1),resist=t.grit+this.rnd(-12,12),push=effectiveImp*(resist<55?1:resist<73?.65:.34),originX=Number.isFinite(traitOptions?.impactX)?traitOptions.impactX/this.W:from?.x??t.x-.01;this.knock(t,(Math.sign(t.x-originX)||Math.sign(t.x-(from?.x??0))||1)*push/this.W,from)}
  }
  applyWeaponTraits(t,from,w,sourceKey=null,opts={}){
   t.status=t.status||{burn:0,toxin:0,shock:0,suppressed:0};let applied=[];
@@ -1188,14 +1204,14 @@ class Game {
   if(applied.length){this.record('STATUS_APPLIED',{target:this.fighters.indexOf(t),source:this.fighters.indexOf(from),weapon:sourceKey||from.weapon,statuses:applied});t.statusEvents=(t.statusEvents||[]).concat(applied)}
   return applied;
  }
- processActivationStatus(f){
-  f.status=f.status||{burn:0,toxin:0,shock:0,suppressed:0};let P=this.pos(f);if(activeGrenadeZones(this,'FIRE').some(z=>Math.hypot(P.x-z.x,P.y-z.y)<=z.r))f.status.burn=Math.max(f.status.burn||0,2);let ev=[];
-  if(f.status.burn>0){let d=this.rnd(2,4);f.hp-=d;f.status.burn--;ev.push({kind:'BURN',damage:d});this.record('STATUS_TICK',{fighter:this.fighters.indexOf(f),status:'BURN',damage:d,remaining:f.status.burn});if(f.status.burn>0&&this.rnd(1,100)<=35)f.status.burn=0}
+ processActivationStatus(f,onlyKinds=null){
+  f.status=f.status||{burn:0,toxin:0,shock:0,suppressed:0};let P=this.pos(f);if(!onlyKinds&&activeGrenadeZones(this,'FIRE').some(z=>Math.hypot(P.x-z.x,P.y-z.y)<=z.r))f.status.burn=Math.max(f.status.burn||0,2);let ev=[];
+  if(f.status.burn>0&&(!onlyKinds||onlyKinds.has('BURN'))){let d=this.rnd(2,4);f.hp-=d;f.status.burn--;ev.push({kind:'BURN',damage:d});this.record('STATUS_TICK',{fighter:this.fighters.indexOf(f),status:'BURN',damage:d,remaining:f.status.burn});if(f.status.burn>0&&this.rnd(1,100)<=35)f.status.burn=0}
   if(f.hp<=0){this.down(f,'burn trauma',null);return ev}
-  if(f.status.toxin>0&&gearHas(f,'RESPIRATOR')&&GEAR_TYPES.RESPIRATOR.toxinBlock!==false){let blocked=f.status.toxin;f.status.toxin=0;ev.push({kind:'RESPIRATOR',blocked});this.record('STATUS_BLOCKED',{fighter:this.fighters.indexOf(f),status:'TOXIN',gear:'RESPIRATOR',blocked})}
-  if(f.status.toxin>0){let d=this.rnd(1,3);f.hp-=d;f.status.toxin--;ev.push({kind:'TOXIN',damage:d});this.record('STATUS_TICK',{fighter:this.fighters.indexOf(f),status:'TOXIN',damage:d,remaining:f.status.toxin})}
+  if(f.status.toxin>0&&(!onlyKinds||onlyKinds.has('TOXIN'))&&gearHas(f,'RESPIRATOR')&&GEAR_TYPES.RESPIRATOR.toxinBlock!==false){let blocked=f.status.toxin;f.status.toxin=0;ev.push({kind:'RESPIRATOR',blocked});this.record('STATUS_BLOCKED',{fighter:this.fighters.indexOf(f),status:'TOXIN',gear:'RESPIRATOR',blocked})}
+  if(f.status.toxin>0&&(!onlyKinds||onlyKinds.has('TOXIN'))){let d=this.rnd(1,3);f.hp-=d;f.status.toxin--;ev.push({kind:'TOXIN',damage:d});this.record('STATUS_TICK',{fighter:this.fighters.indexOf(f),status:'TOXIN',damage:d,remaining:f.status.toxin})}
   if(f.hp<=0){this.down(f,'toxin trauma',null);return ev}
-  if(f.status.shock>0){f.ap=Math.max(0,f.ap-1);f.status.shock=0;ev.push({kind:'SHOCK',ap:1});this.record('STATUS_TICK',{fighter:this.fighters.indexOf(f),status:'SHOCK',apLost:1})}
+  if(f.status.shock>0&&(!onlyKinds||onlyKinds.has('SHOCK'))){f.ap=Math.max(0,f.ap-1);f.status.shock=0;ev.push({kind:'SHOCK',ap:1});this.record('STATUS_TICK',{fighter:this.fighters.indexOf(f),status:'SHOCK',apLost:1})}
   f.statusEvents=ev;return ev
  }
  // 1.40.7b: resolve which edge was actually crossed. A fighter in the leftmost
@@ -1226,7 +1242,7 @@ class Game {
   this.record('FALL',{target:this.fighters.indexOf(t),from:originPi,fallX,meters,damage,roll,dex:t.dex,landingPi:o.i,landingX:t.x,horizontalPx:Math.abs(t.x-fallX)*this.W});
   if(t.hp<=0)this.down(t,'fall trauma',from);
  }
- down(t,why,from){if(t.down)return;this.dropSalvage(t,why);t.down=true;t.hp=0;if(from)from.kills++;this.record('DOWN',{target:this.fighters.indexOf(t),why});if(!this.alive(0).length||!this.alive(1).length){this.gameOver=true;this.winner=this.alive(0).length?0:1;this.victoryReason='ELIMINATION'}}
+ down(t,why,from){if(t.down)return;this.dropSalvage(t,why);t.down=true;t.hp=0;if(from&&from!==t&&from.team!==t.team)from.kills++;this.record('DOWN',{target:this.fighters.indexOf(t),why});if(!this.alive(0).length||!this.alive(1).length){this.gameOver=true;this.winner=this.alive(0).length?0:1;this.victoryReason='ELIMINATION'}}
  
  areaContactTargets(a,primary,w){
   if(!weaponHas(w,'SCATTER'))return[];
@@ -1295,6 +1311,8 @@ shoot(a,t,reaction=false){
  if(weaponHas(w,'SUPPRESSION')&&!t.down){
   t.status=t.status||{burn:0,toxin:0,shock:0,suppressed:0};
   t.status.suppressed=1;
+  const serial=t._ugActivationSerial||0;
+  t._ugSuppressionClearAfter=serial+1;
   this.record('STATUS_APPLIED',{target:this.fighters.indexOf(t),source:this.fighters.indexOf(a),weapon:a.weapon,statuses:['SUPPRESSED']});
   t.statusEvents=(t.statusEvents||[]).concat(['SUPPRESSED']);
  }
@@ -1320,7 +1338,7 @@ shoot(a,t,reaction=false){
      if(dd>=w.blast)continue;
      let falloff=Math.max(.12,1-dd/w.blast),splashScale=(blastCenter.direct?.72:.58)*falloff;
      let raw=Math.max(2,Math.round(this.rnd(w.dmg[0],w.dmg[1])*splashScale));
-     this.damage(o,raw,Math.max(6,w.imp*falloff*(blastCenter.direct?.82:.68)),a);
+     this.damage(o,raw,Math.max(6,w.imp*falloff*(blastCenter.direct?.82:.68)),a,null,null,{impactX:blastCenter.x});
      this.record('SPLASH',{actor:this.fighters.indexOf(a),target:this.fighters.indexOf(o),weapon:a.weapon,distance:dd,radius:w.blast,raw,directImpact:blastCenter.direct});
    }
  }
@@ -1590,7 +1608,7 @@ function resolveGrenadeImpact(a,key,x,y){
  }
  if(key==='INCENDIARY')game.grenadeZones.push({type:'FIRE',x,y,r,expiresRound:game.round+(d.duration||2)});
  for(let f of game.fighters){if(f.down)continue;let P=game.pos(f),dd=Math.hypot(P.x-x,P.y-y);if(dd>=r)continue;hit.push(f.name);
-   if(key==='FRAG')game.damage(f,Math.max(3,Math.round(16-dd/10)),Math.max(8,72-dd/2),a,grenadeProfile,'FRAG_GRENADE');
+   if(key==='FRAG')game.damage(f,Math.max(3,Math.round(16-dd/10)),Math.max(8,72-dd/2),a,grenadeProfile,'FRAG_GRENADE',{impactX:x});
    else if(key==='SHOCK')game.applyWeaponTraits(f,a,grenadeProfile,'SHOCK_GRENADE',{forceShock:true});
    else if(key==='INCENDIARY')game.applyWeaponTraits(f,a,grenadeProfile,'INCENDIARY_GRENADE',{forceBurn:true});
  }
@@ -1604,22 +1622,47 @@ function grenadeAction(a,x,y){
  let gd=GRENADE_DESIGN[key]||GRENADE_DESIGN.FRAG,total=Math.max(24,Math.round(44/(gd.travel||1)));
  fx.push({type:'grenadeThrow',grenade:key,x0:A.x,y0:A.y,x1:x,y1:y,life:total,total,design:{...gd},trail:[],onImpact:()=>{const beforeImpact=captureImpactPositions();resolveGrenadeImpact(a,key,x,y);animateImpactPositions(beforeImpact);fx.push({type:'grenadeImpact',grenade:key,x,y,r:d.radius,life:Math.round(28*(gd.hold||1)),total:Math.round(28*(gd.hold||1)),design:{...gd}});game.assertState();checkEnd();refresh()}});return true
 }
-function launcherAction(a,x,y){let w=WEAP[a.weapon];if(!w||!weaponHas(w,'INDIRECT')){feedback('INDIRECT','Current weapon cannot make an indirect attack.','warn');return false}if(a.ap<w.ap){feedback('AP',`${w.label} requires ${w.ap} AP // ${a.ap} available.`,'warn');return false}let A=game.pos(a),D=Math.hypot(x-A.x,y-A.y);if(D>w.range){feedback('RANGE',`Launcher target is too far // ${Math.round(D/10)}m / ${Math.round(w.range/10)}m max.`,'warn');return false}a.ap-=w.ap;game.record('LAUNCHER',{fighter:game.active,x,y,range:D,max:w.range,blast:w.blast});uiLog('LAUNCH',`${a.name} fires ${w.label}.`);feedback('LAUNCH',`${a.name} // indirect projectile in flight.`,'good',1100);busy=true;fx.push({type:'arc',x0:A.x,y0:A.y,x1:x,y1:y,t:0,life:42,total:42,trail:[],cb:()=>{const beforeImpact=captureImpactPositions();uiLog('BOOM','Launcher grenade detonates.');game.record('BLAST',{actor:game.active,x,y,radius:w.blast});fx.push({type:'ring',x,y,r:7,life:28});game.fighters.forEach(f=>{if(f.down)return;let P=game.pos(f),dd=Math.hypot(P.x-x,P.y-y);if(dd<w.blast){let scale=Math.max(.25,1-dd/w.blast);let raw=Math.max(2,Math.round(((w.dmg[0]+w.dmg[1])/2)*scale));game.damage(f,raw,Math.max(8,w.imp*scale),a);fx.push({type:'float',x:P.x,y:P.y-34,text:`-${raw}`,life:80})}});animateImpactPositions(beforeImpact);busy=false;game.assertState();checkEnd();refresh();if(!game.gameOver&&a===activeF()&&a.ap<=0)setTimeout(endActivation,450)}});return true}
+function launcherAction(a,x,y){let w=WEAP[a.weapon];if(!w||!weaponHas(w,'INDIRECT')){feedback('INDIRECT','Current weapon cannot make an indirect attack.','warn');return false}if(a.ap<w.ap){feedback('AP',`${w.label} requires ${w.ap} AP // ${a.ap} available.`,'warn');return false}let A=game.pos(a),D=Math.hypot(x-A.x,y-A.y);if(D>w.range){feedback('RANGE',`Launcher target is too far // ${Math.round(D/10)}m / ${Math.round(w.range/10)}m max.`,'warn');return false}a.ap-=w.ap;game.record('LAUNCHER',{fighter:game.active,x,y,range:D,max:w.range,blast:w.blast});uiLog('LAUNCH',`${a.name} fires ${w.label}.`);feedback('LAUNCH',`${a.name} // indirect projectile in flight.`,'good',1100);busy=true;fx.push({type:'arc',x0:A.x,y0:A.y,x1:x,y1:y,t:0,life:42,total:42,trail:[],cb:()=>{const beforeImpact=captureImpactPositions();uiLog('BOOM','Launcher grenade detonates.');game.record('BLAST',{actor:game.active,x,y,radius:w.blast});fx.push({type:'ring',x,y,r:7,life:28});game.fighters.forEach(f=>{if(f.down)return;let P=game.pos(f),dd=Math.hypot(P.x-x,P.y-y);if(dd<w.blast){let scale=Math.max(.25,1-dd/w.blast);let raw=Math.max(2,Math.round(((w.dmg[0]+w.dmg[1])/2)*scale));game.damage(f,raw,Math.max(8,w.imp*scale),a,null,'LAUNCHER_BLAST',{impactX:x});fx.push({type:'float',x:P.x,y:P.y-34,text:`-${raw}`,life:80})}});animateImpactPositions(beforeImpact);busy=false;game.assertState();checkEnd();refresh();if(!game.gameOver&&a===activeF()&&a.ap<=0)setTimeout(endActivation,450)}});return true}
 function overwatchAction(f){if(!f){feedback('OVERWATCH','No active fighter.');return false}let w=WEAP[f.weapon];if(w?.melee||!resourceCanFire(f)){feedback('OVERWATCH',`${f.name} // ${resourceStatus(f)} // weapon unavailable.`,'warn');return false}let need=Math.max(1,w?.ap||1);if(f.ap<need){feedback('AP',`${w?.label||f.weapon} requires ${need} AP to enter Overwatch // ${f.ap} available.`,'warn');return false}let reserve=f.ap>=2?2:1;f.ap-=reserve;f.over=true;f.overwatchReserve=reserve;game.record('OVERWATCH',{fighter:game.active,reservedAP:reserve,weaponAP:need});uiLog('OVERWATCH',`${f.name} watches for movement // ${reserve} AP committed.`);return true}
 function reactionCheck(mover){let shooter=game.fighters.find(e=>e.team!==mover.team&&!e.down&&e.over&&game.shotInfo(e,mover).legal);if(!shooter)return false;shooter.over=false;uiLog('OVERWATCH',`${shooter.name} INTERRUPTS ${mover.name}.`);feedback('OVERWATCH',`${shooter.name} reacts to ${mover.name}!`,'warn',1200);if(busy&&mover.team===1){let beforeImpact=captureImpactPositions(),before=game.actions.length,A=game.pos(shooter),B=game.pos(mover),ok=game.shoot(shooter,mover,true),shot=game.actions.slice(before).find(x=>x.type==='SHOT'),dmg=game.actions.slice(before).find(x=>x.type==='DAMAGE');if(ok&&shot){animateImpactPositions(beforeImpact);queueWeaponFireFx(shooter.weapon,A,B,shot.hit);if(shot.hit&&dmg)fx.push({type:'float',x:B.x,y:B.y-35,text:`-${dmg.amount}`,life:50});checkEnd();refresh()}return ok}shootAction(shooter,mover,true);return true}
 
 function presentActivationStatuses(){
  let f=activeF(),ev=f?.statusEvents||[];if(!f||!ev.length)return;
- let parts=ev.map(e=>e.kind==='SHOCK'?`SHOCK // -1 AP`:`${e.kind} // -${e.damage} HP`);
+ let fmt=e=>typeof e==='string'?`${e} // APPLIED`:e.kind==='SHOCK'?'SHOCK // -1 AP':e.kind==='RESPIRATOR'?'RESPIRATOR // TOXIN BLOCKED':`${e.kind} // -${e.damage} HP`;
+ let parts=ev.map(fmt);
  feedback('STATUS',`${f.name} // ${parts.join(' // ')}`,'bad',2200);
  uiLog('STATUS',`${f.name} // ${parts.join(' // ')}`);
- let P=game.pos(f);ev.forEach((e,n)=>fx.push({type:'float',x:P.x,y:P.y-42-n*15,text:e.kind==='SHOCK'?'SHOCK -1 AP':`${e.kind} -${e.damage}`,life:110,good:false}));
+ let P=game.pos(f);ev.forEach((e,n)=>fx.push({type:'float',x:P.x,y:P.y-42-n*15,text:fmt(e),life:110,good:false}));
  f.statusEvents=[];
 }
 
 function endActivation(){if(busy||game.gameOver)return;let f=activeF();if(!f)return;game.endActivation();presentActivationStatuses();checkEnd();refresh();if(!game.gameOver)scheduleAI()}
 function autoEndDowned(delay=760){let f=activeF();if(!f||!f.down||game.gameOver)return;feedback('DOWN',`${f.name} is down // activation ends automatically.`,'bad',Math.max(1200,delay));setTimeout(()=>{let cur=activeF();if(cur&&cur.down&&!game.gameOver&&game.side===cur.team){endActivation()}},delay)}
-function select(i){let f=game.fighters[i],cur=activeF();if(busy){feedback('SELECT','Wait for the current action to resolve.','warn');return}if(!humanControlsSide(game.side)){feedback('SELECT','This side is not under human control.','warn');return}if(!f||f.team!==game.side){feedback('SELECT','That fighter belongs to the other side.','warn');return}if(f.down){feedback('SELECT',`${f.name} is down.`,'warn');return}if(f.acted){feedback('SELECT',`${f.name} has already activated this round.`,'warn');return}if(cur&&cur.team===game.side&&(cur.ap<cur.maxap||cur.moved)){feedback('ACT',`Finish ${cur.name}’s activation before switching.`,'warn');return}clearTimeout(autoTimer);autoTimer=null;game.active=i;f.ap=f.maxap;mode='move';game.record('SELECT',{fighter:i,name:f.name});feedback('ACTIVE',`${f.name} selected // ${f.ap} AP.`,'good',1100);refresh()}
+function select(i){
+ let f=game.fighters[i],cur=activeF();
+ if(busy){feedback('SELECT','Wait for the current action to resolve.','warn');return}
+ if(!humanControlsSide(game.side)){feedback('SELECT','This side is not under human control.','warn');return}
+ if(!f||f.team!==game.side){feedback('SELECT','That fighter belongs to the other side.','warn');return}
+ if(f.down){feedback('SELECT',`${f.name} is down.`,'warn');return}
+ if(f.acted){feedback('SELECT',`${f.name} has already activated this round.`,'warn');return}
+ if(f===cur)return;
+ // 1.40.7d: Shock/environmental AP loss is not a spent action. Switching
+ // is legal before acting, but never restores AP or reapplies a status tick.
+ const readyAP=cur?cur._ugSelectionReadyAP??cur.maxap:0;
+ if(cur&&cur.team===game.side&&(cur.ap<readyAP||cur.moved||cur._ugActionCommittedRound===game.round)){
+   feedback('ACT',`Finish ${cur.name}’s activation before switching.`,'warn');return;
+ }
+ clearTimeout(autoTimer);autoTimer=null;
+ // Route manual selection through the *same* canonical activation lifecycle
+ // as AUTO and normal turn progression: status, career skills, environment.
+ game._ugManualSelectionTarget=i;
+ try{game.startActivation()}finally{delete game._ugManualSelectionTarget}
+ mode='move';game.record('SELECT',{fighter:i,name:f.name,ap:f.ap,preparedRound:f._ugPreparedRound});
+ if(f.down){checkEnd();autoEndDowned(250);refresh();return}
+ if(f.statusEvents?.length)presentActivationStatuses();
+ else feedback('ACTIVE',`${f.name} selected // ${f.ap} AP.`,'good',1100);
+ game.assertState();refresh();
+}
 function aiActivation(expectedSide=game.side,expectedActive=game.active){
  // Never allow a stale AUTO timer to take control of a human crew activation.
  if(game.gameOver)return
@@ -2033,7 +2076,7 @@ const SIDEARM_MELEE_KEYS={};
 
 
 const ENGAGE_PX=48;
-function foesEngaged(f){return game?game.fighters.filter(o=>!o.down&&o.team!==f.team&&o.pi===f.pi&&Math.abs(o.x-f.x)*W<=ENGAGE_PX):[]}
+function foesEngaged(f){return game?game.fighters.filter(o=>!o.down&&o.team!==f.team&&o.pi===f.pi&&Math.abs(o.x-f.x)*game.W<=ENGAGE_PX):[]}
 function isEngaged(f){return foesEngaged(f).length>0}
 function profile(f,reaction=false){
  let k=f.weapon,w=WEAP[k],mk=w?.comboMelee;
@@ -2082,7 +2125,7 @@ function oneMeleeSide(a,t,reaction=false,charge=false){
  return{hits,attacks:total,p};
 }
 function exchange(a,t,charge=false,free=false){
- if(a.down||t.down)return false;if(a.pi!==t.pi||Math.abs(a.x-t.x)*W>ENGAGE_PX+5)return false;
+ if(a.down||t.down)return false;if(a.pi!==t.pi||Math.abs(a.x-t.x)*game.W>ENGAGE_PX+5)return false;
  if(!free){if(a.ap<1)return false;a.ap--;}
  a.facing=t.x>=a.x?1:-1;t.facing=a.x>=t.x?1:-1;
 
@@ -2119,7 +2162,7 @@ function chargeProfile(f){
 }
 function chargeRange(f){return chargeProfile(f).max}
 function chargePreview(f,t){
- let d=Math.abs(f.x-t.x)*W,need=Math.max(0,d-ENGAGE_PX+4),cp=chargeProfile(f);
+ let d=Math.abs(f.x-t.x)*game.W,need=Math.max(0,d-ENGAGE_PX+4),cp=chargeProfile(f);
  if(f.pi!==t.pi)return {legal:false,guaranteed:false,chance:0,d,need,...cp};
  if(need<=cp.base)return {legal:true,guaranteed:true,chance:100,d,need,...cp};
  if(need>cp.max)return {legal:false,guaranteed:false,chance:0,d,need,...cp};
@@ -6418,8 +6461,8 @@ RESULT // ${rep.counts.PASS} PASS // ${rep.counts.WARN} WARN // ${rep.counts.FAI
    if(!credited&&(kind==='BURN'||kind==='TOXIN')){let src=t._careerStatusSource?.[kind];credited=src?.fighterId?this.fighters.find(x=>x.fighterId===src.fighterId):this.fighters[src?.index];if(credited){ctx={...ctx,attackerId:credited.fighterId||null,attackerName:credited.name||null}}}
    let cause={kind,why,sourceKey:ctx.sourceKey||null,traits:(ctx.traits||[]).slice(),attackerId:ctx.attackerId||credited?.fighterId||null,attackerName:ctx.attackerName||credited?.name||null};t._careerCause=cause;
    let ts=bstats(t);if(ts)ts.downs++;
-   if(credited){credited._careerVictims=credited._careerVictims||[];credited._careerVictims.push({id:t.fighterId||null,name:t.name,cause:cause.kind});if(ctx.melee){let fs=bstats(credited);if(fs)fs.meleeKills++}}
-   if(credited&&ctx.melee&&credited.skills?.includes('FOLLOW THROUGH')&&credited===this.fighters[this.active]&&!credited._followThroughUsed){credited._followThroughUsed=true;credited.ap=Math.min(credited.maxap,credited.ap+1);this.record('SKILL_TRIGGER',{fighter:this.fighters.indexOf(credited),skill:'FOLLOW THROUGH',effect:'+1 AP'})}
+   if(credited&&credited!==t&&credited.team!==t.team){credited._careerVictims=credited._careerVictims||[];credited._careerVictims.push({id:t.fighterId||null,name:t.name,cause:cause.kind});if(ctx.melee){let fs=bstats(credited);if(fs)fs.meleeKills++}}
+   if(credited&&credited!==t&&credited.team!==t.team&&ctx.melee&&credited.skills?.includes('FOLLOW THROUGH')&&credited===this.fighters[this.active]&&!credited._followThroughUsed){credited._ugActionCommittedRound=this.round;credited._followThroughUsed=true;credited.ap=Math.min(credited.maxap,credited.ap+1);this.record('SKILL_TRIGGER',{fighter:this.fighters.indexOf(credited),skill:'FOLLOW THROUGH',effect:'+1 AP'})}
    return baseDown.call(this,t,why,credited)
   }
   return baseDown.apply(this,arguments)
@@ -6430,7 +6473,7 @@ RESULT // ${rep.counts.PASS} PASS // ${rep.counts.WARN} WARN // ${rep.counts.FAI
  const peopleBaseStatusActivation=Game.prototype.processActivationStatus;
  Game.prototype.processActivationStatus=function(f){if(this.careerMode==='CAMPAIGN'&&f){let P=this.pos(f),z=activeGrenadeZones(this,'FIRE').find(q=>Math.hypot(P.x-q.x,P.y-q.y)<=q.r);if(z?.sourceFighterId){f._careerStatusSource=f._careerStatusSource||{};f._careerStatusSource.BURN={fighterId:z.sourceFighterId,index:z.sourceIndex,name:z.sourceName}}}return peopleBaseStatusActivation.apply(this,arguments)};
  const baseStartActivation=Game.prototype.startActivation;
- Game.prototype.startActivation=function(){let r=baseStartActivation.apply(this,arguments);if(this.careerMode!=='CAMPAIGN'||this.active<0)return r;let f=this.fighters[this.active];if(!f||f.down)return r;f._followThroughUsed=false;if(f.skills?.includes('SECOND WIND')&&!f._secondWindUsed&&f.hp>0&&f.hp<=f.maxhp*.5){let heal=Math.min(3,f.maxhp-f.hp);if(heal>0){f.hp+=heal;f._secondWindUsed=true;this.record('SKILL_TRIGGER',{fighter:this.active,skill:'SECOND WIND',effect:`+${heal} HP`})}}if(f.skills?.includes('RALLY')){let A=this.pos(f);for(const ally of this.fighters){if(ally.team!==f.team||ally.down||!(ally.status?.suppressed>0))continue;let B=this.pos(ally);if(Math.hypot(A.x-B.x,A.y-B.y)<=170){ally.status.suppressed=0;this.record('SKILL_TRIGGER',{fighter:this.active,skill:'RALLY',target:this.fighters.indexOf(ally),effect:'SUPPRESSED CLEARED'})}}}return r};
+ Game.prototype.startActivation=function(){let r=baseStartActivation.apply(this,arguments);if(this.careerMode!=='CAMPAIGN'||this.active<0)return r;let f=this.fighters[this.active];if(!f||f.down)return r;if(f._ugFollowThroughSerial!==f._ugActivationSerial){f._followThroughUsed=false;f._ugFollowThroughSerial=f._ugActivationSerial}if(f.skills?.includes('SECOND WIND')&&!f._secondWindUsed&&f.hp>0&&f.hp<=f.maxhp*.5){let heal=Math.min(3,f.maxhp-f.hp);if(heal>0){f.hp+=heal;f._secondWindUsed=true;this.record('SKILL_TRIGGER',{fighter:this.active,skill:'SECOND WIND',effect:`+${heal} HP`})}}if(f.skills?.includes('RALLY')){let A=this.pos(f);for(const ally of this.fighters){if(ally.team!==f.team||ally.down||!(ally.status?.suppressed>0))continue;let B=this.pos(ally);if(Math.hypot(A.x-B.x,A.y-B.y)<=170){ally.status.suppressed=0;this.record('SKILL_TRIGGER',{fighter:this.active,skill:'RALLY',target:this.fighters.indexOf(ally),effect:'SUPPRESSED CLEARED'})}}}return r};
  const baseMoveAllowance=Game.prototype.moveAllowance;
  Game.prototype.moveAllowance=function(a){let v=baseMoveAllowance.apply(this,arguments);if(a?.skills?.includes('IRON NERVE')&&a.status?.suppressed>0)v*=1.1666667;return v};
  const baseJumpMax=Game.prototype.jumpMax;
@@ -9631,8 +9674,8 @@ function grammar(arch,r){
       add(0,.02,.17);add(0,.22,.17);add(0,.42,.16);add(0,.61,.17);add(0,.81,.17);
       add(1,.05,.24);add(1,.35,.21);add(1,.66,.26);
       add(2,.12,.20);add(2,.40,.18);add(2,.69,.19);
-      add(3,.26,.18,{type:'grate'});add(3,.56,.18,{type:'grate'});
-      add(4,.41,.18,{landmark:'CRANE PERCH'});break;
+      add(3,.245,.215,{type:'grate',landmark:'CRANE WEST GANTRY'});add(3,.54,.215,{type:'grate',landmark:'CRANE EAST GANTRY'});
+      add(4,.235,.225,{landmark:'CRANE PERCH WEST'});add(4,.54,.225,{landmark:'CRANE PERCH EAST'});break;
 
     case 'GROWTH_VATS':
       add(0,.025,.95,{jitter:false,landmark:'NUTRIENT FLOOR'});
@@ -10060,8 +10103,9 @@ function schematic(map){
     return`<rect x="${x}" y="${y}" width="${Math.max(2,c.w*W)}" height="${Math.max(3,c.h*H)}" fill="#19363b" stroke="#4f8d9f" stroke-width=".7"/>`
   }).join('');
   const feat=(map.features||[]).map(f=>`<text x="${f.x*W}" y="${Math.max(9,f.y*H-5)}" fill="#e2c94f" font-size="7" text-anchor="middle">${esc(f.label)}</text>`).join('');
+  const divider=map.craneDivider?`<rect data-crane-mast="1" x="${(map.craneDivider.x-map.craneDivider.w/2)*W}" y="${map.craneDivider.yTop*H}" width="${map.craneDivider.w*W}" height="${(map.craneDivider.yBottom-map.craneDivider.yTop)*H}" fill="#273b3b" stroke="#f0be62" stroke-width="1.5"/>`:'';
   const bad=map.validation?.pass?'':'<text x="8" y="14" fill="#ffb44d" font-size="8">PREVIEW // GRAMMAR SHOWN // VALIDATOR CHECK</text>';
-  return`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${bad}${ladders}${floors}${cover}${feat}</svg>`;
+  return`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${bad}${ladders}${floors}${cover}${divider}${feat}</svg>`;
 }
 
 function decorateTerritory(){
@@ -10355,6 +10399,8 @@ function renderLabPreview(canvas,map,{background=true,deploy=true}={}){
     if(p.type==='grate')c.setLineDash([8,5]);else c.setLineDash([]);
     c.beginPath();c.moveTo(X,Y);c.lineTo(X+w,Y);c.stroke();c.setLineDash([]);
   }
+  if(map.craneDivider){const d=map.craneDivider,X=(d.x-d.w/2)*cssW,Y=d.yTop*cssH,w=d.w*cssW,h=(d.yBottom-d.yTop)*cssH;
+    c.fillStyle='#273b3b';c.strokeStyle='#f0be62';c.lineWidth=2;c.fillRect(X,Y,w,h);c.strokeRect(X,Y,w,h);}
   c.setLineDash([4,5]);c.strokeStyle='#4e858e';c.lineWidth=1;
   for(const l of map.l){
     const x=l.x*cssW,y1=map.p[l.a].y*cssH,y2=map.p[l.b].y*cssH;
@@ -11016,9 +11062,10 @@ function buildMechanisms(m){
    // Deployment-side parity: Scrap Yard may stay visually asymmetric, but neither side
    // gets exclusive rapid access to the crane perch. Both routes cost the same AP and
    // reach the same contested upper machinery zone.
-   const loW=pickRow(m,0,'left')||pickRow(m,0),loE=pickRow(m,0,'right')||pickRow(m,0),hi=findLandmark(m,'CRANE PERCH')||pickRow(m,4);
-   addTraverse(m,'SALVAGE_CRANE','WEST SALVAGE CRANE','CRANE',node(m,loW,.65,'WEST CRANE LOAD'),node(m,hi,.38,'CRANE WALK W'));
-   addTraverse(m,'SALVAGE_CRANE_E','EAST SALVAGE CRANE','CRANE',node(m,loE,.35,'EAST CRANE LOAD'),node(m,hi,.62,'CRANE WALK E'));
+   const loW=pickRow(m,0,'left')||pickRow(m,0),loE=pickRow(m,0,'right')||pickRow(m,0),
+         hiW=findLandmark(m,'CRANE PERCH WEST')||pickRow(m,4,'left'),hiE=findLandmark(m,'CRANE PERCH EAST')||pickRow(m,4,'right');
+   addTraverse(m,'SALVAGE_CRANE','WEST SALVAGE CRANE','CRANE',node(m,loW,.65,'WEST CRANE LOAD'),node(m,hiW,.32,'CRANE WALK W'));
+   addTraverse(m,'SALVAGE_CRANE_E','EAST SALVAGE CRANE','CRANE',node(m,loE,.35,'EAST CRANE LOAD'),node(m,hiE,.68,'CRANE WALK E'));
  }else if(a==='GROWTH_VATS'){
    const lo=findLandmark(m,'NUTRIENT FLOOR')||pickRow(m,0),hi=findLandmark(m,'SERVICE DECK')||pickRow(m,4);
    addTraverse(m,'VAT_HOIST','SERVICE HOIST','LIFT',node(m,lo,.22,'NUTRIENT HOIST'),node(m,hi,.5,'SERVICE HOIST'));
@@ -11044,6 +11091,24 @@ function buildMechanisms(m){
  }
 }
 
+function repairCraneDivider(m){
+ if(m?.dna?.archetype!=='SCRAP_YARD')return;
+ const west=findLandmark(m,'CRANE PERCH WEST'),east=findLandmark(m,'CRANE PERCH EAST'),
+       gW=findLandmark(m,'CRANE WEST GANTRY'),gE=findLandmark(m,'CRANE EAST GANTRY'),
+       under=platforms(m,p=>p.row===2&&p.x<.5&&p.x+p.w>.5)[0];
+ if(!west||!east||!gW||!gE||!under)return;
+ // Two lift landings, two gantries and a connected lower bypass.
+ addLadderUnique(m,west.pi,gW.pi,Math.max(west.p.x,gW.p.x)+.07,'CRANE_SERVICE');
+ addLadderUnique(m,east.pi,gE.pi,Math.min(east.p.x+east.p.w,gE.p.x+gE.p.w)-.07,'CRANE_SERVICE');
+ const l=Math.max(gW.p.x,under.p.x),r=Math.min(gW.p.x+gW.p.w,under.p.x+under.p.w);
+ if(r-l>.02)addLadderUnique(m,gW.pi,under.pi,(l+r)/2,'CRANE_UNDERPASS');
+ const l2=Math.max(gE.p.x,under.p.x),r2=Math.min(gE.p.x+gE.p.w,under.p.x+under.p.w);
+ if(r2-l2>.02)addLadderUnique(m,gE.pi,under.pi,(l2+r2)/2,'CRANE_UNDERPASS');
+ const x=(west.p.x+west.p.w+east.p.x)/2,yTop=Math.min(west.p.y,east.p.y)-.045,yBottom=Math.max(gW.p.y,gE.p.y)-.012;
+ m.craneDivider={x,yTop,yBottom,w:.055,top:[west.pi,east.pi],gantry:[gW.pi,gE.pi],underpass:under.pi};
+ m.features=m.features||[];m.features.push({x,y:yTop,label:'CRANE MACHINERY // LOWER BYPASS'});
+}
+
 function contactNote(m){
  const L=m.deploy?.crew||[],R=m.deploy?.rival||[];if(!L.length||!R.length)return;
  let min=Infinity;for(const a of L)for(const b of R)min=Math.min(min,Math.abs(a.x-b.x)*1400);
@@ -11058,7 +11123,7 @@ function contactNote(m){
 function enhanceMap(m,ctx){
  if(!m||m._identityPass1405)return m;
  m._identityPass1405=true;
- repairTinyOverlaps(m);retireLegacyBlastDoorCover(m);tuneTerrain(m);repairCathedral(m);buildMechanisms(m);
+ repairTinyOverlaps(m);retireLegacyBlastDoorCover(m);tuneTerrain(m);repairCathedral(m);repairCraneDivider(m);buildMechanisms(m);
  // Re-run the canonical structural validator after conservative geometry repair and Cathedral ladder additions.
  try{m.validation=api.validate(m,ctx)}catch(_){ }
  contactNote(m);
@@ -11221,7 +11286,7 @@ function syncRoundSystems(g){
  }
 }
 function applyActivationEnvironment(g){
- const f=g?.fighters?.[g.active],sys=g?.map?.archetypeSystem;if(!f||f.down||!sys)return;
+ const f=g?.fighters?.[g.active],sys=g?.map?.archetypeSystem;if(!f||f.down||!sys||f._ugPreparedRound===g.round)return;
  if(sys.type==='REACTOR_ARC'&&f.pi===sys.activePi&&f.ap>0){
    f.ap=Math.max(0,f.ap-1);g.record('ENVIRONMENT_SHOCK',{fighter:g.active,source:'REACTOR_ARC',apLost:1,pi:f.pi});
    if(g===game)try{uiLog('REACTOR ARC',`${f.name} caught in live sector // SHOCK -1 AP.`);feedback('REACTOR ARC',`${f.name} // -1 AP`,'warn',1300)}catch(_){ }
@@ -11848,11 +11913,11 @@ body.ugHudCollapsed #app{grid-template-rows:minmax(0,1fr) 0px var(--ugFooterH)!i
 <script>
 /* UNDERGRID 1.40.7b // FALL TRAJECTORY + APP FOOTER */
 (()=>{'use strict';
- const BUILD='1.40.7c';
+ const BUILD='1.40.8';
  function labels(){
-  document.title='UNDERGRID // 1.40.7c Public Tablet Release';
-  const top=document.querySelector('.top .title');if(top)top.textContent='UNDERGRID // 1.40.7c // PUBLIC TABLET RELEASE';
-  const lab=document.querySelector('#undergridLab .uglVersion');if(lab)lab.innerHTML='<b>PUBLIC // 1.40.7c FOOTER VIEWPORT FIX</b><br>FIX // LEDGE SIDE + VERTICAL LANDING + DISPLACEMENT PRESENTATION<br>FOUNDATION // 1.40.7a LIVE RENDER + TABLET + LADDER FIRE LANES';
+  document.title='UNDERGRID // 1.40.8 Public Tablet Release';
+  const top=document.querySelector('.top .title');if(top)top.textContent='UNDERGRID // 1.40.8 // PUBLIC TABLET RELEASE';
+  const lab=document.querySelector('#undergridLab .uglVersion');if(lab)lab.innerHTML='<b>PUBLIC // 1.40.8 RULES + TACTICAL AI</b><br>FIX // LEDGE SIDE + VERTICAL LANDING + DISPLACEMENT PRESENTATION<br>FOUNDATION // 1.40.7a LIVE RENDER + TABLET + LADDER FIRE LANES';
  }
  const oldDebug=Game.prototype.debugExport;
  Game.prototype.debugExport=function(){const d=oldDebug.call(this);d.publicBuild=BUILD;return d};
@@ -11956,7 +12021,7 @@ body.ugHudCollapsed #app{grid-template-rows:minmax(0,1fr) 0px var(--ugFooterH)!i
 <script>
 /* 1.40.7c // footer viewport clearance regression; gameplay unchanged. */
 (()=>{'use strict';
- const BUILD='1.40.7c';
+ const BUILD='1.40.8';
  const oldDebug=Game.prototype.debugExport;
  Game.prototype.debugExport=function(){const d=oldDebug.call(this);d.publicBuild=BUILD;return d};
  const footer=document.getElementById('ugFooter');
@@ -12004,6 +12069,189 @@ body.ugHudCollapsed #app{grid-template-rows:minmax(0,1fr) 0px var(--ugFooterH)!i
  const manual=document.getElementById('manual');
  if(manual)manual.insertAdjacentHTML('beforeend',
    '<p><b>1.40.7c FOOTER VIEWPORT FIX</b> // Crew Loadout, Territory Network, Armory, Supply, dossiers, and all other full-screen panels now reserve the persistent 18px Unaffiliated footer. Modal content remains scrollable on short and narrow screens. No gameplay or campaign-state changes.</p>');
+})();
+</script>
+
+<script>
+/* UNDERGRID 1.40.7d // canonical shock on manual fighter selection.
+   startActivation already processes status; manual SELECT must do so exactly
+   once per round, and neither route may grant AP again when reselecting. */
+(()=>{'use strict';
+ const BUILD='1.40.8';
+ const baseAvailable=Game.prototype.available;
+ Game.prototype.available=function(team){
+   const pool=baseAvailable.call(this,team),i=this._ugManualSelectionTarget;
+   if(!Number.isInteger(i))return pool;
+   const target=this.fighters[i];
+   return target?.team===team&&pool.includes(target)?[target,...pool.filter(f=>f!==target)]:pool;
+ };
+ const priorStart=Game.prototype.startActivation;
+ Game.prototype.startActivation=function(){
+   const r=priorStart.apply(this,arguments),f=this.fighters?.[this.active];
+   if(r&&f&&!f.down){
+     f._ugPreparedRound=this.round;
+     // Snapshot processed statuses. A fresh status inflicted while switched away
+     // is detected on resume, while existing damage-over-time never double-ticks.
+     f._ugStatusSeen={burn:f.status?.burn||0,toxin:f.status?.toxin||0,shock:f.status?.shock||0};
+     f._ugSelectionReadyAP=f.ap;
+   }
+   return r;
+ };
+ // Non-mutating battle-log diagnostic: correlate status application, AP loss,
+ // fighter selection, and any explicit AP-refunding skill.
+ window.UNDERGRID_SHOCK_AUDIT={build:BUILD,inspect(){
+   if(typeof game==='undefined'||!game)return{build:BUILD,active:false};
+   const relevant=new Set(['ACTIVATE','SELECT','STATUS_APPLIED','STATUS_TICK','ENVIRONMENT_SHOCK','SKILL_TRIGGER','END','OVERWATCH']);
+   return{build:BUILD,active:true,round:game.round,activeFighter:game.active,
+     fighters:game.fighters.map((f,i)=>({i,name:f.name,team:f.team,ap:f.ap,maxap:f.maxap,acted:f.acted,
+       shock:f.status?.shock||0,preparedRound:f._ugPreparedRound??null,readyAP:f._ugSelectionReadyAP??null})),
+     events:game.actions.filter(a=>relevant.has(a.type)).slice(-100)};
+ }};
+ if(window.UNDERGRID_PUBLIC_RELEASE){
+   const old=window.UNDERGRID_PUBLIC_RELEASE.audit;
+   window.UNDERGRID_PUBLIC_RELEASE.build=BUILD;
+   window.UNDERGRID_PUBLIC_RELEASE.audit=(samples)=>{
+     const r=old(samples);r.build=BUILD;r.detail.shockDiagnostic=!!window.UNDERGRID_SHOCK_AUDIT?.inspect;
+     r.checks.push({name:'SHOCK / AP DIAGNOSTIC',pass:r.detail.shockDiagnostic,
+       detail:'Manual selection now processes status once per round; battle-log inspector available.'});
+     r.pass=r.checks.every(x=>x.pass);return r;
+   };
+ }
+ const manual=document.getElementById('manual');
+ if(manual)manual.insertAdjacentHTML('beforeend',
+   '<p><b>1.40.7d SHOCK ACTIVATION FIX</b> // Switching to a different fighter before spending AP now runs their normal activation-start effects (including SHOCK) exactly once. Shocked fighters may switch before acting without restoring lost AP. A non-mutating combat-log inspector is available at <code>UNDERGRID_SHOCK_AUDIT.inspect()</code>.</p>');
+})();
+</script>
+<script>
+/* UNDERGRID 1.40.8 // tactical objective AI, anti-stall fallback and crane divider */
+(()=>{'use strict';
+ const BUILD='1.40.8';
+ // A suspended mast separates the two upper crane landings. Unlike ordinary
+ // cover, the mast is HARD structure; the row-two underpass remains open.
+ function mastRect(g){const d=g?.map?.craneDivider;if(!d)return null;return{x:(d.x-d.w/2)*g.W,y:d.yTop*g.H,w:d.w*g.W,h:(d.yBottom-d.yTop)*g.H}}
+ const oldShot=Game.prototype.shotInfo;
+ Game.prototype.shotInfo=function(a,b){
+   const si=oldShot.call(this,a,b),r=mastRect(this);if(!r||!a||!b||!si?.legal)return si;
+   const A=this.pos(a,'muzzle'),pts=['head','shoulder','chest','waist','legs'];
+   if(pts.every(pt=>this.rectHit(A.x,A.y,this.pos(b,pt).x,this.pos(b,pt).y,r)))
+     return{...si,legal:false,state:'BLOCKED_CRANE_MAST',hard:true,blockReason:'CRANE MACHINERY',chance:0,cover:'BLOCKED',exposure:0,hardExposure:0};
+   return si;
+ };
+ const oldJumpLink=Game.prototype.jumpLinkData;
+ Game.prototype.jumpLinkData=function(a,fromPi,toPi){
+   const d=this.map?.craneDivider;if(d&&d.top.includes(fromPi)&&d.top.includes(toPi)&&fromPi!==toPi)return null;
+   return oldJumpLink.apply(this,arguments);
+ };
+ const oldJump=Game.prototype.jumpData;
+ Game.prototype.jumpData=function(a,to,targetX){
+   const d=this.map?.craneDivider;if(d&&d.top.includes(a?.pi)&&d.top.includes(to)&&a.pi!==to)return null;
+   return oldJump.apply(this,arguments);
+ };
+ const dna=window.UNDERGRID_BATTLEFIELD_DNA;
+ if(dna){
+   const draw=dna.draw;
+   dna.draw=function(ctx,g,W,H){
+     const out=draw.apply(this,arguments);const r=mastRect(g);if(r){ctx.save();ctx.fillStyle=THEME?.pal?.coverFill||'#11252b';ctx.strokeStyle=THEME?.pal?.warn||'#d7b451';ctx.lineWidth=2;
+       ctx.fillRect(r.x,r.y,r.w,r.h);ctx.strokeRect(r.x,r.y,r.w,r.h);
+       ctx.beginPath();for(let y=r.y+4;y<r.y+r.h-5;y+=13){ctx.moveTo(r.x+3,y);ctx.lineTo(r.x+r.w-3,Math.min(r.y+r.h-4,y+11))}ctx.stroke();
+       ctx.font='bold 9px Consolas';ctx.textAlign='center';ctx.fillStyle=THEME?.pal?.warn||'#d7b451';ctx.fillText('MAST // LOWER BYPASS',r.x+r.w/2,r.y-8);ctx.restore();}
+     return out;
+   };
+   const schematic=dna.schematic;
+   dna.schematic=function(m){let html=schematic.apply(this,arguments),d=m?.craneDivider;if(!d||html.includes('data-crane-mast'))return html;
+     const rect=`<rect x="${(d.x-d.w/2)*460}" y="${d.yTop*148}" width="${d.w*460}" height="${(d.yBottom-d.yTop)*148}" fill="#273b3b" stroke="#f0be62" stroke-width="1.5"/>`;
+     return html.replace('</svg>',rect+'</svg>');
+   };
+ }
+ // Evaluate the cost of being exposed AFTER a proposed move, not just the
+ // distance to the relay. A temporary position probe never mutates the game.
+ function exposure(g,a,x,pi=a.pi){const ox=a.x,op=a.pi,oy=a.y;let sum=0;
+   try{a.x=x/g.W;a.pi=pi;a.y=g.map.p[pi].y;
+     for(const e of g.alive(1-a.team)){let w=WEAP[e.weapon],d=g.dist(e,a),si=g.shotInfo(e,a);
+       if(si.legal){const dmg=(w.dmg[0]+w.dmg[1])/2;sum+=(si.chance/100)*dmg*(d<155?1.5:1);}
+       else if(d<120&&w.melee)sum+=11;
+     }
+   }finally{a.x=ox;a.pi=op;a.y=oy}
+   return sum;
+ }
+ function relaySlot(g,a){const p=g.map.p[g.objective.pi],c=g.objective.x,rad=g.objective.radius;
+   const allies=g.alive(a.team).filter(f=>f!==a),options=[-.70,-.34,0,.34,.70].map(v=>clamp(c+v*rad,p.x*g.W+15,(p.x+p.w)*g.W-15));
+   const now=a.x*g.W,serial=a._ugActivationSerial||0;
+   if(a._ugRelaySlotSerial===serial&&a._ugRelaySlotRound===g.round&&Number.isFinite(a._ugRelaySlotX))return{x:a._ugRelaySlotX};
+   const rank=options.map((x,i)=>{let crowd=allies.reduce((n,f)=>{if(f.pi!==g.objective.pi)return n;const d=Math.abs(f.x*g.W-x);return n+(d<50?20*(1-d/50):0)},0);
+     const danger=exposure(g,a,x),distance=Math.abs(now-x),center=Math.abs(x-c);
+     return{x,i,cost:danger*.85+crowd+distance*.045+center*.045};}).sort((u,v)=>u.cost-v.cost);
+   a._ugRelaySlotX=rank[0].x;a._ugRelaySlotSerial=serial;a._ugRelaySlotRound=g.round;return rank[0];
+ }
+ function bestFire(g,a){const w=WEAP[a.weapon];if(!w||a.ap<w.ap||!w.melee&&!resourceCanFire(a))return null;
+   return g.alive(1-a.team).map(t=>({t,si:g.shotInfo(a,t),d:g.dist(a,t)})).filter(o=>o.si.legal)
+     .sort((u,v)=>{const score=o=>o.si.chance+(o.d<230?18:0)+(o.t.weapon==='SHOTGUN'||WEAP[o.t.weapon]?.melee?10:0)+(o.t.hp<14?12:0);return score(v)-score(u)})[0]||null;
+ }
+ function flankOnPlatform(g,a,foes){const p=g.map.p[a.pi],now=a.x*g.W,move=g.moveAllowance(a),candidates=[];
+   for(const dir of [-1,1])for(const frac of [.55,.92]){const x=clamp(now+dir*move*frac,p.x*g.W+16,(p.x+p.w)*g.W-16);if(Math.abs(x-now)<14)continue;
+     const ox=a.x;a.x=x/g.W;let attack=foes.map(t=>g.shotInfo(a,t)).filter(si=>si.legal).reduce((n,si)=>Math.max(n,si.chance),0);a.x=ox;
+     if(attack<22)continue;const threat=exposure(g,a,x);candidates.push({x,score:attack-threat*.5-Math.abs(x-now)*.04});}
+   candidates.sort((u,v)=>v.score-u.score);return candidates[0]||null;
+ }
+ const priorAI=Game.prototype.aiStep;
+ Game.prototype.aiStep=function(a){
+   if(!a||a.down||a.ap<=0)return false;
+   const w=WEAP[a.weapon],foes=this.alive(1-a.team),relay=this.mission==='RELAY CONTROL'&&this.objective;
+   if(!relay){
+     // If a same-platform foe is not shootable from here, actively find a firing
+     // angle instead of repeating a no-progress move against the same target.
+     if(this.mission==='ELIMINATION'&&!w.melee&&foes.some(f=>f.pi===a.pi)&&!bestFire(this,a)){
+       const pos=flankOnPlatform(this,a,foes);if(pos&&pos.score>22&&this.move(a,pos.x)){
+         this.record('AI_TACTICAL',{fighter:this.fighters.indexOf(a),choice:'FIRING_ANGLE',x:pos.x});return true;
+       }
+     }
+     return priorAI.call(this,a);
+   }
+   const P=this.pos(a),dist=Math.hypot(P.x-this.objective.x,P.y-this.objective.y),
+         inZone=dist<=this.objective.radius,foesInZone=foes.filter(f=>{const Q=this.pos(f);return Math.hypot(Q.x-this.objective.x,Q.y-this.objective.y)<=this.objective.radius}),
+         immediateWin=this.score[a.team]>=this.scoreTarget-1&&foesInZone.length===0,
+         shot=bestFire(this,a),nearby=foes.filter(f=>this.dist(a,f)<265),
+         threatened=nearby.some(f=>{const si=this.shotInfo(f,a);return si.legal&&si.chance>=28||WEAP[f.weapon]?.melee&&this.dist(f,a)<115}),
+         dangerous=exposure(this,a,P.x),canFire=shot&&shot.si.chance>=Math.max(28,w.ap===2?34:25);
+   // Defend yourself before blindly sprinting into the objective. A shot at a
+   // dangerous nearby enemy can be worth more than another 1 AP of progress.
+   if(!immediateWin&&canFire&&(threatened||foesInZone.includes(shot.t)||inZone||dangerous>=12)){
+     this.record('AI_TACTICAL',{fighter:this.fighters.indexOf(a),choice:'THREAT_FIRST',target:this.fighters.indexOf(shot.t),chance:shot.si.chance,exposure:Math.round(dangerous)});
+     return this.shoot(a,shot.t);
+   }
+   if(!immediateWin&&a.pi===this.objective.pi){
+     const slot=relaySlot(this,a),here=exposure(this,a,P.x),there=exposure(this,a,slot.x),
+           crowded=this.alive(a.team).some(f=>f!==a&&f.pi===a.pi&&Math.abs(f.x*this.W-P.x)<55);
+     if(slot&&Math.abs(slot.x-P.x)>16&&(!inZone||there+2<here||foesInZone.length>0||crowded)){
+       const step=clamp(slot.x,P.x-this.moveAllowance(a)*.9,P.x+this.moveAllowance(a)*.9);
+       if(this.move(a,step)){this.record('AI_TACTICAL',{fighter:this.fighters.indexOf(a),choice:'SPREAD_OR_COVER',exposureBefore:Math.round(here),exposureAfter:Math.round(there)});return true;}
+     }
+   }
+   // An approach slot is held for this activation. Different squad members
+   // seek different positions, rather than all standing on the center pixel.
+   if(!a._aiIntent||a._aiIntent.kind==='RELAY'){
+     const slot=relaySlot(this,a);
+     a._aiIntent={kind:'RELAY',x:slot.x/this.W,pi:this.objective.pi,objective:true};
+   }
+   return priorAI.call(this,a);
+ };
+ // Audit snapshots are deliberately non-mutating. Reproduction can use fixed
+ // seeds and the normal public Level Lab rather than the user's campaign save.
+ window.UNDERGRID_RULES_1408={build:BUILD,inspect(){
+   if(typeof game==='undefined'||!game)return{build:BUILD,active:false};
+   return{build:BUILD,active:true,round:game.round,mission:game.mission,craneDivider:game.map?.craneDivider||null,
+     tactical:game.actions.filter(a=>a.type==='AI_TACTICAL').slice(-30),
+     fighters:game.fighters.map((f,i)=>({i,name:f.name,ap:f.ap,shock:f.status?.shock||0,suppressed:f.status?.suppressed||0,prepared:f._ugPreparedRound||null,serial:f._ugActivationSerial||0,followThroughUsed:!!f._followThroughUsed})),
+     events:game.actions.filter(a=>['STATUS_TICK','STATUS_APPLIED','SKILL_TRIGGER','AI_TACTICAL','OBJECTIVE_SCORE','GRENADE_IMPACT'].includes(a.type)).slice(-80)};
+ }};
+ if(window.UNDERGRID_PUBLIC_RELEASE){const old=window.UNDERGRID_PUBLIC_RELEASE.audit;
+   window.UNDERGRID_PUBLIC_RELEASE.build=BUILD;
+   window.UNDERGRID_PUBLIC_RELEASE.audit=function(samples){const r=old(samples);r.build=BUILD;
+     r.checks.push({name:'RULES + TACTICAL DIAGNOSTIC',pass:!!window.UNDERGRID_RULES_1408?.inspect,detail:'Shock, suppression, skill and relay AI inspector available'});
+     r.pass=r.checks.every(x=>x.pass);return r;};
+ }
+ const manual=document.getElementById('manual');if(manual)manual.insertAdjacentHTML('beforeend',
+  '<p><b>1.40.8 RULES + TACTICAL AI</b> // Prepared fighter reselection now processes only newly inflicted status effects. FOLLOW THROUGH refunds AP once per actual activation, suppression persists until the affected fighter finishes their next activation, grenade and blast knockback radiates from the explosion, and self-inflicted/friendly takedowns cannot award kills. Relay AI evaluates nearby threats and incoming fire before rushing, seeks separate safe capture positions, and tries alternate firing angles when stuck. Scrap Yard cranes now land on separate upper decks divided by a solid machinery mast; the connected lower gantry provides a flank route. Use <code>UNDERGRID_RULES_1408.inspect()</code> for the non-mutating battle diagnostic.</p>');
 })();
 </script>
 </body></html>
